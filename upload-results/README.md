@@ -35,8 +35,7 @@ This action closes the loop on reporting by checking test artifacts back into th
 | :--- | :--- | :---: | :--- |
 | `run-id` | **REQUIRED**. Run ID to download artifacts from. | **Yes** | - |
 | `branch` | **REQUIRED**. Target branch to push to. | **Yes** | - |
-| `upload-api` | Process API reports? | No | `true` |
-| `upload-gui` | Process GUI reports? | No | `true` |
+| `upload-reports` | Process consolidated test reports? | No | `true` |
 | `upload-perf` | Process Performance reports? | No | `true` |
 | `commit-message` | Custom commit message. | No | `docs: ...` |
 

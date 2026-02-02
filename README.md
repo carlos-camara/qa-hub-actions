@@ -51,6 +51,7 @@ graph LR
 | **[Lint Codebase](./lint-codebase)** | `Stable` | Enforces code quality standards using Super-Linter. |
 | **[Deploy to S3](./deploy-reports-s3)** | `Stable` | Securely deploys test artifacts to AWS S3. |
 | **[Deploy to GH Pages](./deploy-gh-pages)** | `Stable` | Publishes HTML reports to GitHub Pages. |
+| **[PR Labeler](./pr-labeler)** | `Stable` | Automatically labels PRs based on file paths. |
 
 ## 🌍 Supported Ecosystems
 
@@ -85,7 +86,7 @@ jobs:
       - uses: carlos-camara/qa-hub-actions/collect-and-publish@v1
         if: always()
         with:
-          api-reports-path: "results/api"
+          reports-path: "results/api"
 ```
 
 ## 💡 Pro Tips

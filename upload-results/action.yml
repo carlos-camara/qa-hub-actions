@@ -7,12 +7,8 @@ inputs:
   branch:
     description: 'Target branch to push reports to.'
     required: true
-  upload-api:
-    description: 'Process API reports?'
-    required: false
-    default: 'true'
-  upload-gui:
-    description: 'Process GUI reports and screenshots?'
+  upload-reports:
+    description: 'Process consolidated test reports?'
     required: false
     default: 'true'
   upload-perf:
@@ -27,26 +23,17 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Download API Reports
-      if: inputs.upload-api == 'true'
+    - name: Download Test Reports
+      if: inputs.upload-reports == 'true'
       uses: actions/download-artifact@v4
       with:
-        name: api-reports
-        path: temp_reports/api
-        github-token: ${{ github.token }}
-        run-id: ${{ inputs.run-id }}
-
-    - name: Download GUI Reports
-      if: inputs.upload-gui == 'true'
-      uses: actions/download-artifact@v4
-      with:
-        name: gui-reports
-        path: temp_reports/gui
+        name: test-reports
+        path: temp_reports/unified
         github-token: ${{ github.token }}
         run-id: ${{ inputs.run-id }}
 
     - name: Download GUI Screenshots
-      if: inputs.upload-gui == 'true'
+      if: inputs.upload-reports == 'true'
       uses: actions/download-artifact@v4
       with:
         name: gui-screenshots
@@ -69,14 +56,9 @@ runs:
         echo "Processing Reports..."
         
         # Merge logic
-        if [ "${{ inputs.upload-api }}" == "true" ]; then
+        if [ "${{ inputs.upload-reports }}" == "true" ]; then
           mkdir -p reports
-          cp -r temp_reports/api/* reports/ || echo "No API reports found"
-        fi
-
-        if [ "${{ inputs.upload-gui }}" == "true" ]; then
-          mkdir -p reports
-          cp -r temp_reports/gui/* reports/ || echo "No GUI reports found"
+          cp -r temp_reports/unified/* reports/ || echo "No reports found"
           
           mkdir -p features/resources/screenshots
           cp temp_reports/screenshots/*.png features/resources/screenshots/ || echo "No screenshots found"
