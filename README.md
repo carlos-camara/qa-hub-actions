@@ -98,12 +98,6 @@ jobs:
 
 ---
 
-<<<<<<< HEAD
-<div align="center">
-  Built with ❤️ by <b>Carlos Cámara</b>
-</div>
-=======
 <p align="center">
   Built by <b>Carlos Cámara</b>
 </p>
->>>>>>> bb5af1d0ad7fc34cba7006743179ad834b194477
