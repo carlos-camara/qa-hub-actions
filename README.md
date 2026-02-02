@@ -88,5 +88,5 @@ jobs:
 ---
 
 <p align="center">
-  Built with ❤️ by <b>Carlos Cámara</b>
+  Built by <b>Carlos Cámara</b>
 </p>
