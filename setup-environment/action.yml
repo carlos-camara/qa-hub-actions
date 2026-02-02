@@ -1,0 +1,51 @@
+name: 'Setup QA Environment'
+description: '🚀 Standardized environment setup for Python and Node.js with caching and custom install commands.'
+branding:
+  icon: 'terminal'
+  color: 'blue'
+inputs:
+  python-version:
+    description: 'Python version to use (e.g., 3.11). Leave empty to skip Python setup.'
+    required: false
+    default: ''
+  node-version:
+    description: 'Node.js version to use (e.g., 20). Leave empty to skip Node.js setup.'
+    required: false
+    default: ''
+  python-install-command:
+    description: 'Command to install Python dependencies'
+    required: false
+    default: 'python -m pip install --upgrade pip && if [ -f "requirements.txt" ]; then pip install -r requirements.txt; fi'
+  node-install-command:
+    description: 'Command to install Node dependencies'
+    required: false
+    default: 'if [ -f "package.json" ]; then npm install; fi'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Python
+      if: inputs.python-version != ''
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+        cache: 'pip'
+
+    - name: Install Python dependencies
+      if: inputs.python-version != '' && inputs.python-install-command != ''
+      shell: bash
+      run: |
+        ${{ inputs.python-install-command }}
+
+    - name: Set up Node.js
+      if: inputs.node-version != ''
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: 'npm'
+
+    - name: Install Node dependencies
+      if: inputs.node-version != '' && inputs.node-install-command != ''
+      shell: bash
+      run: |
+        ${{ inputs.node-install-command }}

@@ -1,0 +1,60 @@
+name: Verify Actions
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  verify-setup:
+    name: Verify Setup Action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test Setup Action
+        uses: ./setup-environment
+        with:
+          node-version: '20'
+          python-version: '3.11'
+
+  verify-reporting:
+    name: Verify Reporting Action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create dummy report
+        run: |
+          mkdir -p reports
+          echo '<testsuite name="dummy"><testcase name="pass"/></testsuite>' > reports/test.xml
+      - name: Test Reporting Action
+        uses: ./collect-and-publish
+        with:
+          api-reports-path: "reports"
+          publish-results: "false"
+
+  verify-performance:
+    name: Verify Performance Action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create data
+        run: |
+          echo '{"lat": 100}' > b.json
+          echo '{"lat": 105}' > c.json
+      - name: Test Performance Action
+        uses: ./performance-baseline-check
+        with:
+          current-metrics: "c.json"
+          baseline-metrics: "b.json"
+          threshold: 10
+
+  verify-slack-schema:
+    name: Verify Slack Inputs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate metadata
+        run: |
+          # Just ensure the action file exists and is valid YAML
+          ls slack-notify/action.yml

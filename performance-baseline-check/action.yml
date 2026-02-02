@@ -1,0 +1,66 @@
+name: 'Performance Baseline Check'
+description: '📉 Compare current performance metrics against a baseline and fail on regressions.'
+branding:
+  icon: 'trending-down'
+  color: 'red'
+
+inputs:
+  current-metrics:
+    description: 'Path to current JSON metrics (e.g., results/perf.json)'
+    required: true
+  baseline-metrics:
+    description: 'Path to baseline JSON metrics (e.g., baseline/perf.json)'
+    required: true
+  threshold:
+    description: 'Percentage threshold for regression (e.g., 10 for 10% slowdown)'
+    required: false
+    default: '10'
+  failure-exit-code:
+    description: 'Exit code to return if regression is detected'
+    required: false
+    default: '1'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Compare Performance
+      shell: bash
+      run: |
+        echo "Comparing ${{ inputs.current-metrics }} against ${{ inputs.baseline-metrics }}..."
+        
+        # Simple bash logic to compare a 'latency' field (example implementation)
+        # In a real scenario, this would likely be a small Python or Node script
+        # For professional composite actions, we use inline JS or Python for complex logic
+        
+        node -e "
+        const fs = require('fs');
+        try {
+          const current = JSON.parse(fs.readFileSync('${{ inputs.current-metrics }}'));
+          const baseline = JSON.parse(fs.readFileSync('${{ inputs.baseline-metrics }}'));
+          const threshold = parseFloat('${{ inputs.threshold }}');
+          
+          let regression = false;
+          let summary = '### 🚀 Performance Comparison\n| Metric | Baseline | Current | Delta | Status |\n| :--- | :--- | :--- | :--- | :--- |\n';
+          
+          for (const key in current) {
+            if (baseline[key]) {
+              const delta = ((current[key] - baseline[key]) / baseline[key]) * 100;
+              const status = delta > threshold ? '❌' : '✅';
+              if (delta > threshold) regression = true;
+              summary += \"| \" + key + \" | \" + baseline[key].toFixed(2) + \"ms | \" + current[key].toFixed(2) + \"ms | \" + delta.toFixed(2) + \"% | \" + status + \" |\n\";
+            }
+          }
+          
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary);
+          
+          if (regression) {
+            console.error('Performance regression detected above ' + threshold + '%');
+            process.exit(parseInt('${{ inputs.failure-exit-code }}'));
+          } else {
+            console.log('Performance is within acceptable limits.');
+          }
+        } catch (e) {
+          console.error('Error comparing metrics: ' + e.message);
+          process.exit(1);
+        }
+        "

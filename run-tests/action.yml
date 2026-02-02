@@ -1,0 +1,82 @@
+name: 'Run QA Test Suite'
+description: '🧪 Core engine for executing API, GUI, and Performance tests with service orchestration and health checks.'
+branding:
+  icon: 'play-circle'
+  color: 'green'
+inputs:
+  start-services-command:
+    description: 'Command to start background services (e.g., npm start &)'
+    required: false
+    default: ''
+  health-check-urls:
+    description: 'Space-separated URLs to wait for (e.g., http://localhost:3000)'
+    required: false
+    default: ''
+  test-command-api:
+    description: 'Command for API tests (e.g., npm run test:api)'
+    required: false
+    default: ''
+  test-command-performance:
+    description: 'Command for Performance tests (e.g., locust -f locustfile.py)'
+    required: false
+    default: ''
+  test-command-gui:
+    description: 'Command for GUI tests (e.g., npm run test:gui)'
+    required: false
+    default: ''
+  run-api:
+    description: 'Whether to run API tests'
+    required: false
+    default: 'true'
+  run-performance:
+    description: 'Whether to run performance tests'
+    required: false
+    default: 'true'
+  run-gui:
+    description: 'Whether to run GUI tests'
+    required: false
+    default: 'true'
+  headless:
+    description: 'Run GUI tests in headless mode'
+    required: false
+    default: 'true'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Start Services
+      if: inputs.start-services-command != ''
+      shell: bash
+      run: |
+        ${{ inputs.start-services-command }}
+          
+    - name: Wait for Services
+      if: inputs.health-check-urls != ''
+      shell: bash
+      run: |
+        npx wait-on ${{ inputs.health-check-urls }} --timeout 60000 || (cat backend.log 2>/dev/null || true && cat frontend.log 2>/dev/null || true && exit 1)
+
+    - name: Run API Tests
+      if: inputs.run-api == 'true' && inputs.test-command-api != ''
+      shell: pwsh
+      run: |
+        ${{ inputs.test-command-api }}
+        # Standardize report stashing for this infrastructure
+        if (Test-Path "reports") {
+          cp -r reports api_reports_tmp
+          rm -rf reports/test_run
+        }
+
+    - name: Run Performance Tests
+      if: inputs.run-performance == 'true' && inputs.test-command-performance != ''
+      shell: pwsh
+      run: |
+        ${{ inputs.test-command-performance }}
+
+    - name: Run GUI Tests
+      if: inputs.run-gui == 'true' && inputs.test-command-gui != ''
+      shell: pwsh
+      run: |
+        ${{ inputs.test-command-gui }}
+      env:
+        HEADLESS: ${{ inputs.headless }}

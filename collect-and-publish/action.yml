@@ -1,0 +1,109 @@
+name: 'Collect and Publish QA Results'
+description: '📊 Aggregate JUnit results, upload artifacts, and publish reporter summaries with configurable paths.'
+branding:
+  icon: 'upload-cloud'
+  color: 'purple'
+inputs:
+  api-reports-path:
+    description: 'Path to API reports directory'
+    required: false
+    default: ''
+  gui-reports-path:
+    description: 'Path to GUI reports directory'
+    required: false
+    default: ''
+  screenshots-path:
+    description: 'Path/Pattern for screenshots (e.g., screenshots/*.png)'
+    required: false
+    default: ''
+  performance-reports-path:
+    description: 'Path to performance reports directory'
+    required: false
+    default: ''
+  junit-results-dir:
+    description: 'Directory where all JUnit XMLs will be aggregated'
+    required: false
+    default: 'junit-results'
+  upload-artifacts:
+    description: 'Whether to upload artifact reports'
+    required: false
+    default: 'true'
+  publish-results:
+    description: 'Whether to publish the test reporter summary'
+    required: false
+    default: 'true'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Collect All JUnit XMLs
+      shell: bash
+      run: |
+        mkdir -p ${{ inputs.junit-results-dir }}
+        if [ "${{ inputs.api-reports-path }}" != "" ] && [ -d "${{ inputs.api-reports-path }}" ]; then
+          find ${{ inputs.api-reports-path }} -name "*.xml" -exec cp {} ${{ inputs.junit-results-dir }}/ \;
+        fi
+        if [ "${{ inputs.gui-reports-path }}" != "" ] && [ -d "${{ inputs.gui-reports-path }}" ]; then
+          find ${{ inputs.gui-reports-path }} -name "*.xml" -exec cp {} ${{ inputs.junit-results-dir }}/ \;
+        fi
+        echo "Collected $(find ${{ inputs.junit-results-dir }} -maxdepth 1 -name "*.xml" | wc -l) XML files."
+
+    - name: Upload API Reports
+      if: inputs.upload-artifacts == 'true' && inputs.api-reports-path != ''
+      uses: actions/upload-artifact@v4
+      with:
+        name: api-reports
+        path: ${{ inputs.api-reports-path }}
+
+    - name: Upload GUI Reports
+      if: inputs.upload-artifacts == 'true' && inputs.gui-reports-path != ''
+      uses: actions/upload-artifact@v4
+      with:
+        name: gui-reports
+        path: ${{ inputs.gui-reports-path }}
+
+    - name: Upload GUI Screenshots
+      if: inputs.upload-artifacts == 'true' && inputs.screenshots-path != ''
+      uses: actions/upload-artifact@v4
+      with:
+        name: gui-screenshots
+        path: ${{ inputs.screenshots-path }}
+
+    - name: Upload Performance Reports
+      if: inputs.upload-artifacts == 'true' && inputs.performance-reports-path != ''
+      uses: actions/upload-artifact@v4
+      with:
+        name: performance-reports
+        path: ${{ inputs.performance-reports-path }}
+
+    - name: Publish Test Results (PR)
+      if: inputs.publish-results == 'true'
+      uses: dorny/test-reporter@v1
+      with:
+        name: Unified Test Report
+        path: ${{ inputs.junit-results-dir }}/*.xml
+        reporter: java-junit
+        fail-on-error: false
+
+    - name: Generate Job Summary
+      shell: bash
+      run: |
+        {
+          echo "### 🚦 Test Suite Summary"
+          echo "| Test Type | Status |"
+          echo "| :--- | :--- |"
+          if [ "${{ inputs.api-reports-path }}" != "" ]; then
+            if [ -d "${{ inputs.api-reports-path }}" ]; then
+              echo "| 📡 API Tests | ✅ Completed |"
+            else
+              echo "| 📡 API Tests | ❌ Failed/Missing |"
+            fi
+          fi
+          if [ "${{ inputs.gui-reports-path }}" != "" ]; then
+            if [ -d "${{ inputs.gui-reports-path }}" ]; then
+              echo "| 🌐 GUI Tests | ✅ Completed |"
+            else
+              echo "| 🌐 GUI Tests | ❌ Failed/Missing |"
+            fi
+          fi
+        } >> "$GITHUB_STEP_SUMMARY"

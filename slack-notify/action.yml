@@ -1,0 +1,71 @@
+name: 'Slack QA Notification'
+description: '📢 Send beautifully formatted test summaries and environment status to a Slack channel.'
+branding:
+  icon: 'message-square'
+  color: 'yellow'
+
+inputs:
+  slack-webhook-url:
+    description: 'The Slack Webhook URL to send the notification to.'
+    required: true
+  status:
+    description: 'The status of the test run (e.g., success, failure, cancelled).'
+    required: true
+    default: 'success'
+  test-summary:
+    description: 'A brief summary of the test results to include in the message.'
+    required: false
+    default: 'Tests completed successfully.'
+  project-name:
+    description: 'The name of the project being tested.'
+    required: false
+    default: ${{ github.repository }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Send Slack Notification
+      shell: bash
+      run: |
+        COLOR="good"
+        EMOJI="✅"
+        if [ "${{ inputs.status }}" == "failure" ]; then
+          COLOR="danger"
+          EMOJI="❌"
+        elif [ "${{ inputs.status }}" == "cancelled" ]; then
+          COLOR="#808080"
+          EMOJI="⚠️"
+        fi
+
+        PAYLOAD=$(cat <<EOF
+        {
+          "attachments": [
+            {
+              "fallback": "${EMOJI} QA Hub Report: ${{ inputs.project-name }} - ${{ inputs.status }}",
+              "color": "${COLOR}",
+              "pretext": "${EMOJI} *QA Hub Notification*",
+              "author_name": "QA Hub Automation",
+              "title": "Test Run Summary: ${{ inputs.project-name }}",
+              "title_link": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+              "text": "${{ inputs.test-summary }}",
+              "fields": [
+                {
+                  "title": "Status",
+                  "value": "${{ inputs.status }}",
+                  "short": true
+                },
+                {
+                  "title": "Environment",
+                  "value": "GitHub Actions",
+                  "short": true
+                }
+              ],
+              "footer": "QA Hub v2.4",
+              "ts": $(date +%s)
+            }
+          ]
+        }
+        EOF
+        )
+
+        curl -X POST -H 'Content-type: application/json' --data "$PAYLOAD" ${{ inputs.slack-webhook-url }}

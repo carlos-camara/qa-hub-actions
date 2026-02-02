@@ -1,0 +1,24 @@
+name: Lint
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  yamllint:
+    name: YAML Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: run yamllint
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          file_or_dir: "."
+          config_data: |
+            extends: default
+            rules:
+              line-length: disable
+              document-start: disable
