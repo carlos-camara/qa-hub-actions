@@ -1,47 +1,56 @@
-<p align="center">
-  <img src="https://socialify.git.ci/carlos-camara/qa-hub-actions/image?description=1&font=Inter&language=1&name=QA%20Hub%20Actions&owner=1&pattern=Circuit%20Board&theme=Dark" alt="QA Hub Actions" width="640" height="320" />
-</p>
-
-<p align="center">
-  <a href="https://github.com/carlos-camara/qa-hub-actions/actions"><img src="https://img.shields.io/github/actions/workflow/status/carlos-camara/qa-hub-actions/lint.yml?style=for-the-badge&logo=github&label=Actionlint" alt="Workflow Status"></a>
-  <a href="https://github.com/carlos-camara/qa-hub-actions/releases"><img src="https://img.shields.io/github/v/release/carlos-camara/qa-hub-actions?style=for-the-badge&color=blue" alt="Latest Release"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/carlos-camara/qa-hub-actions?style=for-the-badge&color=green" alt="License"></a>
-</p>
-
 <div align="center">
+
+  <img src="https://socialify.git.ci/carlos-camara/qa-hub-actions/image?description=1&font=Inter&language=1&name=QA%20Hub%20Actions&owner=1&pattern=Circuit%20Board&theme=Dark" alt="QA Hub Actions" width="640" height="320" />
+
+  <br />
+
+  [![Workflow Status](https://img.shields.io/github/actions/workflow/status/carlos-camara/qa-hub-actions/lint.yml?style=for-the-badge&logo=github&label=Linting)](https://github.com/carlos-camara/qa-hub-actions/actions)
+  [![Latest Release](https://img.shields.io/github/v/release/carlos-camara/qa-hub-actions?style=for-the-badge&color=blue)](https://github.com/carlos-camara/qa-hub-actions/releases)
+  [![License](https://img.shields.io/github/license/carlos-camara/qa-hub-actions?style=for-the-badge&color=green)](LICENSE)
+
+  <br />
+  
   <p>
-    Welcome to the core automation engine of <b>QA Hub</b>. This repository contains a collection of professional-grade, reusable GitHub Actions designed to bring consistency, speed, and deep visibility to your testing pipelines.
+    <b>The Core Automation Engine of QA Hub</b>
+    <br>
+    A collection of professional-grade, reusable GitHub Actions designed to bring consistency, speed, and deep visibility to your testing pipelines.
   </p>
+
 </div>
 
-## 🔄 Pipeline Architecture
+---
+
+## ⚡ Pipeline Architecture
 
 Our actions are designed to work in synergy, creating a seamless flow from environment setup to stakeholder notification.
 
 ```mermaid
 graph LR
-    A["[Setup Environment]"] -- 1. Prepare --> B["[Run QA Test Suite]"]
-    B -- 2. Execute --> C["[Collect & Publish]"]
+    A["🚀 Setup Environment"] -- 1. Prepare --> B["🧪 Run QA Test Suite"]
+    B -- 2. Execute --> C["📊 Collect & Publish"]
     C -- 3. Report --> D{"Integrations"}
-    D -- Notify --> E["[Slack Notification]"]
-    D -- Verify --> F["[Perf Baseline]"]
+    D -- Notify --> E["📢 Slack Notification"]
+    D -- Verify --> F["📉 Perf Baseline"]
     
-    style A fill:#e1f5fe,stroke:#01579b
-    style B fill:#e8f5e9,stroke:#1b5e20
-    style C fill:#f3e5f5,stroke:#4a148c
-    style E fill:#fff9c4,stroke:#fbc02d
-    style F fill:#ffebee,stroke:#b71c1c
+    style A fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    style B fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
+    style C fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    style E fill:#fffde7,stroke:#fbc02d,stroke-width:2px
+    style F fill:#ffebee,stroke:#c62828,stroke-width:2px
 ```
 
 ## 📦 Available Actions
 
-| Action | Icon | Status | Description |
-| :--- | :---: | :---: | :--- |
-| **[Setup Environment](./setup-environment)** | 🚀 | `Stable` | Multi-runtime (Node/Python) setup with smart caching. |
-| **[Run QA Test Suite](./run-tests)** | 🧪 | `Stable` | Unit, API, GUI, and Performance test execution engine. |
-| **[Collect & Publish](./collect-and-publish)** | 📊 | `Stable` | Aggregation of reports and PR-integrated summaries. |
-| **[Slack Notification](./slack-notify)** | 📢 | `Beta` | Rich, formatted test status updates to Slack. |
-| **[Perf Baseline](./performance-baseline-check)** | 📉 | `Beta` | Regression detection against performance baselines. |
+| Action | Status | Description |
+| :--- | :---: | :--- |
+| **[Setup Environment](./setup-environment)** | `Stable` | Smart multi-runtime (Node/Python) setup with automatic caching. |
+| **[Run QA Test Suite](./run-tests)** | `Stable` | Unified execution engine for Unit, API, GUI, and Performance tests. |
+| **[Collect & Publish](./collect-and-publish)** | `Stable` | Aggregates reports and publishes PR-integrated summaries. |
+| **[Slack Notification](./slack-notify)** | `Beta` | Sends rich, formatted test status updates to Slack channels. |
+| **[Perf Baseline](./performance-baseline-check)** | `Beta` | Detects performance regressions against established baselines. |
+| **[Lint Codebase](./lint-codebase)** | `Stable` | Enforces code quality standards using Super-Linter. |
+| **[Deploy to S3](./deploy-reports-s3)** | `Stable` | Securely deploys test artifacts to AWS S3. |
+| **[Deploy to GH Pages](./deploy-gh-pages)** | `Stable` | Publishes HTML reports to GitHub Pages. |
 
 ## 🌍 Supported Ecosystems
 
@@ -49,9 +58,11 @@ QA Hub Actions are built to be language-agnostic while providing deep support fo
 
 - **Runtimes**: Node.js (v18, v20, v22), Python (v3.9 - v3.12)
 - **Test Frameworks**: Playwright, Cypress, Behave, Pytest, Jest, Locust
-- **Reporting**: JUnit XML, Allure, Mocharawesome, custom JSON
+- **Reporting**: JUnit XML, Allure, Mochawesome, custom JSON
 
-## 🚀 Getting Started in 30 Seconds
+## 🚀 Getting Started
+
+Build a complete QA pipeline in seconds:
 
 ```yaml
 jobs:
@@ -80,13 +91,13 @@ jobs:
 ## 💡 Pro Tips
 
 > [!TIP]
-> **Conditional Execution**: Use `run-api: false` or `run-gui: false` in the `run-tests` action to selectively run parts of your suite without changing your workflow structure.
+> **Conditional Execution**: Use `run-api: false` or `run-gui: false` in the `run-tests` action to selectively run parts of your suite without complicated workflow logic.
 
 > [!IMPORTANT]
 > **Always use `if: always()`**: For `collect-and-publish`, ensure the action runs even if tests fail so you get your reports!
 
 ---
 
-<p align="center">
+<div align="center">
   Built with ❤️ by <b>Carlos Cámara</b>
-</p>
+</div>

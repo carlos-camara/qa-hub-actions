@@ -1,0 +1,102 @@
+name: 'Upload Test Results to Repo'
+description: 'Downloads standard QA Hub test reports and commits them to the repository.'
+inputs:
+  run-id:
+    description: 'GitHub Workflow Run ID to download artifacts from.'
+    required: true
+  branch:
+    description: 'Target branch to push reports to.'
+    required: true
+  upload-api:
+    description: 'Process API reports?'
+    required: false
+    default: 'true'
+  upload-gui:
+    description: 'Process GUI reports and screenshots?'
+    required: false
+    default: 'true'
+  upload-perf:
+    description: 'Process Performance reports?'
+    required: false
+    default: 'true'
+  commit-message:
+    description: 'Custom commit message'
+    required: false
+    default: 'docs: auto-generate integrated test reports and screenshots [skip ci]'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Download API Reports
+      if: inputs.upload-api == 'true'
+      uses: actions/download-artifact@v4
+      with:
+        name: api-reports
+        path: temp_reports/api
+        github-token: ${{ github.token }}
+        run-id: ${{ inputs.run-id }}
+
+    - name: Download GUI Reports
+      if: inputs.upload-gui == 'true'
+      uses: actions/download-artifact@v4
+      with:
+        name: gui-reports
+        path: temp_reports/gui
+        github-token: ${{ github.token }}
+        run-id: ${{ inputs.run-id }}
+
+    - name: Download GUI Screenshots
+      if: inputs.upload-gui == 'true'
+      uses: actions/download-artifact@v4
+      with:
+        name: gui-screenshots
+        path: temp_reports/screenshots
+        github-token: ${{ github.token }}
+        run-id: ${{ inputs.run-id }}
+
+    - name: Download Performance Reports
+      if: inputs.upload-perf == 'true'
+      uses: actions/download-artifact@v4
+      with:
+        name: performance-reports
+        path: temp_reports/performance
+        github-token: ${{ github.token }}
+        run-id: ${{ inputs.run-id }}
+
+    - name: Merge and Commit Results
+      shell: bash
+      run: |
+        echo "Processing Reports..."
+        
+        # Merge logic
+        if [ "${{ inputs.upload-api }}" == "true" ]; then
+          mkdir -p reports
+          cp -r temp_reports/api/* reports/ || echo "No API reports found"
+        fi
+
+        if [ "${{ inputs.upload-gui }}" == "true" ]; then
+          mkdir -p reports
+          cp -r temp_reports/gui/* reports/ || echo "No GUI reports found"
+          
+          mkdir -p features/resources/screenshots
+          cp temp_reports/screenshots/*.png features/resources/screenshots/ || echo "No screenshots found"
+        fi
+
+        if [ "${{ inputs.upload-perf }}" == "true" ]; then
+          mkdir -p reports/performance_run
+          cp -r temp_reports/performance/* reports/performance_run/ || echo "No Performance reports found"
+        fi
+        
+        # Git Logic
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        
+        git add reports/ || true
+        git add features/resources/screenshots/*.png || true
+        
+        if git diff --staged --quiet; then
+          echo "No changes in reports or screenshots to commit."
+        else
+          git commit -m "${{ inputs.commit-message }}"
+          git push origin "HEAD:${{ inputs.branch }}"
+        fi

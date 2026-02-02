@@ -12,13 +12,13 @@ jobs:
     name: YAML Lint
     runs-on: ubuntu-latest
     steps:
+    steps:
       - uses: actions/checkout@v4
-      - name: run yamllint
-        uses: ibiqlik/action-yamllint@v3
         with:
-          file_or_dir: "."
-          config_data: |
-            extends: default
-            rules:
-              line-length: disable
-              document-start: disable
+          fetch-depth: 0
+
+      - name: Lint Codebase
+        uses: ./lint-codebase
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          validate-all: "true"

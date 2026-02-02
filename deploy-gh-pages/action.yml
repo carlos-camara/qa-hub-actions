@@ -1,0 +1,49 @@
+name: 'Deploy to GitHub Pages'
+description: 'Builds a Node.js project and deploys it to GitHub Pages.'
+inputs:
+  node-version:
+    description: 'Node.js version'
+    required: false
+    default: '20'
+  install-command:
+    description: 'Command to install dependencies'
+    required: false
+    default: 'npm ci'
+  build-command:
+    description: 'Command to build the project'
+    required: false
+    default: 'npm run build'
+  dist-dir:
+    description: 'Directory containing build artifacts'
+    required: false
+    default: './dist'
+  vite-api-url:
+    description: 'VITE_API_URL environment variable'
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: 'npm'
+
+    - name: Install Dependencies
+      shell: bash
+      run: ${{ inputs.install-command }}
+
+    - name: Build
+      shell: bash
+      run: ${{ inputs.build-command }}
+      env:
+        VITE_API_URL: ${{ inputs.vite-api-url }}
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: ${{ inputs.dist-dir }}
+
+    - name: Deploy to GitHub Pages
+      uses: actions/deploy-pages@v4

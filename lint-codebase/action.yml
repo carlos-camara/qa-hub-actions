@@ -1,0 +1,56 @@
+name: 'Lint Codebase Standard'
+description: 'Runs Super-Linter with standardized rules for QA Hub projects.'
+inputs:
+  github-token:
+    description: 'GitHub Token for posting status checks.'
+    required: true
+  default-branch:
+    description: 'Default branch for comparison (e.g. main).'
+    required: false
+    default: 'main'
+  validate-all:
+    description: 'Validate entire codebase (true) or just changes (false).'
+    required: false
+    default: 'false'
+  validate-python:
+    description: 'Lint Python files?'
+    required: false
+    default: 'true'
+  validate-yaml:
+    description: 'Lint YAML files?'
+    required: false
+    default: 'true'
+  validate-markdown:
+    description: 'Lint Markdown files?'
+    required: false
+    default: 'true'
+  validate-actions:
+    description: 'Lint GitHub Actions?'
+    required: false
+    default: 'true'
+  validate-ts:
+    description: 'Lint TypeScript/JS?'
+    required: false
+    default: 'true'
+  filter-regex-exclude:
+    description: 'Regex for ignored paths.'
+    required: false
+    default: '(\.venv/|_pycache_/|reports/|\.git/|\.pytest_cache/|node_modules/|dist/|coverage/)'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Super-Linter
+      uses: github/super-linter@v6
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+        DEFAULT_BRANCH: ${{ inputs.default-branch }}
+        VALIDATE_ALL_CODEBASE: ${{ inputs.validate-all }}
+        VALIDATE_PYTHON: ${{ inputs.validate-python }}
+        VALIDATE_YAML: ${{ inputs.validate-yaml }}
+        VALIDATE_MARKDOWN: ${{ inputs.validate-markdown }}
+        VALIDATE_GITHUB_ACTIONS: ${{ inputs.validate-actions }}
+        VALIDATE_TYPESCRIPT_ES: ${{ inputs.validate-ts }}
+        VALIDATE_JAVASCRIPT_ES: ${{ inputs.validate-ts }}
+        VALIDATE_TSX: ${{ inputs.validate-ts }}
+        FILTER_REGEX_EXCLUDE: ${{ inputs.filter-regex-exclude }}

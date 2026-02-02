@@ -1,27 +1,44 @@
 # 🚀 Setup QA Environment
 
-This action provides a standardized way to set up Python and Node.js environments for QA projects. It includes automatic caching and supports custom installation commands.
+<div align="center">
 
-## 🛠 Features
+![Version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge&logo=none)
+![Status](https://img.shields.io/badge/status-Stable-success?style=for-the-badge&logo=none)
 
-- **Multi-Runtime Support**: Configure Python, Node.js, or both.
-- **Smart Caching**: integrated `actions/setup-python` and `actions/setup-node` caching for faster runs.
-- **Customizable**: Override default install commands for `pip` and `npm`.
+**Standardized, cached environment setup for Python and Node.js testing stacks.**
 
-## 📥 Inputs
+</div>
 
-| Name | Description | Default |
-| :--- | :--- | :--- |
-| `python-version` | Python version (e.g., `3.11`). Skip if empty. | `""` |
-| `node-version` | Node.js version (e.g., `20`). Skip if empty. | `""` |
-| `python-install-command` | Command for Python dependencies. | `python -m pip install ...` |
-| `node-install-command` | Command for Node dependencies. | `npm install` |
+---
 
-## 🚀 Usage
+## 🚀 Overview
+
+This action eliminates the boilterplate of setting up test environments. It handles caching, language versioning, and dependency installation for both Node.js and Python runtimes in a single, clean step.
+
+### Key Features
+- **🐍 Multi-Runtime**: setup Node.js and Python independently or together.
+- **⚡ Smart Caching**: Automatically configured cache for `npm` and `pip`.
+- **🔧 Custom Install**: Supports custom installation commands or defaults to `npm ci`/`pip install -r requirements.txt`.
+
+## 🛠️ Usage
 
 ```yaml
-- uses: qa-hub-actions/setup-environment@v1
+- uses: carlos-camara/qa-hub-actions/setup-environment@v1
   with:
-    python-version: '3.11'
     node-version: '20'
+    python-version: '3.11'
 ```
+
+## ⚙️ Inputs
+
+| Name | Description | Required | Default |
+| :--- | :--- | :---: | :--- |
+| `node-version` | Node.js version. Empty to skip. | No | `''` |
+| `python-version` | Python version. Empty to skip. | No | `''` |
+| `node-install-command` | Custom Node install command. | No | `npm install` |
+| `python-install-command` | Custom Python install command. | No | `pip install ...` |
+
+---
+<div align="center">
+  <sub>Powered by QA Hub Actions Ecosystem</sub>
+</div>

@@ -1,32 +1,49 @@
 # 📊 Collect and Publish QA Results
 
-Aggregates test results, uploads artifacts, and publishes visual summaries to GitHub Job Summaries and PRs.
+<div align="center">
 
-## 🛠 Features
+![Version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge&logo=none)
+![Status](https://img.shields.io/badge/status-Stable-success?style=for-the-badge&logo=none)
 
-- **JUnit Aggregation**: Collects XML results from multiple paths into a single directory.
-- **Artifact Management**: Uploads API reports, GUI reports, and screenshots automatically.
-- **Interactive Summaries**: Generates a clean markdown table in the GitHub Job Summary.
-- **PR Integration**: Publishes detailed test reports using `dorny/test-reporter`.
+**Aggregate test reports, upload artifacts, and publish summaries directly to Pull Requests.**
 
-## 📥 Inputs
+</div>
 
-| Name | Description | Default |
-| :--- | :--- | :--- |
-| `api-reports-path` | Path to API reports. | `""` |
-| `gui-reports-path` | Path to GUI reports. | `""` |
-| `screenshots-path` | Path/Pattern for screenshots. | `""` |
-| `performance-reports-path`| Path to performance reports. | `""` |
-| `junit-results-dir` | Directory for aggregated JUnit XMLs. | `junit-results` |
-| `upload-artifacts` | Whether to upload artifact reports. | `true` |
-| `publish-results` | Publish the test reporter summary. | `true` |
+---
 
-## 🚀 Usage
+## 🚀 Overview
+
+This action serves as the central reporting hub for your testing pipeline. It aggregates JUnit XML reports from various test sources (API, GUI, Performance), uploads them as build artifacts for later analysis, and publishes a comprehensive summary to the GitHub Actions job summary and PR comments.
+
+### Key Features
+- **📂 Artifact Aggregation**: Collects reports from scattered directories into a single artifact.
+- **📝 PR Integration**: Publishes a detailed test summary directly to the PR.
+- **🛡️ Always-On Mode**: Designed to run even if tests fail (`if: always()`).
+
+## 🛠️ Usage
 
 ```yaml
-- uses: qa-hub-actions/collect-and-publish@v1
-  if: always()
+- uses: carlos-camara/qa-hub-actions/collect-and-publish@v1
+  if: always() # Important!
   with:
-    api-reports-path: "reports/api"
-    gui-reports-path: "reports/gui"
+    api-reports-path: 'reports/api'
+    gui-reports-path: 'reports/gui'
+    screenshots-path: 'reports/screenshots/*.png'
 ```
+
+## ⚙️ Inputs
+
+| Name | Description | Required | Default |
+| :--- | :--- | :---: | :--- |
+| `api-reports-path` | Path to directory containing API JUnit XML reports. | No | `''` |
+| `gui-reports-path` | Path to directory containing GUI JUnit XML reports. | No | `''` |
+| `performance-reports-path` | Path to directory containing Performance reports. | No | `''` |
+| `screenshots-path` | Glob pattern for screenshots to upload (e.g., `screenshots/*.png`). | No | `''` |
+| `junit-results-dir` | Directory where all XMLs are aggregated before publishing. | No | `junit-results` |
+| `upload-artifacts` | Set to `false` to disable artifact uploading. | No | `true` |
+| `publish-results` | Set to `false` to disable PR comment publishing. | No | `true` |
+
+---
+<div align="center">
+  <sub>Powered by QA Hub Actions Ecosystem</sub>
+</div>

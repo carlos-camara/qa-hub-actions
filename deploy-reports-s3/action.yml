@@ -1,0 +1,87 @@
+name: 'Deploy QA Reports to S3'
+description: 'Downloads standard QA Hub test reports (API, GUI, Performance) and deploys them to AWS S3.'
+inputs:
+  project-name:
+    description: 'Name of the project (e.g., dashboard). Used as the subfolder in S3.'
+    required: true
+  s3-bucket:
+    description: 'Name of the S3 bucket.'
+    required: true
+  aws-access-key-id:
+    description: 'AWS Access Key ID'
+    required: true
+  aws-secret-access-key:
+    description: 'AWS Secret Access Key'
+    required: true
+  aws-region:
+    description: 'AWS Region'
+    required: false
+    default: 'us-east-1'
+  run-id:
+    description: 'GitHub Workflow Run ID to download artifacts from.'
+    required: true
+  upload-api:
+    description: 'Upload API reports?'
+    required: false
+    default: 'true'
+  upload-gui:
+    description: 'Upload GUI reports and screenshots?'
+    required: false
+    default: 'true'
+  upload-perf:
+    description: 'Upload Performance reports?'
+    required: false
+    default: 'true'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Download API Reports
+      if: inputs.upload-api == 'true'
+      uses: actions/download-artifact@v4
+      with:
+        name: api-reports
+        path: reports_to_upload/api
+        github-token: ${{ github.token }}
+        run-id: ${{ inputs.run-id }}
+
+    - name: Download GUI Reports
+      if: inputs.upload-gui == 'true'
+      uses: actions/download-artifact@v4
+      with:
+        name: gui-reports
+        path: reports_to_upload/gui
+        github-token: ${{ github.token }}
+        run-id: ${{ inputs.run-id }}
+
+    - name: Download GUI Screenshots
+      if: inputs.upload-gui == 'true'
+      uses: actions/download-artifact@v4
+      with:
+        name: gui-screenshots
+        path: reports_to_upload/screenshots
+        github-token: ${{ github.token }}
+        run-id: ${{ inputs.run-id }}
+
+    - name: Download Performance Reports
+      if: inputs.upload-perf == 'true'
+      uses: actions/download-artifact@v4
+      with:
+        name: performance-reports
+        path: reports_to_upload/performance_run
+        github-token: ${{ github.token }}
+        run-id: ${{ inputs.run-id }}
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ inputs.aws-access-key-id }}
+        aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
+        aws-region: ${{ inputs.aws-region }}
+
+    - name: Sync to S3
+      shell: bash
+      run: |
+        echo "Deploying reports for project: ${{ inputs.project-name }}"
+        echo "Target: s3://${{ inputs.s3-bucket }}/${{ inputs.project-name }}"
+        aws s3 sync ./reports_to_upload s3://${{ inputs.s3-bucket }}/${{ inputs.project-name }}
