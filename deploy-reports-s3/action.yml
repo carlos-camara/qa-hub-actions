@@ -41,7 +41,7 @@ runs:
       uses: actions/download-artifact@v4
       with:
         name: test-reports
-        path: reports_to_upload
+        path: reports_to_upload/reports/test_run
         github-token: ${{ github.token }}
         run-id: ${{ inputs.run-id }}
 
@@ -59,7 +59,7 @@ runs:
       uses: actions/download-artifact@v4
       with:
         name: performance-reports
-        path: reports_to_upload/performance_run
+        path: reports_to_upload/reports/performance_run
         github-token: ${{ github.token }}
         run-id: ${{ inputs.run-id }}
 

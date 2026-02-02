@@ -57,8 +57,8 @@ runs:
         
         # Merge logic
         if [ "${{ inputs.upload-reports }}" == "true" ]; then
-          mkdir -p reports
-          cp -r temp_reports/unified/* reports/ || echo "No reports found"
+          mkdir -p reports/test_run
+          cp -r temp_reports/unified/* reports/test_run/ || echo "No reports found"
           
           mkdir -p features/resources/screenshots
           cp temp_reports/screenshots/*.png features/resources/screenshots/ || echo "No screenshots found"
