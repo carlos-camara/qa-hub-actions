@@ -17,7 +17,7 @@ This action downloads test artifacts from a GitHub Workflow run and syncs them t
 
 ### Key Features
 - **📦 Artifact Retrieval**: Automatically downloads artifacts from the specified run ID.
-- **🗂️ Structured Storage**: Organizes files into `api`, `gui`, and `performance` folders.
+- **🗂️ Structured Storage**: Organizes files into a unified test report structure and `performance` folders.
 - **🔒 Secure Transfer**: Uses standard AWS credentials for authentication.
 
 ## 🛠️ Usage
@@ -42,8 +42,8 @@ This action downloads test artifacts from a GitHub Workflow run and syncs them t
 | `aws-access-key-id` | **REQUIRED**. AWS Access Key ID. | **Yes** | - |
 | `aws-secret-access-key` | **REQUIRED**. AWS Secret Access Key. | **Yes** | - |
 | `aws-region` | AWS Region of the bucket. | No | `us-east-1` |
-| `upload-api` | Toggle upload of API reports. | No | `true` |
-| `upload-gui` | Toggle upload of GUI reports. | No | `true` |
+| `upload-reports` | Toggle upload of test reports (consolidated). | No | `true` |
+| `upload-screenshots` | Toggle upload of GUI screenshots. | No | `true` |
 | `upload-perf` | Toggle upload of Performance reports. | No | `true` |
 
 ---

@@ -26,8 +26,7 @@ This action serves as the central reporting hub for your testing pipeline. It ag
 - uses: carlos-camara/qa-hub-actions/collect-and-publish@v1
   if: always() # Important!
   with:
-    api-reports-path: 'reports/api'
-    gui-reports-path: 'reports/gui'
+    reports-path: 'reports/unified'
     screenshots-path: 'reports/screenshots/*.png'
 ```
 
@@ -35,8 +34,7 @@ This action serves as the central reporting hub for your testing pipeline. It ag
 
 | Name | Description | Required | Default |
 | :--- | :--- | :---: | :--- |
-| `api-reports-path` | Path to directory containing API JUnit XML reports. | No | `''` |
-| `gui-reports-path` | Path to directory containing GUI JUnit XML reports. | No | `''` |
+| `reports-path` | Path to directory containing test JUnit XML reports (API/GUI). | No | `''` |
 | `performance-reports-path` | Path to directory containing Performance reports. | No | `''` |
 | `screenshots-path` | Glob pattern for screenshots to upload (e.g., `screenshots/*.png`). | No | `''` |
 | `junit-results-dir` | Directory where all XMLs are aggregated before publishing. | No | `junit-results` |

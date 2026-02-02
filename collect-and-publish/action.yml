@@ -4,12 +4,8 @@ branding:
   icon: 'upload-cloud'
   color: 'purple'
 inputs:
-  api-reports-path:
-    description: 'Path to API reports directory'
-    required: false
-    default: ''
-  gui-reports-path:
-    description: 'Path to GUI reports directory'
+  reports-path:
+    description: 'Path to test reports directory (API/GUI)'
     required: false
     default: ''
   screenshots-path:
@@ -40,27 +36,17 @@ runs:
       shell: bash
       run: |
         mkdir -p ${{ inputs.junit-results-dir }}
-        if [ "${{ inputs.api-reports-path }}" != "" ] && [ -d "${{ inputs.api-reports-path }}" ]; then
-          find ${{ inputs.api-reports-path }} -name "*.xml" -exec cp {} ${{ inputs.junit-results-dir }}/ \;
-        fi
-        if [ "${{ inputs.gui-reports-path }}" != "" ] && [ -d "${{ inputs.gui-reports-path }}" ]; then
-          find ${{ inputs.gui-reports-path }} -name "*.xml" -exec cp {} ${{ inputs.junit-results-dir }}/ \;
+        if [ "${{ inputs.reports-path }}" != "" ] && [ -d "${{ inputs.reports-path }}" ]; then
+          find ${{ inputs.reports-path }} -name "*.xml" -exec cp {} ${{ inputs.junit-results-dir }}/ \;
         fi
         echo "Collected $(find ${{ inputs.junit-results-dir }} -maxdepth 1 -name "*.xml" | wc -l) XML files."
 
-    - name: Upload API Reports
-      if: inputs.upload-artifacts == 'true' && inputs.api-reports-path != ''
+    - name: Upload Test Reports
+      if: inputs.upload-artifacts == 'true' && inputs.reports-path != ''
       uses: actions/upload-artifact@v4
       with:
-        name: api-reports
-        path: ${{ inputs.api-reports-path }}
-
-    - name: Upload GUI Reports
-      if: inputs.upload-artifacts == 'true' && inputs.gui-reports-path != ''
-      uses: actions/upload-artifact@v4
-      with:
-        name: gui-reports
-        path: ${{ inputs.gui-reports-path }}
+        name: test-reports
+        path: ${{ inputs.reports-path }}
 
     - name: Upload GUI Screenshots
       if: inputs.upload-artifacts == 'true' && inputs.screenshots-path != ''
@@ -92,18 +78,11 @@ runs:
           echo "### 🚦 Test Suite Summary"
           echo "| Test Type | Status |"
           echo "| :--- | :--- |"
-          if [ "${{ inputs.api-reports-path }}" != "" ]; then
-            if [ -d "${{ inputs.api-reports-path }}" ]; then
-              echo "| 📡 API Tests | ✅ Completed |"
+          if [ "${{ inputs.reports-path }}" != "" ]; then
+            if [ -d "${{ inputs.reports-path }}" ]; then
+              echo "| 🧪 Test Results | ✅ Completed |"
             else
-              echo "| 📡 API Tests | ❌ Failed/Missing |"
-            fi
-          fi
-          if [ "${{ inputs.gui-reports-path }}" != "" ]; then
-            if [ -d "${{ inputs.gui-reports-path }}" ]; then
-              echo "| 🌐 GUI Tests | ✅ Completed |"
-            else
-              echo "| 🌐 GUI Tests | ❌ Failed/Missing |"
+              echo "| 🧪 Test Results | ❌ Failed/Missing |"
             fi
           fi
         } >> "$GITHUB_STEP_SUMMARY"

@@ -20,12 +20,12 @@ inputs:
   run-id:
     description: 'GitHub Workflow Run ID to download artifacts from.'
     required: true
-  upload-api:
-    description: 'Upload API reports?'
+  upload-reports:
+    description: 'Upload test reports (consolidated)?'
     required: false
     default: 'true'
-  upload-gui:
-    description: 'Upload GUI reports and screenshots?'
+  upload-screenshots:
+    description: 'Upload GUI screenshots?'
     required: false
     default: 'true'
   upload-perf:
@@ -36,26 +36,17 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Download API Reports
-      if: inputs.upload-api == 'true'
+    - name: Download Test Reports
+      if: inputs.upload-reports == 'true'
       uses: actions/download-artifact@v4
       with:
-        name: api-reports
-        path: reports_to_upload/api
-        github-token: ${{ github.token }}
-        run-id: ${{ inputs.run-id }}
-
-    - name: Download GUI Reports
-      if: inputs.upload-gui == 'true'
-      uses: actions/download-artifact@v4
-      with:
-        name: gui-reports
-        path: reports_to_upload/gui
+        name: test-reports
+        path: reports_to_upload
         github-token: ${{ github.token }}
         run-id: ${{ inputs.run-id }}
 
     - name: Download GUI Screenshots
-      if: inputs.upload-gui == 'true'
+      if: inputs.upload-screenshots == 'true'
       uses: actions/download-artifact@v4
       with:
         name: gui-screenshots
