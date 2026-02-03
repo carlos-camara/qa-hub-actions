@@ -1,31 +1,48 @@
 # 🚀 Python Auto-Release
 
 !!! info "At a Glance"
-    - **Category**: Maintenance & CI
+    - **Category**: Maintenance
     - **Complexity**: Medium
-    - **Version**: v1.0.0 (Stable)
-    - **Primary Tool**: Python Semantic Release
+    - **Recent Version**: v1.1.0 (Stable)
+    - **Primary Tool**: python-semantic-release
 
-Hands-free versioning, changelog generation, and GitHub Releases for Python packages.
+Automate your entire release lifecycle: Versioning, Changelog generation, Tagging, and GitHub Releases.
 
-## 📖 Overview
+---
 
-Standardizes the use of `python-semantic-release`. It analyzes your commit messages (following Conventional Commits), bumps the version, updates the changelog, and creates a GitHub Release with one action.
+## 🏗️ Release Lifecycle
 
-## 🛠️ Inputs
-
-| Input | Description | Default |
-|-------|-------------|---------|
-| `github-token` | Token with permissions to create releases. | `REQUIRED` |
-| `python-version` | Python version for the release process. | `'3.11'` |
-
-## 🚀 Usage Example
-
-```yaml
-- uses: carlos-camara/qa-hub-actions/python-auto-release@main
-  with:
-    github-token: ${{ secrets.GITHUB_TOKEN }}
+```mermaid
+graph LR
+    A[Analyze Commits] --> B[Bump Version]
+    B --> C[Generate Changelog]
+    C --> D[Create Tag]
+    D --> E[GitHub Release]
 ```
 
 ---
-*Professional version management, automated.*
+
+## 🛠️ Inputs
+
+| Input | Default | Purpose |
+| :--- | :--- | :--- |
+| `github-token` | `REQUIRED` | To create Tags/Releases. |
+| `python-version` | `3.11` | Environment to run tool. |
+
+---
+
+## 🚀 Pro Patterns
+
+### 📝 Conventional Commits
+This action relies on **Conventional Commits** (e.g., `fix:`, `feat:`, `feat!:`) to determine the magnitude of the version bump.
+
+---
+
+## 🆘 Troubleshooting
+
+### ❌ No release generated
+**Issue**: Action completes but no tag/release is created.
+**Solution**: Ensure you are using the correct commit prefix and that the `python-semantic-release` configuration in `pyproject.toml` is present.
+
+---
+[View Source Code](https://github.com/carlos-camara/qa-hub-actions/tree/main/python-auto-release)

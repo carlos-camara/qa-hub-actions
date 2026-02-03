@@ -1,38 +1,51 @@
-# ☁️ Deploy Reports to S3
+# ☁️ Deploy to AWS S3
 
 !!! info "At a Glance"
-    - **Category**: Reporting & Notifications
+    - **Category**: Reporting
     - **Complexity**: Medium
-    - **Version**: v2.1.0 (Stable)
-    - **Primary Tool**: AWS CLI / S3 Sync
+    - **Recent Version**: v1.0.1 (Stable)
+    - **Primary Tool**: aws-actions/configure-aws-credentials
 
-Securely store and share your test artifacts using AWS S3.
+Securely archive your industrial-grade QA reports in AWS S3 for long-term retention and historical analysis.
 
-## 🛠️ Inputs
+---
 
-| Input | Description | Default |
-| :--- | :--- | :--- |
-| `project-name` | Name of the project (e.g., `dashboard`). Used as the subfolder in S3. | `REQUIRED` |
-| `s3-bucket` | Name of the S3 bucket. | `REQUIRED` |
-| `aws-access-key-id` | AWS Access Key ID. | `REQUIRED` |
-| `aws-secret-access-key` | AWS Secret Access Key. | `REQUIRED` |
-| `aws-region` | AWS Region. | `'us-east-1'` |
-| `run-id` | GitHub Workflow Run ID to download artifacts from. | `REQUIRED` |
-| `upload-reports` | Upload test reports (consolidated)? | `'true'` |
-| `upload-screenshots` | Upload GUI screenshots? | `'true'` |
-| `upload-perf` | Upload Performance reports? | `'true'` |
+## 🏗️ Storage Flow
 
-## 🚀 Usage Example
-
-```yaml
-- uses: carlos-camara/qa-hub-actions/deploy-reports-s3@main
-  with:
-    project-name: "dashboard"
-    s3-bucket: "my-qa-reports-bucket"
-    aws-access-key-id: ${{ secrets.AWS_KEY }}
-    aws-secret-access-key: ${{ secrets.AWS_SECRET }}
-    run-id: ${{ github.run_id }}
+```mermaid
+graph TD
+    A[Local reports/] --> B[S3 Bucket]
+    B --> C[Project Folder]
+    C --> D[Timestamped Index]
 ```
 
 ---
-*Your data, safely stored.*
+
+## 🛠️ Inputs
+
+| Input | Default | Description |
+| :--- | :--- | :--- |
+| `project-name` | `REQUIRED` | e.g., `dashboard`. |
+| `s3-bucket` | `REQUIRED` | Destination bucket name. |
+| `aws-region` | `us-east-1` | Target region. |
+
+---
+
+## 🚀 Integration Patterns
+
+### 📂 Hierarchical Storage
+This action automatically organizes reports by project name, creating a clean structure: `s3://bucket-name/project-name/runs/`.
+
+### 🔐 Security First
+The action sets up short-lived credentials, ensuring your AWS secrets are never exposed in plaintext during the deployment process.
+
+---
+
+## 🆘 Troubleshooting
+
+### ❌ Bucket Not Found
+**Issue**: Action fails to locate the destination.
+**Solution**: Verify the `s3-bucket` input exactly matches the bucket name in your AWS Console.
+
+---
+[View Source Code](https://github.com/carlos-camara/qa-hub-actions/tree/main/deploy-reports-s3)

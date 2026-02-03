@@ -1,31 +1,48 @@
-# 📥 Upload Results to Repo
+# 📤 Upload Results to Repo
 
 !!! info "At a Glance"
-    - **Category**: Maintenance & CI
-    - **Complexity**: Medium
-    - **Version**: v1.0.0 (Stable)
-    - **Primary Tool**: Git / GitHub Artifacts
+    - **Category**: Reporting
+    - **Complexity**: Low
+    - **Recent Version**: v1.0.0 (Stable)
+    - **Primary Tool**: Git
 
-Downloads standard QA Hub test reports and commits them back to the repository (e.g., for Wiki updates).
+Commit and push consolidated test reports directly to a dedicated branch or folder within your repository.
 
-## 🛠️ Inputs
+---
 
-| Input | Description | Default |
-| :--- | :--- | :--- |
-| `run-id` | GitHub Workflow Run ID to download artifacts from. | `REQUIRED` |
-| `branch` | Target branch to push reports to. | `REQUIRED` |
-| `upload-reports` | Process consolidated test reports? | `'true'` |
-| `upload-perf` | Process Performance reports? | `'true'` |
-| `commit-message` | Custom commit message. | `'docs: auto-generate integrated test reports and screenshots [skip ci]'` |
+## 🏗️ Commit Flow
 
-## 🚀 Usage Example
-
-```yaml
-- uses: carlos-camara/qa-hub-actions/upload-results@main
-  with:
-    run-id: ${{ github.run_id }}
-    branch: "gh-pages"
+```mermaid
+graph LR
+    A[Reports Dir] --> B[Git Add]
+    B --> C[Git Commit]
+    C --> D[Git Push]
 ```
 
 ---
-*Automated reporting, directly in your source.*
+
+## 🛠️ Inputs
+
+| Input | Default | Purpose |
+| :--- | :--- | :--- |
+| `run-id` | `REQUIRED`| Source workflow ID. |
+| `branch` | `REQUIRED`| Target git branch. |
+| `upload-reports` | `true` | Process XML results. |
+
+---
+
+## 🚀 Advanced Commits
+
+### 🔄 Automatic Sync
+This action is ideal for keeping a "latest" documentation folder in sync with the actual results from the main branch.
+
+---
+
+## 🆘 Troubleshooting
+
+### ❌ Git Conflict
+**Issue**: Pushes fail due to remote changes.
+**Solution**: This action uses a force-push strategy on designated reporting branches to ensure visibility is always current.
+
+---
+[View Source Code](https://github.com/carlos-camara/qa-hub-actions/tree/main/upload-results)

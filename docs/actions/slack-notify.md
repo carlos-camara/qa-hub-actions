@@ -1,32 +1,58 @@
 # 📢 Slack Notification
 
 !!! info "At a Glance"
-    - **Category**: Reporting & Notifications
+    - **Category**: Reporting
     - **Complexity**: Low
-    - **Version**: v1.0.2 (Beta)
-    - **Primary Tool**: Incoming Webhooks
+    - **Recent Version**: v1.0.2 (Beta)
+    - **Primary Tool**: Slack Webhooks
 
-Bring real-time visibility to your test runs with rich, formatted Slack alerts.
+Keep the whole team in the loop. Posts rich summaries of test cycles directly to your Slack channels.
 
-## 🛠️ Inputs
+---
 
-| Input | Description | Default |
-| :--- | :--- | :--- |
-| `slack-webhook-url` | The Slack Webhook URL to send the notification to. | `REQUIRED` |
-| `status` | The status of the test run (e.g., `success`, `failure`, `cancelled`). | `'success'` |
-| `test-summary` | A brief summary of the test results to include in the message. | `'Tests completed successfully.'` |
-| `project-name` | The name of the project being tested. | `${{ github.repository }}` |
+## 🏗️ Notification Flow
 
-## 🚀 Usage Example
+```mermaid
+sequenceDiagram
+    participant CI as GH Action
+    participant API as Slack API
+    participant User as Slack Client
 
-```yaml
-- uses: carlos-camara/qa-hub-actions/slack-notify@main
-  if: always()
-  with:
-    slack-webhook-url: ${{ secrets.SLACK_WEBHOOK }}
-    status: ${{ job.status }}
-    test-summary: "Finished execution for PR #${{ github.event.number }}"
+    CI->>API: POST Webhook Payload
+    API-->>CI: 200 OK
+    API->>User: Display Rich Card (Success/Fail)
 ```
 
 ---
-*Stay informed, react faster.*
+
+## 🛠️ Inputs
+
+| Input | Default | Description |
+| :--- | :--- | :--- |
+| `slack-webhook-url` | `REQUIRED` | Your channel's webhook URL. |
+| `status` | `success` | Result state (success/failure/cancelled). |
+| `test-summary` | `Tests passed` | Main message body. |
+
+---
+
+## 🚀 Pro Tips
+
+### 🎨 Color-coded Alerts
+The action automatically changes the card color based on the `status`:
+- `success` -> **Green** ✅
+- `failure` -> **Red** ❌
+- `cancelled` -> **Grey** ⚠️
+
+### 🔗 Deep Linking
+The notification automatically includes a direct link to the GitHub Action run that triggered it, saving developers valuable seconds during triage.
+
+---
+
+## 🆘 Troubleshooting
+
+### ❌ 404 No Service
+**Issue**: Webhook call fails.
+**Solution**: Verify the webhook URL hasn't expired or been deleted in Slack's App management.
+
+---
+[View Source Code](https://github.com/carlos-camara/qa-hub-actions/tree/main/slack-notify)

@@ -1,31 +1,49 @@
-# 📂 Deploy to GH Pages
+# 🌐 Deploy to GitHub Pages
 
 !!! info "At a Glance"
-    - **Category**: Reporting & Notifications
+    - **Category**: Reporting
     - **Complexity**: Low
-    - **Version**: v1.2.0 (Stable)
-    - **Primary Tool**: actions/deploy-pages / Vite
+    - **Recent Version**: v1.0.0 (Stable)
+    - **Primary Tool**: actions/deploy-pages
 
-Publish your documentation or HTML test reports to GitHub Pages with a single step.
+Effortlessly host your Node.js based QA dashboards or static reports on GitHub Pages with automated builds.
 
-## 🛠️ Inputs
+---
 
-| Input | Description | Default |
-| :--- | :--- | :--- |
-| `node-version` | Node.js version to use. | `'20'` |
-| `install-command` | Command to install dependencies. | `'npm ci'` |
-| `build-command` | Command to build the project. | `'npm run build'` |
-| `dist-dir` | Directory containing build artifacts. | `'./dist'` |
-| `vite-api-url` | `VITE_API_URL` environment variable. | `""` |
+## 🏗️ Deployment Flow
 
-## 🚀 Usage Example
-
-```yaml
-- uses: carlos-camara/qa-hub-actions/deploy-gh-pages@main
-  with:
-    dist-dir: "site/"
-    build-command: "mkdocs build"
+```mermaid
+graph LR
+    A[Build Assets] --> B[Upload Artifact]
+    B --> C[Deploy to Pages]
+    C --> D[Live URL Generated]
 ```
 
 ---
-*Share your results with the world.*
+
+## 🛠️ Inputs
+
+| Input | Default | Purpose |
+| :--- | :--- | :--- |
+| `node-version` | `20` | Environment for build. |
+| `install-command` | `npm ci` | Dependency prep. |
+| `build-command` | `npm run build` | Build generation. |
+| `dist-dir` | `dist` | Assets to deploy. |
+
+---
+
+## 🚀 Pro Tips
+
+### ⚡ Deterministic Builds
+By using `npm ci` as the default `install-command`, the action ensures that your deployment environment exactly matches your `package-lock.json`, preventing "it works on my machine" issues.
+
+---
+
+## 🆘 Troubleshooting
+
+### ❌ Permission Denied
+**Issue**: Deployment fails with 403 error.
+**Solution**: Ensure your GITHUB_TOKEN has `pages: write` and `id-token: write` permissions in your workflow.
+
+---
+[View Source Code](https://github.com/carlos-camara/qa-hub-actions/tree/main/deploy-gh-pages)

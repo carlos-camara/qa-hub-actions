@@ -3,29 +3,47 @@
 !!! info "At a Glance"
     - **Category**: Quality & Security
     - **Complexity**: Low
-    - **Version**: v1.0.0 (Stable)
+    - **Recent Version**: v1.0.0 (Stable)
     - **Primary Tool**: Lychee
 
-Maintain a high-quality documentation site by automatically checking for broken links.
+Maintain documentation integrity. Automatically scans your files for broken or dead links.
 
-## 📖 Overview
+---
 
-Uses `Lychee` to scan your Markdown files and documentation for broken URLs. Perfect for preventing "404 Not Found" errors in your Wikis and READMEs.
+## 🏗️ Scanning Flow
 
-## 🛠️ Inputs
-
-| Input | Description | Default |
-|-------|-------------|---------|
-| `search-path` | Glob pattern to find files to scan. | `'**/*.md'` |
-| `fail-on-error` | Whether to fail the build on broken links. | `'true'` |
-
-## 🚀 Usage Example
-
-```yaml
-- uses: carlos-camara/qa-hub-actions/link-checker@main
-  with:
-    search-path: "docs/**/*.md"
+```mermaid
+graph TD
+    A[Scan Files] --> B[Extract URLs]
+    B --> C[Ping URLs]
+    C --> D{Response == 200?}
+    D -- No --> E[Report Broken Link]
+    D -- Yes --> F[Ignore]
 ```
 
 ---
-*Clean links, happy users.*
+
+## 🛠️ Inputs
+
+| Input | Default | Description |
+| :--- | :--- | :--- |
+| `search-path` | `**/*.md` | Files/Patterns to scan. |
+| `fail-on-error` | `true` | Break build if link is dead. |
+
+---
+
+## 🚀 Pro Usage
+
+### 🎯 Documentation Health
+Integrate this action into your main documentation pipeline to ensure that your wiki always points to valid resources.
+
+---
+
+## 🆘 Troubleshooting
+
+### ❌ Transient Failures
+**Issue**: External websites are temporarily down.
+**Solution**: If you have frequently failing stable links, consider adding them to an exclusion list if supported by your config.
+
+---
+[View Source Code](https://github.com/carlos-camara/qa-hub-actions/tree/main/link-checker)
