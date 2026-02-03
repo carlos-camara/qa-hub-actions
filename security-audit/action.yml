@@ -1,0 +1,45 @@
+name: 'Security Audit'
+description: '🛡️ Scans dependencies for vulnerabilities and performs static analysis on Python code.'
+branding:
+  icon: 'shield'
+  color: 'red'
+inputs:
+  python-version:
+    description: 'Python version to use'
+    required: false
+    default: '3.11'
+  target-path:
+    description: 'Path to scan with Bandit'
+    required: false
+    default: '.'
+  scan-dependencies:
+    description: 'Whether to check dependencies with Safety'
+    required: false
+    default: 'true'
+  scan-code:
+    description: 'Whether to perform static analysis with Bandit'
+    required: false
+    default: 'true'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install security tools
+      shell: bash
+      run: |
+        pip install safety bandit
+
+    - name: Dependency Check (Safety)
+      if: inputs.scan-dependencies == 'true'
+      shell: bash
+      run: safety check
+
+    - name: Static Analysis (Bandit)
+      if: inputs.scan-code == 'true'
+      shell: bash
+      run: bandit -r ${{ inputs.target-path }}

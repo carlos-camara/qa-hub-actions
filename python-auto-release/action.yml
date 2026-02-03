@@ -1,0 +1,26 @@
+name: 'Python Auto-Release'
+description: '🚀 Automates versioning, changelogs, and GitHub Releases for Python projects.'
+branding:
+  icon: 'package'
+  color: 'orange'
+inputs:
+  github-token:
+    description: 'The GITHUB_TOKEN or a personal access token'
+    required: true
+  python-version:
+    description: 'Python version to use'
+    required: false
+    default: '3.11'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Python Semantic Release
+      uses: python-semantic-release/python-semantic-release@v9.1.1
+      with:
+        github_token: ${{ inputs.github-token }}

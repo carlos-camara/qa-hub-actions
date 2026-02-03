@@ -40,27 +40,27 @@ inputs:
     description: 'Run GUI tests in headless mode'
     required: false
     default: 'true'
+  enable-coverage:
+    description: 'Whether to collect code coverage'
+    required: false
+    default: 'false'
+  coverage-module:
+    description: 'Module to collect coverage for'
+    required: false
+    default: ''
 
 runs:
   using: 'composite'
   steps:
-    - name: Start Services
-      if: inputs.start-services-command != ''
-      shell: bash
-      run: |
-        ${{ inputs.start-services-command }}
-          
-    - name: Wait for Services
-      if: inputs.health-check-urls != ''
-      shell: bash
-      run: |
-        npx wait-on ${{ inputs.health-check-urls }} --timeout 60000 || (cat backend.log 2>/dev/null || true && cat frontend.log 2>/dev/null || true && exit 1)
-
     - name: Run API Tests
       if: inputs.run-api == 'true' && inputs.test-command-api != ''
       shell: pwsh
       run: |
-        ${{ inputs.test-command-api }}
+        if ("${{ inputs.enable-coverage }}" -eq "true" -and "${{ inputs.coverage-module }}" -ne "") {
+          pytest --cov=${{ inputs.coverage-module }} tests/ --cov-report=xml
+        } else {
+          ${{ inputs.test-command-api }}
+        }
         # Standardize report stashing for this infrastructure
         if (Test-Path "reports") {
           cp -r reports api_reports_tmp

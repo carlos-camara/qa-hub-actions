@@ -52,6 +52,9 @@ graph LR
 | **[Deploy to S3](./deploy-reports-s3)** | `Stable` | Securely deploys test artifacts to AWS S3. |
 | **[Deploy to GH Pages](./deploy-gh-pages)** | `Stable` | Publishes HTML reports to GitHub Pages. |
 | **[PR Labeler](./pr-labeler)** | `Stable` | Automatically labels PRs based on file paths. |
+| **[Security Audit](./security-audit)** | `Stable` | Scans dependencies and code for Python vulnerabilities. |
+| **[Link Checker](./link-checker)** | `Stable` | Finds broken links in Markdown files. |
+| **[Auto-Release](./python-auto-release)** | `Stable` | Automates Python versioning and GitHub Releases. |
 
 ## 🌍 Supported Ecosystems
 
