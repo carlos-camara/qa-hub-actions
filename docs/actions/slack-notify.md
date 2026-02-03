@@ -1,11 +1,10 @@
 # 📢 Slack Notification
 
-/// details | At a Glance
-- **Category**: Reporting & Notifications
-- **Complexity**: Low
-- **Version**: v1.0.2 (Beta)
-- **Primary Tool**: Incoming Webhooks
-///
+!!! info "At a Glance"
+    - **Category**: Reporting & Notifications
+    - **Complexity**: Low
+    - **Version**: v1.0.2 (Beta)
+    - **Primary Tool**: Incoming Webhooks
 
 Bring real-time visibility to your test runs with rich, formatted Slack alerts.
 

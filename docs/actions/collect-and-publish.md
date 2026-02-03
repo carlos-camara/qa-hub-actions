@@ -1,11 +1,10 @@
 # 📊 Collect & Publish
 
-/// details | At a Glance
-- **Category**: Core Engine
-- **Complexity**: Medium
-- **Version**: v1.0.5 (Stable)
-- **Primary Tool**: GitHub PR Comments / Artifacts
-///
+!!! info "At a Glance"
+    - **Category**: Core Engine
+    - **Complexity**: Medium
+    - **Version**: v1.0.5 (Stable)
+    - **Primary Tool**: GitHub PR Comments / Artifacts
 
 Aggregate test results and generate a premium reporting summary directly in your Pull Request.
 

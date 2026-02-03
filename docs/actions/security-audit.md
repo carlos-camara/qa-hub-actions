@@ -1,11 +1,10 @@
 # 🛡️ Security Audit
 
-/// details | At a Glance
-- **Category**: Quality & Security
-- **Version**: v1.0.0 (New)
-- **Primary Tool**: Safety / Bandit
-- **Best Practice**: Run on every PR
-///
+!!! info "At a Glance"
+    - **Category**: Quality & Security
+    - **Version**: v1.0.0 (New)
+    - **Primary Tool**: Safety / Bandit
+    - **Best Practice**: Run on every PR
 
 Automated vulnerability scanning for Python dependencies and static code analysis.
 
