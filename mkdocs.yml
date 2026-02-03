@@ -62,22 +62,24 @@ markdown_extensions:
 
 nav:
   - Home: index.md
+  - Action Wiki: wiki.md
   - Getting Started: installation.md
-  - Core Engine:
-    - Run QA Test Suite: actions/run-tests.md
-    - Setup Environment: actions/setup-environment.md
-    - Collect & Publish: actions/collect-and-publish.md
-  - Reporting & Pages:
-    - Slack Notification: actions/slack-notify.md
-    - Deploy to GH Pages: actions/deploy-gh-pages.md
-    - Deploy to S3: actions/deploy-reports-s3.md
-    - Upload Results: actions/upload-results.md
-  - Quality & Security:
-    - Security Audit: actions/security-audit.md
-    - Lint Codebase: actions/lint-codebase.md
-    - Link Checker: actions/link-checker.md
-    - Performance Baseline: actions/performance-baseline-check.md
-  - Maintenance & CI:
-    - PR Labeler: actions/pr-labeler.md
-    - Auto-Release: actions/python-auto-release.md
+  - Action Library:
+      - Core Engine:
+          - Run QA Test Suite: actions/run-tests.md
+          - Setup Environment: actions/setup-environment.md
+          - Collect & Publish: actions/collect-and-publish.md
+      - Reporting & Pages:
+          - Slack Notification: actions/slack-notify.md
+          - Deploy to GH Pages: actions/deploy-gh-pages.md
+          - Deploy to S3: actions/deploy-reports-s3.md
+          - Upload Results: actions/upload-results.md
+      - Quality & Security:
+          - Security Audit: actions/security-audit.md
+          - Lint Codebase: actions/lint-codebase.md
+          - Link Checker: actions/link-checker.md
+          - Performance Baseline: actions/performance-baseline-check.md
+      - Maintenance & CI:
+          - PR Labeler: actions/pr-labeler.md
+          - Auto-Release: actions/python-auto-release.md
   - Contributing: contributing.md
