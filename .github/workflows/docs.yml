@@ -18,7 +18,8 @@ jobs:
           python-version: '3.11'
       - name: Install dependencies
         run: |
-          pip install mkdocs-material>=9.5.0 pymdown-extensions>=10.7.0
+          python -m pip install --upgrade pip
+          pip install --upgrade mkdocs-material>=9.5.0 pymdown-extensions>=10.7.0
       - name: Build and Deploy
         run: |
           mkdocs gh-deploy --force
