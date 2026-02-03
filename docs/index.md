@@ -1,33 +1,36 @@
-# 🤖 QA Hub Actions | Official Wiki
+# 🤖 QA Hub Actions
 
 <div class="md-typeset">
   <p class="md-description">
-    Standardize. Accelerate. Audit. <br>
-    The definitive collection of enterprise-grade reusable GitHub Actions for modern QA pipelines.
+    Enterprise-grade reusable GitHub Actions for modern QA automation. <br>
+    <strong>Standardize. Accelerate. Audit.</strong>
   </p>
   <p>
-    <span class="md-tag md-tag--primary">v2.0 - High Fidelity</span>
-    <span class="md-tag">Deployed via GitHub Actions</span>
+    <span class="md-tag md-tag--primary">✨ v2.0 - High Fidelity Edition</span>
   </p>
 </div>
 
-[:octicons-book-24: Full Action Wiki](wiki.md){ .md-button .md-button--primary }
-[:octicons-rocket-24: Installation Guide](installation.md){ .md-button }
+[:material-book-open-page-variant: Browse Complete Action Library](wiki.md){ .md-button .md-button--primary }
+[:material-rocket-launch: Quick Start Guide](installation.md){ .md-button }
+[:material-github: View on GitHub](https://github.com/carlos-camara/qa-hub-actions){ .md-button }
 
 ---
 
-## 🔎 Quick Action Reference
+## 🎯 Action Catalog
 
-Can't find what you're looking for? Use the search bar above or check this categorical index.
+Browse our complete library of production-ready GitHub Actions, organized by category.
 
-| Category | Actions | Purpose |
+| Category | Available Actions | What They Do |
 | :--- | :--- | :--- |
-| **🚀 Core Engine** | [Run Tests](actions/run-tests.md), [Setup Env](actions/setup-environment.md), [Collect](actions/collect-and-publish.md) | Pipeline foundation & orchestration. |
-| **🛡️ Quality & Security** | [Security Audit](actions/security-audit.md), [Linting](actions/lint-codebase.md), [Link Checker](actions/link-checker.md), [Performance](actions/performance-baseline-check.md) | Safety nets and code quality audits. |
-| **📢 Reporting** | [Slack Notify](actions/slack-notify.md), [Deploy Pages](actions/deploy-gh-pages.md), [Deploy S3](actions/deploy-reports-s3.md), [Upload Results](actions/upload-results.md) | Visibility for stakeholders. |
-| **🤖 Maintenance** | [PR Labeler](actions/pr-labeler.md), [Auto-Release](actions/python-auto-release.md) | CI/CD automation and maintenance. |
+| **🚀 Core Engine** | [Run Tests](actions/run-tests.md) · [Setup Environment](actions/setup-environment.md) · [Collect & Publish](actions/collect-and-publish.md) | Execute test suites, manage environments, and aggregate results. |
+| **🛡️ Quality & Security** | [Security Audit](actions/security-audit.md) · [Lint Codebase](actions/lint-codebase.md) · [Link Checker](actions/link-checker.md) · [Performance Baseline](actions/performance-baseline-check.md) | Automated security scans, code quality checks, and performance monitoring. |
+| **📢 Reporting & Deployment** | [Slack Notify](actions/slack-notify.md) · [Deploy to Pages](actions/deploy-gh-pages.md) · [Deploy to S3](actions/deploy-reports-s3.md) · [Upload Results](actions/upload-results.md) | Team notifications and report publishing to multiple platforms. |
+| **🔧 Automation** | [PR Auto-Labeler](actions/pr-labeler.md) · [Python Auto-Release](actions/python-auto-release.md) | Streamline your development workflow with intelligent automation. |
 
 ---
 
-> [!IMPORTANT]
-> **Show All Content**: If you are looking for the technical specifications (Inputs/Outputs) of every single action, please visit the **[Global Action Wiki](wiki.md)** directly.
+<div class="md-typeset" align="center">
+  <p>
+    💡 <strong>New to QA Hub Actions?</strong> Start with our <a href="wiki.md">Complete Action Library</a> to see detailed documentation, architecture diagrams, and integration examples for every action.
+  </p>
+</div>
