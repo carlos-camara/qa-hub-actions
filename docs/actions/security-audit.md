@@ -51,7 +51,7 @@ This action will fail the build if it finds **High** severity vulnerabilities, a
 
 ### ❌ Known Vulnerabilities Found
 **Issue**: Build fails due to security findings.
-**Solution**: 
+**Solution**:
 - **Safety**: Update the failing dependency in `requirements.txt`.
 - **Bandit**: Review the reported line and apply recommended security fix (e.g., avoid `eval()`, use secure temp files).
 

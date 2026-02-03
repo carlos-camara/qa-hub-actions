@@ -68,7 +68,7 @@ Toggle between headless and headed execution using the `headless` parameter.
 
 ### ❌ Health check timeout
 **Issue**: The action fails during the "Wait for Services" step.
-**Solution**: 
+**Solution**:
 1. Increase the timeout in your app's startup or verify the `health-check-urls` are correct.
 2. Ensure you backgrounded your app (e.g., using `&` in Linux).
 
