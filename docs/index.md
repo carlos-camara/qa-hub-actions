@@ -1,4 +1,4 @@
-# 🤖 QA Hub Actions
+# 🤖 QA Hub Actions | Official Wiki
 
 <div class="md-typeset">
   <p class="md-description">
@@ -7,61 +7,49 @@
   </p>
 </div>
 
-[:octicons-arrow-right-24: Getting Started](installation.md){ .md-button .md-button--primary }
-[:octicons-mark-github-16: GitHub Repository](https://github.com/carlos-camara/qa-hub-actions){ .md-button }
+[:octicons-book-24: Full Action Wiki](wiki.md){ .md-button .md-button--primary }
+[:octicons-rocket-24: Installation Guide](installation.md){ .md-button }
+
+---
+
+## 🔎 Quick Action Reference
+
+Can't find what you're looking for? Use the search bar above or check this categorical index.
+
+| Category | Actions | Purpose |
+| :--- | :--- | :--- |
+| **🚀 Core Engine** | [Run Tests](actions/run-tests.md), [Setup Env](actions/setup-environment.md), [Collect](actions/collect-and-publish.md) | Pipeline foundation & orchestration. |
+| **🛡️ Quality & Security** | [Security Audit](actions/security-audit.md), [Linting](actions/lint-codebase.md), [Link Checker](actions/link-checker.md), [Performance](actions/performance-baseline-check.md) | Safety nets and code quality audits. |
+| **📢 Reporting** | [Slack Notify](actions/slack-notify.md), [Deploy Pages](actions/deploy-gh-pages.md), [Deploy S3](actions/deploy-reports-s3.md), [Upload Results](actions/upload-results.md) | Visibility for stakeholders. |
+| **🤖 Maintenance** | [PR Labeler](actions/pr-labeler.md), [Auto-Release](actions/python-auto-release.md) | CI/CD automation and maintenance. |
 
 ---
 
 ## 📦 Action Ecosystem
 
-Explore our modular components designed to work in synergy. Every action is meticulously documented with inputs, outputs, and real-world examples.
-
 <div class="grid cards" markdown>
 
 -   :material-engine: __Core Engine__
 
-    ---
-
-    The heartbeat of every pipeline.
-    
-    *   **[Run Tests](actions/run-tests.md)**: Multi-runtime execution.
-    *   **[Setup Env](actions/setup-environment.md)**: Zero-config setup.
-    *   **[Collect](actions/collect-and-publish.md)**: Unified reporting.
+    *   **[Run Tests](actions/run-tests.md)**: The heartbeat of execution.
+    *   **[Setup Env](actions/setup-environment.md)**: High-speed cached environments.
+    *   **[Collect](actions/collect-and-publish.md)**: Unified JUnit & Screenshot reporting.
 
 -   :material-shield-check: __Security & Quality__
 
-    ---
-
-    Protect your codebase automatically.
-
-    *   **[Security Audit](actions/security-audit.md)**: CVE & Bandit scans.
-    *   **[Linting](actions/lint-codebase.md)**: Super-Linter powered.
-    *   **[Link Checker](actions/link-checker.md)**: Docs health check.
-    *   **[Performance](actions/performance-baseline-check.md)**: Regression audit.
+    *   **[Security Audit](actions/security-audit.md)**: Dependency & Static analysis.
+    *   **[Linting](actions/lint-codebase.md)**: Multi-language format audit.
+    *   **[Link Checker](actions/link-checker.md)**: Maintain documentation health.
 
 -   :material-chart-bar: __Reporting & Pages__
 
-    ---
-
-    Visibility for your stakeholders.
-
-    *   **[Slack Notify](actions/slack-notify.md)**: Rich alerts.
-    *   **[Deploy Pages](actions/deploy-gh-pages.md)**: Documentation host.
-    *   **[Deploy S3](actions/deploy-reports-s3.md)**: Artifact storage.
-    *   **[Upload Results](actions/upload-results.md)**: Repo integration.
-
--   :material-robot: __Maintenance & CI__
-
-    ---
-
-    Automate the boring stuff.
-
-    *   **[PR Labeler](actions/pr-labeler.md)**: Automatic triage.
-    *   **[Auto-Release](actions/python-auto-release.md)**: Semantic versioning.
+    *   **[Slack Notify](actions/slack-notify.md)**: Instant team visibility.
+    *   **[Deploy Pages](actions/deploy-gh-pages.md)**: Host your QA dashboards.
+    *   **[Deploy S3](actions/deploy-reports-s3.md)**: Industrial-grade artifact storage.
 
 </div>
 
 ---
 
-> [!TIP]
-> **Pro Tip**: Use the `Setup Env` action as the first step in almost any workflow to ensure a clean, cached, and reproducible environment.
+> [!IMPORTANT]
+> **Show All Content**: If you are looking for the technical specifications (Inputs/Outputs) of every single action, please visit the **[Global Action Wiki](wiki.md)** directly.
