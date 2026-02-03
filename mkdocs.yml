@@ -3,10 +3,15 @@ site_url: https://carlos-camara.github.io/qa-hub-actions/
 site_description: Enterprise-grade reusable GitHub Actions for modern QA pipelines.
 site_author: Carlos Camara
 
+extra_javascript:
+  - https://unpkg.com/mermaid/dist/mermaid.min.js
+  - javascripts/mermaid-init.js
+
 theme:
   name: material
-  logo: material/robot-industrial
-  favicon: material/robot-industrial
+  icon:
+    logo: material/robot-industrial
+    favicon: material/robot-industrial
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
@@ -57,6 +62,9 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:pymdownx.emoji.twemoji
       emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
 
 nav:
   - Home: index.md

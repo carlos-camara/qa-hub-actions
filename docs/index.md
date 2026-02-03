@@ -5,6 +5,10 @@
     Standardize. Accelerate. Audit. <br>
     The definitive collection of enterprise-grade reusable GitHub Actions for modern QA pipelines.
   </p>
+  <p>
+    <span class="md-tag md-tag--primary">v2.0 - High Fidelity</span>
+    <span class="md-tag">Deployed via GitHub Actions</span>
+  </p>
 </div>
 
 [:octicons-book-24: Full Action Wiki](wiki.md){ .md-button .md-button--primary }
