@@ -5,14 +5,7 @@
     Enterprise-grade reusable GitHub Actions for modern QA automation. <br>
     <strong>Standardize. Accelerate. Audit.</strong>
   </p>
-  <p>
-    <span class="md-tag md-tag--primary">✨ v2.0 - High Fidelity Edition</span>
-  </p>
 </div>
-
-[:material-book-open-page-variant: Browse Complete Action Library](wiki.md){ .md-button .md-button--primary }
-[:material-rocket-launch: Quick Start Guide](installation.md){ .md-button }
-[:material-github: View on GitHub](https://github.com/carlos-camara/qa-hub-actions){ .md-button }
 
 ---
 
