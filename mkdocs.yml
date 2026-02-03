@@ -52,13 +52,12 @@ markdown_extensions:
   - pymdownx.snippets
   - pymdownx.tabbed:
       alternate_style: true
-  - pymdownx.blocks:
-      blocks:
-        - grid
-        - details
-        - html
-        - caption
-        - admonition
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.blocks.admonition
+  - pymdownx.blocks.details
+  - pymdownx.blocks.grid
+  - pymdownx.blocks.html
   - pymdownx.emoji:
       emoji_index: !!python/name:pymdownx.emoji.twemoji
       emoji_generator: !!python/name:pymdownx.emoji.to_svg
