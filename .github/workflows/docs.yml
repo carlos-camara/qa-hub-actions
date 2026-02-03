@@ -31,7 +31,14 @@ jobs:
           python -m pip install mkdocs-material pymdown-extensions>=10.7
       - name: Build Documentation
         run: |
-          mkdocs build
+          python -m mkdocs build
+      - name: Verify Build
+        run: |
+          ls -R site/
+          if [ ! -f "site/index.html" ]; then
+            echo "Error: index.html not found in site/ directory"
+            exit 1
+          fi
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
