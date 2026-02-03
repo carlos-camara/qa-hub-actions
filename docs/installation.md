@@ -1,53 +1,44 @@
-# 🏁 Getting Started
+# 🚀 Getting Started
 
-Using **QA Hub Actions** in your workflow is simple. All actions are versioned and ready to be consumed directly from your YAML configurations.
+Standardizing your QA pipelines with **QA Hub Actions** is straightforward. Our actions are designed to be modular, reusable, and compatible with any GitHub repository.
 
-## 🛠️ Basic Usage Pattern
+## 📦 Installation
 
-All actions follow a standard reference pattern:
+Since these are GitHub Actions, there is no "installation" in the traditional sense. You simply reference them in your workflow files.
 
-```yaml
-- uses: carlos-camara/qa-hub-actions/<action-name>@main
-  with:
-    <input-parameter>: <value>
-```
+### Basic Implementation
 
-> [!NOTE]
-> While `@main` is convenient for the latest features, we recommend pinning to a specific version (e.g., `@v1`) for production stability.
-
-## 🚀 Building your first Pipeline
-
-Here is a recommended baseline for a modern QA pipeline using our core actions:
+Add a step to your `.github/workflows/your-pipeline.yml`:
 
 ```yaml
 jobs:
-  automation:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      # 1. Setup Python & Node with automatic caching
+      # 1. Setup the environment
       - uses: carlos-camara/qa-hub-actions/setup-environment@main
         with:
-          node-version: '20'
           python-version: '3.11'
+          node-version: '20'
 
-      # 2. Run your specific test suite
+      # 2. Run your tests
       - uses: carlos-camara/qa-hub-actions/run-tests@main
         with:
-          run-api: 'true'
-          test-command-api: "npm run test:api"
-
-      # 3. Publish results with a PR summary
-      - uses: carlos-camara/qa-hub-actions/collect-and-publish@main
-        if: always()
-        with:
-          reports-path: "results"
+          test-command-api: "pytest tests/api"
 ```
 
-## 🔐 Credentials & Secrets
+## 🔐 Security & Permissions
 
-Most actions use the default `GITHUB_TOKEN` automatically. For integrations like Slack or S3, you will need to provide your own secrets as inputs.
+Most actions require the standard `${{ secrets.GITHUB_TOKEN }}`. For actions that interact with external services (like Slack or AWS S3), you'll need to configure the appropriate Secrets in your repository settings.
+
+## 🗺️ Pathing Standards
+
+Our actions follow a "standard pathing" convention but are fully configurable. By default, they expect:
+- `reports/` for test results.
+- `requirements.txt` for Python dependencies.
+- `package.json` for Node.js dependencies.
 
 ---
-*Ready to scale? Explore the specific actions in the sidebar.*
+[Explore the Action Catalog](index.md#action-ecosystem)
