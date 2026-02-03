@@ -29,31 +29,5 @@ Can't find what you're looking for? Use the search bar above or check this categ
 
 ---
 
-## 📦 Action Ecosystem
-
-<div class="grid cards" markdown>
-
-- :material-engine: **Core Engine**
-
-  * **[Run Tests](actions/run-tests.md)**: The heartbeat of execution.
-  * **[Setup Env](actions/setup-environment.md)**: High-speed cached environments.
-  * **[Collect](actions/collect-and-publish.md)**: Unified JUnit & Screenshot reporting.
-
-- :material-shield-check: **Security & Quality**
-
-  * **[Security Audit](actions/security-audit.md)**: Dependency & Static analysis.
-  * **[Linting](actions/lint-codebase.md)**: Multi-language format audit.
-  * **[Link Checker](actions/link-checker.md)**: Maintain documentation health.
-
-- :material-chart-bar: **Reporting & Pages**
-
-  * **[Slack Notify](actions/slack-notify.md)**: Instant team visibility.
-  * **[Deploy Pages](actions/deploy-gh-pages.md)**: Host your QA dashboards.
-  * **[Deploy S3](actions/deploy-reports-s3.md)**: Industrial-grade artifact storage.
-
-</div>
-
----
-
 > [!IMPORTANT]
 > **Show All Content**: If you are looking for the technical specifications (Inputs/Outputs) of every single action, please visit the **[Global Action Wiki](wiki.md)** directly.
