@@ -1,44 +1,28 @@
-# 🚀 Setup QA Environment
+# ⚙️ Action: Setup Environment
 
-<div align="center">
+Smart multi-runtime preparation with automatic caching.
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge&logo=none)
-![Status](https://img.shields.io/badge/status-Stable-success?style=for-the-badge&logo=none)
+## 📖 What it does
+- **Multi-Runtime Suport**: Configures Python and Node.js in a single step.
+- **Smart Caching**: Optimizes `npm` and `pip` caching based on lock files.
+- **Stability**: Ensures a clean, consistent environment for every test run.
 
-**Standardized, cached environment setup for Python and Node.js testing stacks.**
+## 🛠️ Configuration
 
-</div>
+| Input | Default | Description |
+| :--- | :---: | :--- |
+| `node-version` | `'20'` | Version of Node.js. |
+| `python-version` | `'3.11'` | Version of Python. |
+| `cache` | `'true'` | Toggle caching. |
 
----
-
-## 🚀 Overview
-
-This action eliminates the boilterplate of setting up test environments. It handles caching, language versioning, and dependency installation for both Node.js and Python runtimes in a single, clean step.
-
-### Key Features
-- **🐍 Multi-Runtime**: setup Node.js and Python independently or together.
-- **⚡ Smart Caching**: Automatically configured cache for `npm` and `pip`.
-- **🔧 Custom Install**: Supports custom installation commands or defaults to `npm ci`/`pip install -r requirements.txt`.
-
-## 🛠️ Usage
+## 🚀 Quick Start
 
 ```yaml
 - uses: carlos-camara/qa-hub-actions/setup-environment@v1
   with:
     node-version: '20'
-    python-version: '3.11'
+    python-version: '3.12'
 ```
 
-## ⚙️ Inputs
-
-| Name | Description | Required | Default |
-| :--- | :--- | :---: | :--- |
-| `node-version` | Node.js version. Empty to skip. | No | `''` |
-| `python-version` | Python version. Empty to skip. | No | `''` |
-| `node-install-command` | Custom Node install command. | No | `npm install` |
-| `python-install-command` | Custom Python install command. | No | `pip install ...` |
-
 ---
-<div align="center">
-  <sub>Powered by QA Hub Actions Ecosystem</sub>
-</div>
+[View full documentation →](https://carlos-camara.github.io/qa-hub-actions/actions/setup-environment/)
