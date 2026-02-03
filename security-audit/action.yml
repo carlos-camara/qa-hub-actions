@@ -20,6 +20,10 @@ inputs:
     description: 'Whether to perform static analysis with Bandit'
     required: false
     default: 'true'
+  bandit-skip:
+    description: 'Comma-separated list of Bandit test IDs to skip (e.g., B101,B601)'
+    required: false
+    default: ''
 
 runs:
   using: 'composite'
@@ -42,4 +46,9 @@ runs:
     - name: Static Analysis (Bandit)
       if: inputs.scan-code == 'true'
       shell: bash
-      run: bandit -r ${{ inputs.target-path }}
+      run: |
+        if [ -n "${{ inputs.bandit-skip }}" ]; then
+          bandit -r ${{ inputs.target-path }} -s ${{ inputs.bandit-skip }}
+        else
+          bandit -r ${{ inputs.target-path }}
+        fi
