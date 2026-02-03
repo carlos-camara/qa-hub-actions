@@ -1,5 +1,12 @@
 # 🚀 Python Auto-Release
 
+/// details | At a Glance
+- **Category**: Maintenance & CI
+- **Complexity**: Medium
+- **Version**: v1.0.0 (Stable)
+- **Primary Tool**: Python Semantic Release
+///
+
 Hands-free versioning, changelog generation, and GitHub Releases for Python packages.
 
 ## 📖 Overview

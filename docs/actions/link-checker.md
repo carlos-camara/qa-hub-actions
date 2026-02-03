@@ -1,5 +1,12 @@
 # 🔗 Link Checker
 
+/// details | At a Glance
+- **Category**: Quality & Security
+- **Complexity**: Low
+- **Version**: v1.0.0 (Stable)
+- **Primary Tool**: Lychee
+///
+
 Maintain a high-quality documentation site by automatically checking for broken links.
 
 ## 📖 Overview

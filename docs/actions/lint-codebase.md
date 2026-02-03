@@ -1,5 +1,12 @@
 # 🧶 Lint Codebase
 
+/// details | At a Glance
+- **Category**: Quality & Security
+- **Complexity**: Low
+- **Version**: v1.5.0 (Stable)
+- **Primary Tool**: Super-Linter / Flake8
+///
+
 Unified linting engine to ensure code style consistency across the entire repository.
 
 ## 📖 Overview
