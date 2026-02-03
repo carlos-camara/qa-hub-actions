@@ -1,28 +1,28 @@
 <div align="center">
 
-  <img src="https://socialify.git.ci/carlos-camara/qa-hub-actions/image?description=1&font=Inter&language=1&name=QA%20Hub%20Actions&owner=1&pattern=Circuit%20Board&theme=Dark" alt="QA Hub Actions" width="640" height="320" />
+  <img src="https://socialify.git.ci/carlos-camara/qa-hub-actions/image?description=Enterprise-grade%20reusable%20GitHub%20Actions%20for%20modern%20QA%20pipelines.&font=Inter&language=1&name=QA%20Hub%20Actions&owner=1&pattern=Circuit%20Board&theme=Dark" alt="QA Hub Actions" width="640" height="320" />
 
   <br />
 
-  [![Workflow Status](https://img.shields.io/github/actions/workflow/status/carlos-camara/qa-hub-actions/lint.yml?style=for-the-badge&logo=github&label=Linting)](https://github.com/carlos-camara/qa-hub-actions/actions)
-  [![Latest Release](https://img.shields.io/github/v/release/carlos-camara/qa-hub-actions?style=for-the-badge&color=blue)](https://github.com/carlos-camara/qa-hub-actions/releases)
-  [![License](https://img.shields.io/github/license/carlos-camara/qa-hub-actions?style=for-the-badge&color=green)](LICENSE)
+  [![Wiki](https://img.shields.io/badge/Documentation-Wiki-blue?style=for-the-badge&logo=github&logoColor=white)](https://carlos-camara.github.io/qa-hub-actions/)
+  [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+  [![Actions](https://img.shields.io/badge/Actions-13-orange?style=for-the-badge)](https://carlos-camara.github.io/qa-hub-actions/#core-engine)
 
   <br />
   
   <p>
-    <b>The Core Automation Engine of QA Hub</b>
+    <b>Standardizing the standard of quality.</b>
     <br>
-    A collection of professional-grade, reusable GitHub Actions designed to bring consistency, speed, and deep visibility to your testing pipelines.
+    A collection of modular, professional-grade GitHub Actions designed to provide deep visibility and consistent quality across all your repositories.
   </p>
 
 </div>
 
 ---
 
-## ⚡ Pipeline Architecture
+## ⚡ The Pipeline Ecosystem
 
-Our actions are designed to work in synergy, creating a seamless flow from environment setup to stakeholder notification.
+Our actions are architected to work as a unified ecosystem, moving from environment preparation to stakeholder notification.
 
 ```mermaid
 graph LR
@@ -30,78 +30,50 @@ graph LR
     B -- 2. Execute --> C["📊 Collect & Publish"]
     C -- 3. Report --> D{"Integrations"}
     D -- Notify --> E["📢 Slack Notification"]
-    D -- Verify --> F["📉 Perf Baseline"]
+    D -- Audit --> F["🛡️ Security Audit"]
     
-    style A fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
-    style B fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
-    style C fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
-    style E fill:#fffde7,stroke:#fbc02d,stroke-width:2px
-    style F fill:#ffebee,stroke:#c62828,stroke-width:2px
+    style A fill:#e8eaf6,stroke:#3f51b5,stroke-width:2px
+    style B fill:#e8f5e9,stroke:#4caf50,stroke-width:2px
+    style C fill:#fce4ec,stroke:#e91e63,stroke-width:2px
+    style E fill:#fff3e0,stroke:#ff9800,stroke-width:2px
 ```
 
-## 📦 Available Actions
+## 📦 Action Registry
 
-| Action | Status | Description |
-| :--- | :---: | :--- |
-| **[Setup Environment](./setup-environment)** | `Stable` | Smart multi-runtime (Node/Python) setup with automatic caching. |
-| **[Run QA Test Suite](./run-tests)** | `Stable` | Unified execution engine for Unit, API, GUI, and Performance tests. |
-| **[Collect & Publish](./collect-and-publish)** | `Stable` | Aggregates reports and publishes PR-integrated summaries. |
-| **[Slack Notification](./slack-notify)** | `Beta` | Sends rich, formatted test status updates to Slack channels. |
-| **[Perf Baseline](./performance-baseline-check)** | `Beta` | Detects performance regressions against established baselines. |
-| **[Lint Codebase](./lint-codebase)** | `Stable` | Enforces code quality standards using Super-Linter. |
-| **[Deploy to S3](./deploy-reports-s3)** | `Stable` | Securely deploys test artifacts to AWS S3. |
-| **[Deploy to GH Pages](./deploy-gh-pages)** | `Stable` | Publishes HTML reports to GitHub Pages. |
-| **[PR Labeler](./pr-labeler)** | `Stable` | Automatically labels PRs based on file paths. |
-| **[Security Audit](./security-audit)** | `Stable` | Scans dependencies and code for Python vulnerabilities. |
-| **[Link Checker](./link-checker)** | `Stable` | Finds broken links in Markdown files. |
-| **[Auto-Release](./python-auto-release)** | `Stable` | Automates Python versioning and GitHub Releases. |
+| Category | Actions |
+| :--- | :--- |
+| **🚀 Core Engines** | [Run Tests](./run-tests) • [Setup Env](./setup-environment) • [Collect & Publish](./collect-and-publish) |
+| **🛡️ Quality & Sec** | [Security Audit](./security-audit) • [Link Checker](./link-checker) • [Linting](./lint-codebase) • [Performance](./performance-baseline-check) |
+| **📢 Distribution** | [Slack](./slack-notify) • [GH Pages](./deploy-gh-pages) • [AWS S3](./deploy-reports-s3) |
+| **🏗️ Maintenance** | [Labels](./pr-labeler) • [Auto-Release](./python-auto-release) |
 
-## 🌍 Supported Ecosystems
-
-QA Hub Actions are built to be language-agnostic while providing deep support for modern QA stacks:
-
-- **Runtimes**: Node.js (v18, v20, v22), Python (v3.9 - v3.12)
-- **Test Frameworks**: Playwright, Cypress, Behave, Pytest, Jest, Locust
-- **Reporting**: JUnit XML, Allure, Mochawesome, custom JSON
-
-## 🚀 Getting Started
-
-Build a complete QA pipeline in seconds:
+## 🚀 Getting Started in 30 Seconds
 
 ```yaml
-jobs:
-  qa:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+steps:
+  - uses: actions/checkout@v4
+  
+  # 1. Setup multi-runtime env with caching
+  - uses: carlos-camara/qa-hub-actions/setup-environment@v1
 
-      # 1. Automatic Node/Python Setup with Caching
-      - uses: carlos-camara/qa-hub-actions/setup-environment@v1
-        with:
-          node-version: '20'
+  # 2. Run your specific engine (API/GUI/Perf)
+  - uses: carlos-camara/qa-hub-actions/run-tests@v1
+    with:
+      test-command-api: "python -m pytest tests/"
 
-      # 2. Parallel Test Execution (API/GUI/Perf)
-      - uses: carlos-camara/qa-hub-actions/run-tests@v1
-        with:
-          test-command-api: "npm run test:api"
-
-      # 3. Unified Reporting & Artifact Collection
-      - uses: carlos-camara/qa-hub-actions/collect-and-publish@v1
-        if: always()
-        with:
-          reports-path: "results/api"
+  # 3. Aggregate 100% of results & post PR Summary
+  - uses: carlos-camara/qa-hub-actions/collect-and-publish@v1
+    if: always()
 ```
 
-## 💡 Pro Tips
+## 📖 Deep Documentation
 
-> [!TIP]
-> **Conditional Execution**: Use `run-api: false` or `run-gui: false` in the `run-tests` action to selectively run parts of your suite without complicated workflow logic.
+For detailed input/output parameters, advanced configurations, and real-world examples, visit our official documentation site:
 
-> [!IMPORTANT]
-> **Always use `if: always()`**: For `collect-and-publish`, ensure the action runs even if tests fail so you get your reports!
+🔗 **[https://carlos-camara.github.io/qa-hub-actions/](https://carlos-camara.github.io/qa-hub-actions/)**
 
 ---
 
 <p align="center">
-  Built by <b>Carlos Cámara</b>
+  Built with ❤️ for the QA Engineering community.
 </p>
