@@ -8,41 +8,32 @@
 
 The unified execution engine for all your testing needs. High-concurrency support, service health checks, and standardized reporting.
 
-## 📖 Overview
-
-The `run-tests` action is designed to be the single entry point for test execution. It can handle background services, wait for them to be healthy, and run API, GUI, and Performance tests in a single step.
-
 ## 🛠️ Inputs
 
 | Input | Description | Default |
-|-------|-------------|---------|
-| `test-command-api` | Command to run API tests. | `""` |
-| `test-command-gui` | Command to run GUI tests. | `""` |
-| `test-command-performance` | Command to run performance tests. | `""` |
+| :--- | :--- | :--- |
+| `start-services-command` | Command to start background services (e.g., `npm start &`). | `""` |
+| `health-check-urls` | Space-separated URLs to wait for (e.g., `http://localhost:3000`). | `""` |
+| `test-command-api` | Command for API tests (e.g., `npm run test:api`). | `""` |
+| `test-command-performance` | Command for Performance tests (e.g., `locust -f locustfile.py`). | `""` |
+| `test-command-gui` | Command for GUI tests (e.g., `npm run test:gui`). | `""` |
 | `run-api` | Whether to run API tests. | `true` |
-| `run-gui` | Whether to run GUI tests. | `true` |
 | `run-performance` | Whether to run performance tests. | `true` |
+| `run-gui` | Whether to run GUI tests. | `true` |
 | `headless` | Run GUI tests in headless mode. | `true` |
-| `enable-coverage` | Collect code coverage (Pytest). | `false` |
-| `coverage-module` | Target module for coverage. | `""` |
+| `enable-coverage` | Whether to collect code coverage (using Pytest). | `false` |
+| `coverage-module` | Module to collect coverage for. | `""` |
 
 ## 🚀 Usage Example
 
-### Running Pytest with Coverage
 ```yaml
 - uses: carlos-camara/qa-hub-actions/run-tests@main
   with:
+    start-services-command: "npm start &"
+    health-check-urls: "http://localhost:3000"
     test-command-api: "pytest tests/"
     enable-coverage: 'true'
-    coverage-module: "my_app"
-```
-
-### Running GUI Tests with Selenium
-```yaml
-- uses: carlos-camara/qa-hub-actions/run-tests@main
-  with:
-    test-command-gui: "behave features/"
-    headless: 'true'
+    coverage-module: "qa_framework"
 ```
 
 ---

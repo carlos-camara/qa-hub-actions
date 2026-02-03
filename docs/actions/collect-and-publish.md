@@ -8,17 +8,16 @@
 
 Aggregate test results and generate a premium reporting summary directly in your Pull Request.
 
-## 📖 Overview
-
-This action scans your repository for test results (JUnit XML, JSON, etc.), aggregates them into a unified report, and posts a high-fidelity summary as a PR comment.
-
 ## 🛠️ Inputs
 
 | Input | Description | Default |
-|-------|-------------|---------|
-| `reports-path` | Directory where test reports are stored. | `""` |
-| `github-token` | Token for posting PR comments. | `${{ github.token }}` |
-| `artifact-name` | Name for the stored artifact. | `"test-reports"` |
+| :--- | :--- | :--- |
+| `reports-path` | Path to test reports directory (API/GUI). | `""` |
+| `screenshots-path` | Path/Pattern for screenshots (e.g., `screenshots/*.png`). | `""` |
+| `performance-reports-path` | Path to performance reports directory. | `""` |
+| `junit-results-dir` | Directory where all JUnit XMLs will be aggregated. | `junit-results` |
+| `upload-artifacts` | Whether to upload artifact reports. | `true` |
+| `publish-results` | Whether to publish the test reporter summary. | `true` |
 
 ## 🚀 Usage Example
 
@@ -27,6 +26,8 @@ This action scans your repository for test results (JUnit XML, JSON, etc.), aggr
   if: always()
   with:
     reports-path: "results/test_run"
+    screenshots-path: "features/resources/screenshots/*.png"
+    upload-artifacts: 'true'
 ```
 
 ---

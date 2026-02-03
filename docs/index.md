@@ -3,18 +3,18 @@
 <div class="md-typeset">
   <p class="md-description">
     Standardize. Accelerate. Audit. <br>
-    The definitive collection of enterprise-grade reusable GitHub Actions.
+    The definitive collection of enterprise-grade reusable GitHub Actions for modern QA pipelines.
   </p>
 </div>
 
 [:octicons-arrow-right-24: Getting Started](installation.md){ .md-button .md-button--primary }
-[:octicons-code-24: View Example](https://github.com/carlos-camara/qa-hub-framework/tree/main/.github/workflows){ .md-button }
+[:octicons-mark-github-16: GitHub Repository](https://github.com/carlos-camara/qa-hub-actions){ .md-button }
 
 ---
 
 ## 📦 Action Ecosystem
 
-Explore our modular components designed to work in synergy.
+Explore our modular components designed to work in synergy. Every action is meticulously documented with inputs, outputs, and real-world examples.
 
 <div class="grid cards" markdown>
 
@@ -22,66 +22,46 @@ Explore our modular components designed to work in synergy.
 
     ---
 
-    The heartbeat of every pipeline. Setup, health, and execution.
-
-    [:octicons-arrow-right-24: Run Tests](actions/run-tests.md)
-    [:octicons-arrow-right-24: Setup Env](actions/setup-environment.md)
-    [:octicons-arrow-right-24: Collect](actions/collect-and-publish.md)
+    The heartbeat of every pipeline.
+    
+    *   **[Run Tests](actions/run-tests.md)**: Multi-runtime execution.
+    *   **[Setup Env](actions/setup-environment.md)**: Zero-config setup.
+    *   **[Collect](actions/collect-and-publish.md)**: Unified reporting.
 
 -   :material-shield-check: __Security & Quality__
 
     ---
 
-    Protect your code and dependencies with automated audits.
+    Protect your codebase automatically.
 
-    [:octicons-arrow-right-24: Security Audit](actions/security-audit.md)
-    [:octicons-arrow-right-24: Linting](actions/lint-codebase.md)
-    [:octicons-arrow-right-24: Links](actions/link-checker.md)
+    *   **[Security Audit](actions/security-audit.md)**: CVE & Bandit scans.
+    *   **[Linting](actions/lint-codebase.md)**: Super-Linter powered.
+    *   **[Link Checker](actions/link-checker.md)**: Docs health check.
+    *   **[Performance](actions/performance-baseline-check.md)**: Regression audit.
 
--   :material-chart-box: __Reporting__
-
-    ---
-
-    High-fidelity visibility across Slack, S3, and Pages.
-
-    [:octicons-arrow-right-24: Slack](actions/slack-notify.md)
-    [:octicons-arrow-right-24: S3 Sync](actions/deploy-reports-s3.md)
-    [:octicons-arrow-right-24: Pages](actions/deploy-gh-pages.md)
-
--   :material-robot-industrial: __Maintenance__
+-   :material-chart-bar: __Reporting & Pages__
 
     ---
 
-    Automate releases, labeling, and versioning protocols.
+    Visibility for your stakeholders.
 
-    [:octicons-arrow-right-24: Release](actions/python-auto-release.md)
-    [:octicons-arrow-right-24: Labeler](actions/pr-labeler.md)
-    [:octicons-arrow-right-24: Results](actions/upload-results.md)
+    *   **[Slack Notify](actions/slack-notify.md)**: Rich alerts.
+    *   **[Deploy Pages](actions/deploy-gh-pages.md)**: Documentation host.
+    *   **[Deploy S3](actions/deploy-reports-s3.md)**: Artifact storage.
+    *   **[Upload Results](actions/upload-results.md)**: Repo integration.
+
+-   :material-robot: __Maintenance & CI__
+
+    ---
+
+    Automate the boring stuff.
+
+    *   **[PR Labeler](actions/pr-labeler.md)**: Automatic triage.
+    *   **[Auto-Release](actions/python-auto-release.md)**: Semantic versioning.
 
 </div>
 
 ---
 
-## ⚡ The Architecture
-
-All actions are designed to minimize boilerplate and maximize reliability.
-
-```mermaid
-graph LR
-    Setup["Setup Environment"] --> Run["Run QA Suite"]
-    Run --> Collect["Collect Results"]
-    Collect --> Notify["Slack / Pages / S3"]
-    
-    subgraph AuditGroup ["🛡️ Security Gates"]
-        Audit["Security Audit"]
-        Lint["Lint Codebase"]
-    end
-    
-    Run -. Parallel .-> AuditGroup
-```
-
----
-
-<p align="center">
-  <i>Built for performance. Engineered for quality.</i>
-</p>
+> [!TIP]
+> **Pro Tip**: Use the `Setup Env` action as the first step in almost any workflow to ensure a clean, cached, and reproducible environment.

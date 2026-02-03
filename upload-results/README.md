@@ -1,45 +1,32 @@
-# 📤 Upload Test Results to Repo
+# 📥 Upload Test Results to Repo
 
-<div align="center">
+> Part of the [QA Hub Actions](https://github.com/carlos-camara/qa-hub-actions) ecosystem.
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge&logo=none)
-![Status](https://img.shields.io/badge/status-Stable-success?style=for-the-badge&logo=none)
+Downloads standard QA Hub test reports and commits them to the repository's specified branch.
 
-**Automatically commit and push test reports back to the repository.**
+## ⚡ Quick Info
 
-</div>
+- **Category**: Maintenance & CI
+- **Complexity**: Medium
+- **Version**: v1.0.0
 
----
-
-## 🚀 Overview
-
-This action closes the loop on reporting by checking test artifacts back into the repository. Only use this if you want to store reports (like HTML dossiers or history files) directly in your git history (e.g., on a `gh-pages` branch or a dedicated `results` branch).
-
-### Key Features
-- **🤖 Auto-Commit**: Detects changes in reports and screenshots and commits them.
-- **🔀 Branch Targeting**: Can push to a specific branch (e.g., `gh-pages`).
-- **♻️ Smart Merge**: Merges new results with existing ones in the target folder.
-
-## 🛠️ Usage
+## 🚀 Usage
 
 ```yaml
-- uses: carlos-camara/qa-hub-actions/upload-results@v1
+- uses: carlos-camara/qa-hub-actions/upload-results@main
   with:
     run-id: ${{ github.run_id }}
-    branch: 'gh-pages'
+    branch: "gh-pages"
 ```
 
-## ⚙️ Inputs
+## 🛠️ Inputs
 
-| Name | Description | Required | Default |
-| :--- | :--- | :---: | :--- |
-| `run-id` | **REQUIRED**. Run ID to download artifacts from. | **Yes** | - |
-| `branch` | **REQUIRED**. Target branch to push to. | **Yes** | - |
-| `upload-reports` | Process consolidated test reports? | No | `true` |
-| `upload-perf` | Process Performance reports? | No | `true` |
-| `commit-message` | Custom commit message. | No | `docs: ...` |
+| Input | Description | Default |
+| :--- | :--- | :--- |
+| `run-id` | GitHub Workflow Run ID. | `REQUIRED` |
+| `branch` | Target branch name. | `REQUIRED` |
+| `upload-reports` | Process test reports? | `'true'` |
+| `commit-message` | Custom commit message. | `'docs: auto-generate...'` |
 
 ---
-<div align="center">
-  <sub>Powered by QA Hub Actions Ecosystem</sub>
-</div>
+[View Full Documentation](https://carlos-camara.github.io/qa-hub-actions/actions/upload-results/)

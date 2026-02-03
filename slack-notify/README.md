@@ -1,46 +1,36 @@
 # 📢 Slack QA Notification
 
-<div align="center">
+> Part of the [QA Hub Actions](https://github.com/carlos-camara/qa-hub-actions) ecosystem.
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge&logo=none)
-![Status](https://img.shields.io/badge/status-Beta-yellow?style=for-the-badge&logo=none)
+Send beautifully formatted test summaries and environment status to a Slack channel.
 
-**Send beautifully formatted, rich test summaries to your Slack channels.**
+## ⚡ Quick Info
 
-</div>
+- **Category**: Reporting & Notifications
+- **Complexity**: Low
+- **Version**: v1.0.2
+- **Required Secrets**: `SLACK_WEBHOOK_URL`
 
----
-
-## 🚀 Overview
-
-Keep your team in the loop with real-time test status updates. This action sends a visually structured Slack message containing the run status, a summary of results, and direct links to the GitHub Actions execution.
-
-### Key Features
-- **🎨 Rich Formatting**: Uses Slack attachments with color-coded status (✅ Success / ❌ Failure).
-- **🔗 Contextual Links**: Links directly to the specific GitHub Run for quick debugging.
-- **📝 Custom Summaries**: Supports passing a custom text summary of the results.
-
-## 🛠️ Usage
+## 🚀 Usage
 
 ```yaml
-- uses: carlos-camara/qa-hub-actions/slack-notify@v1
+- name: Notify Slack
+  uses: carlos-camara/qa-hub-actions/slack-notify@main
   if: always()
   with:
-    slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+    slack-webhook-url: ${{ secrets.SLACK_WEBHOOK }}
     status: ${{ job.status }}
-    test-summary: 'API: 50 passed, 2 failed'
+    test-summary: "Finished execution for PR #${{ github.event.number }}"
 ```
 
-## ⚙️ Inputs
+## 🛠️ Inputs
 
-| Name | Description | Required | Default |
-| :--- | :--- | :---: | :--- |
-| `slack-webhook-url` | **REQUIRED**. Slack Webhook URL. | **Yes** | - |
-| `status` | **REQUIRED**. Run status (`success`, `failure`, `cancelled`). | **Yes** | `success` |
-| `test-summary` | Text summary of results. | No | `Tests completed.` |
-| `project-name` | Project name for the header. | No | Repo Name |
+| Input | Description | Default |
+| :--- | :--- | :--- |
+| `slack-webhook-url` | The Slack Webhook URL. | `REQUIRED` |
+| `status` | Job status (`success`, `failure`, `cancelled`). | `'success'` |
+| `test-summary` | Summary text for the notification. | `'Tests completed successfully.'` |
+| `project-name` | Name of the project. | `${{ github.repository }}` |
 
 ---
-<div align="center">
-  <sub>Powered by QA Hub Actions Ecosystem</sub>
-</div>
+[View Full Documentation](https://carlos-camara.github.io/qa-hub-actions/actions/slack-notify/)

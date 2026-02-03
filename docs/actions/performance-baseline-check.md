@@ -1,26 +1,30 @@
 # 📉 Performance Baseline
 
+!!! info "At a Glance"
+    - **Category**: Quality & Security
+    - **Complexity**: Low
+    - **Version**: v1.1.0 (Stable)
+    - **Primary Tool**: Node.js JSON Comparator
+
 Detect performance regressions by comparing test run metrics against an established baseline.
-
-## 📖 Overview
-
-Calculates the performance delta between the current run and a stored baseline. It helps identify latency jumps or throughput drops before they reach production.
 
 ## 🛠️ Inputs
 
 | Input | Description | Default |
-|-------|-------------|---------|
-| `current-metrics-path` | Path to the current performance JSON. | `REQUIRED` |
-| `baseline-path` | Path to the baseline JSON. | `""` |
-| `threshold` | Percentage of regression allowed. | `'5'` |
+| :--- | :--- | :--- |
+| `current-metrics` | Path to current JSON metrics (e.g., `results/perf.json`). | `REQUIRED` |
+| `baseline-metrics` | Path to baseline JSON metrics (e.g., `baseline/perf.json`). | `REQUIRED` |
+| `threshold` | Percentage threshold for regression (e.g., `10` for 10% slowdown). | `'10'` |
+| `failure-exit-code` | Exit code to return if regression is detected. | `'1' |
 
 ## 🚀 Usage Example
 
 ```yaml
 - uses: carlos-camara/qa-hub-actions/performance-baseline-check@main
   with:
-    current-metrics-path: "results/performance.json"
-    threshold: "10"
+    current-metrics: "results/performance.json"
+    baseline-metrics: "baseline/performance.json"
+    threshold: "5"
 ```
 
 ---

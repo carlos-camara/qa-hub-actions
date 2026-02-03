@@ -1,46 +1,33 @@
-# 🚀 Deploy to GitHub Pages
+# 📂 Deploy to GitHub Pages
 
-<div align="center">
+> Part of the [QA Hub Actions](https://github.com/carlos-camara/qa-hub-actions) ecosystem.
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge&logo=none)
-![Status](https://img.shields.io/badge/status-Stable-success?style=for-the-badge&logo=none)
+Builds a Node.js project and deploys it to GitHub Pages. Perfect for documentation or dashboard sites.
 
-**Build and deploy Node.js applications directly to GitHub Pages.**
+## ⚡ Quick Info
 
-</div>
+- **Category**: Reporting & Notifications
+- **Complexity**: Low
+- **Version**: v1.2.0
 
----
-
-## 🚀 Overview
-
-A streamlined action to build your modern web application (React, Vue, Vite, etc.) and deploy it to GitHub Pages. It handles dependency installation, building, and artifact upload in a single step.
-
-### Key Features
-- **⚡ Fast Builds**: Uses `npm ci` and caching for optimal speed.
-- **🔧 Configurable**: Supports custom build commands and output directories.
-- **🔐 Secure**: Uses GitHub's native `actions/deploy-pages`.
-
-## 🛠️ Usage
+## 🚀 Usage
 
 ```yaml
-- uses: carlos-camara/qa-hub-actions/deploy-gh-pages@v1
+- name: Deploy Wiki
+  uses: carlos-camara/qa-hub-actions/deploy-gh-pages@main
   with:
-    node-version: '20'
-    build-command: 'npm run build'
-    dist-dir: './dist'
+    dist-dir: "site/"
+    build-command: "mkdocs build"
 ```
 
-## ⚙️ Inputs
+## 🛠️ Inputs
 
-| Name | Description | Required | Default |
-| :--- | :--- | :---: | :--- |
-| `node-version` | Node.js version to use for the build. | No | `20` |
-| `install-command` | Command to install dependencies. | No | `npm ci` |
-| `build-command` | Command to build the project. | No | `npm run build` |
-| `dist-dir` | Directory containing the build output to deploy. | No | `./dist` |
-| `vite-api-url` | Inject `VITE_API_URL` environment variable during build. | No | `''` |
+| Input | Description | Default |
+| :--- | :--- | :--- |
+| `node-version` | Node.js version. | `'20'` |
+| `install-command` | Command to install dependencies. | `'npm ci'` |
+| `build-command` | Command to build the project. | `'npm run build'` |
+| `dist-dir` | Directory containing build artifacts. | `'./dist'` |
 
 ---
-<div align="center">
-  <sub>Powered by QA Hub Actions Ecosystem</sub>
-</div>
+[View Full Documentation](https://carlos-camara.github.io/qa-hub-actions/actions/deploy-gh-pages/)

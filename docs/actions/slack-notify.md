@@ -8,17 +8,14 @@
 
 Bring real-time visibility to your test runs with rich, formatted Slack alerts.
 
-## 📖 Overview
-
-This action sends a detailed summary of your test run results (pass/fail status, duration, and meta-data) directly to a Slack channel using Incoming Webhooks.
-
 ## 🛠️ Inputs
 
 | Input | Description | Default |
-|-------|-------------|---------|
-| `slack-webhook-url` | The Slack Webhook URL. | `""` |
-| `status` | The result of the test run. | `'success'` |
-| `channel` | Optional channel override. | `""` |
+| :--- | :--- | :--- |
+| `slack-webhook-url` | The Slack Webhook URL to send the notification to. | `REQUIRED` |
+| `status` | The status of the test run (e.g., `success`, `failure`, `cancelled`). | `'success'` |
+| `test-summary` | A brief summary of the test results to include in the message. | `'Tests completed successfully.'` |
+| `project-name` | The name of the project being tested. | `${{ github.repository }}` |
 
 ## 🚀 Usage Example
 
@@ -28,6 +25,7 @@ This action sends a detailed summary of your test run results (pass/fail status,
   with:
     slack-webhook-url: ${{ secrets.SLACK_WEBHOOK }}
     status: ${{ job.status }}
+    test-summary: "Finished execution for PR #${{ github.event.number }}"
 ```
 
 ---

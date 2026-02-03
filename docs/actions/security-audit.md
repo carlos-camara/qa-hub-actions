@@ -8,17 +8,14 @@
 
 Automated vulnerability scanning for Python dependencies and static code analysis.
 
-## 📖 Overview
-
-The `security-audit` action combines `Safety` (dependency vulnerability check) and `Bandit` (static code analysis) to ensure your automation code follows security best practices.
-
 ## 🛠️ Inputs
 
 | Input | Description | Default |
-|-------|-------------|---------|
-| `target-path` | Directory to scan with Bandit. | `"."` |
-| `python-version` | Python version for the audit. | `'3.11'` |
-| `scan-dependencies` | Whether to check dependencies. | `'true'` |
+| :--- | :--- | :--- |
+| `python-version` | Python version to use. | `'3.11'` |
+| `target-path` | Path to scan with Bandit. | `'.'` |
+| `scan-dependencies` | Whether to check dependencies with Safety. | `'true'` |
+| `scan-code` | Whether to perform static analysis with Bandit. | `'true'` |
 
 ## 🚀 Usage Example
 
@@ -26,6 +23,7 @@ The `security-audit` action combines `Safety` (dependency vulnerability check) a
 - uses: carlos-camara/qa-hub-actions/security-audit@main
   with:
     target-path: "qa_framework/"
+    scan-dependencies: 'true'
 ```
 
 ---
