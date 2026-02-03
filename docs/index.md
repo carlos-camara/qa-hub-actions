@@ -29,11 +29,11 @@ Can't find what you're looking for? Use the search bar above or check this categ
 
 <div class="grid cards" markdown>
 
--   :material-engine: __Core Engine__
+- :material-engine: **Core Engine**
 
-    *   **[Run Tests](actions/run-tests.md)**: The heartbeat of execution.
-    *   **[Setup Env](actions/setup-environment.md)**: High-speed cached environments.
-    *   **[Collect](actions/collect-and-publish.md)**: Unified JUnit & Screenshot reporting.
+  * **[Run Tests](actions/run-tests.md)**: The heartbeat of execution.
+  * **[Setup Env](actions/setup-environment.md)**: High-speed cached environments.
+  * **[Collect](actions/collect-and-publish.md)**: Unified JUnit & Screenshot reporting.
 
 - :material-shield-check: **Security & Quality**
 
