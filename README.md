@@ -75,7 +75,3 @@ For detailed input/output parameters, advanced configurations, and real-world ex
 🔗 **[https://carlos-camara.github.io/qa-hub-actions/](https://carlos-camara.github.io/qa-hub-actions/)**
 
 ---
-
-<p align="center">
-  Built with ❤️ for the QA Engineering community.
-</p>
