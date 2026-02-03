@@ -20,7 +20,7 @@ Unified linting engine to ensure code style consistency across the entire reposi
 | `validate-markdown` | Lint Markdown files? | `'true'` |
 | `validate-actions` | Lint GitHub Actions? | `'true'` |
 | `validate-ts` | Lint TypeScript/JS? | `'true'` |
-| `filter-regex-exclude` | Regex for ignored paths. | `(\.venv/|_pycache_/|reports/|\.git/|\.pytest_cache/|node_modules/|dist/|coverage/)` |
+| `filter-regex-exclude` | Regex for ignored paths. | `(\.venv/\|_pycache_/\|reports/\|\.git/\|\.pytest_cache/\|node_modules/\|dist/\|coverage/)` |
 
 ## 🚀 Usage Example
 

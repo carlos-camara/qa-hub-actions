@@ -4,10 +4,10 @@ We welcome contributions! Whether it's adding a new action, improving documentat
 
 ## 🛠️ Development Workflow
 
-1.  **Fork the repository** and create your branch from `main`.
-2.  **Add your Action**: Create a new folder with an `action.yml` and a `README.md`.
-3.  **Documentation**: Add a corresponding `.md` file in `docs/actions/` and update `mkdocs.yml`.
-4.  **Verification**: Ensure your action follows the composite action standards used in this repo.
+1. **Fork the repository** and create your branch from `main`.
+2. **Add your Action**: Create a new folder with an `action.yml` and a `README.md`.
+3. **Documentation**: Add a corresponding `.md` file in `docs/actions/` and update `mkdocs.yml`.
+4. **Verification**: Ensure your action follows the composite action standards used in this repo.
 
 ## 🖋️ Documentation Style Guide
 

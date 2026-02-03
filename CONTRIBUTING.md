@@ -13,13 +13,13 @@
 
 ## 🛠 Development Workflow
 
-1.  **Fork the repo** and create your branch from `main`.
-2.  **Make your changes**. If you are adding a new action, please follow the existing folder structure:
+1. **Fork the repo** and create your branch from `main`.
+2. **Make your changes**. If you are adding a new action, please follow the existing folder structure:
     - Root-level folder (kebab-case)
     - `action.yml` (metadata)
     - `README.md` (documentation)
-3.  **Validate**. Ensure your `action.yml` is well-formatted and includes branding (icon and color).
-4.  **Issue a Pull Request**. Provide a clear description of the new features or fixes.
+3. **Validate**. Ensure your `action.yml` is well-formatted and includes branding (icon and color).
+4. **Issue a Pull Request**. Provide a clear description of the new features or fixes.
 
 ## 📝 Coding Standards
 
