@@ -1,5 +1,12 @@
 # 🧪 Run QA Test Suite
 
+/// details | At a Glance
+- **Category**: Core Engine
+- **Complexity**: High
+- **Version**: v1.2.0 (Stable)
+- **Primary Tool**: Pytest / Behave / Locust
+///
+
 The unified execution engine for all your testing needs. High-concurrency support, service health checks, and standardized reporting.
 
 ## 📖 Overview

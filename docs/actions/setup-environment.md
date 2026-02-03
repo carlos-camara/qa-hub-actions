@@ -1,5 +1,12 @@
 # ⚙️ Setup Environment
 
+/// details | At a Glance
+- **Category**: Core Engine
+- **Complexity**: Low
+- **Version**: v1.1.0 (Stable)
+- **Primary Tool**: actions/setup-python / actions/setup-node
+///
+
 One-stop configuration for multi-runtime QA projects. Automatic caching and dependency management.
 
 ## 📖 Overview
