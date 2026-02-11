@@ -56,12 +56,18 @@ runs:
       if: inputs.test-command-api != ''
       shell: pwsh
       run: |
-        if ("${{ inputs.enable-coverage }}" -eq "true" -and "${{ inputs.coverage-module }}" -ne "") {
-          pytest --cov=${{ inputs.coverage-module }} tests/ --cov-report=xml
+        $enableCoverage = "${{ inputs.enable-coverage }}" -eq "true"
+        $coverageModule = "${{ inputs.coverage-module }}"
+        
+        if ($enableCoverage -and $coverageModule) {
+          echo "::notice::Running API tests with coverage for module: $coverageModule"
+          pytest --cov=$coverageModule tests/ --cov-report=xml
         } else {
+          echo "::notice::Running standard API tests"
           ${{ inputs.test-command-api }}
         }
-        # Standardize report stashing for this infrastructure
+        
+        # Standardize report stashing
         if (Test-Path "reports") {
           cp -r reports api_reports_tmp
           rm -rf reports/test_run
@@ -71,12 +77,14 @@ runs:
       if: inputs.test-command-performance != ''
       shell: pwsh
       run: |
+        echo "::notice::Executing Performance Stability Audit"
         ${{ inputs.test-command-performance }}
 
     - name: Run GUI Tests
       if: inputs.test-command-gui != ''
       shell: pwsh
       run: |
+        echo "::notice::Executing GUI Verification Suite"
         ${{ inputs.test-command-gui }}
       env:
         HEADLESS: ${{ inputs.headless }}
