@@ -28,23 +28,25 @@ Our actions are architected to work as a unified ecosystem, moving from environm
 
 ```mermaid
 graph LR
-    A["🚀 Setup Environment"] -- 1. Prepare --> B["🧪 Run QA Test Suite"]
-    B -- 2. Execute --> C["📊 Collect & Publish"]
-    C -- 3. Report --> D{"Integrations"}
-    D -- Notify --> E["📢 Slack Notification"]
-    D -- Audit --> F["🛡️ Security Audit"]
+    A["🚀 Setup Environment"] -- 1. Prepare --> B["🏗️ Setup Services"]
+    B -- 2. Orchestrate --> C["🧪 Run QA Test Suite"]
+    C -- 3. Execute --> D["📊 Collect & Publish"]
+    D -- 4. Report --> E{"Integrations"}
+    E -- Notify --> F["📢 Slack Notification"]
+    E -- Audit --> G["🛡️ Security Audit"]
     
     style A fill:#e8eaf6,stroke:#3f51b5,stroke-width:2px
-    style B fill:#e8f5e9,stroke:#4caf50,stroke-width:2px
-    style C fill:#fce4ec,stroke:#e91e63,stroke-width:2px
-    style E fill:#fff3e0,stroke:#ff9800,stroke-width:2px
+    style B fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px
+    style C fill:#e8f5e9,stroke:#4caf50,stroke-width:2px
+    style D fill:#fce4ec,stroke:#e91e63,stroke-width:2px
+    style F fill:#fff3e0,stroke:#ff9800,stroke-width:2px
 ```
 
 ## 📦 Action Registry
 
 | Category | Actions |
 | :--- | :--- |
-| **🚀 Core Engines** | [Run Tests](./run-tests) • [Setup Env](./setup-environment) • [Collect & Publish](./collect-and-publish) |
+| **🚀 Core Engines** | [Run Tests](./run-tests) • [Setup Env](./setup-environment) • [Setup Services](./setup-services) • [Collect & Publish](./collect-and-publish) |
 | **🛡️ Quality & Sec** | [Security Audit](./security-audit) • [Link Checker](./link-checker) • [Linting](./lint-codebase) • [Performance](./performance-baseline-check) |
 | **📢 Distribution** | [Slack](./slack-notify) • [GH Pages](./deploy-gh-pages) • [AWS S3](./deploy-reports-s3) |
 | **🏗️ Maintenance** | [Labels](./pr-labeler) • [Auto-Release](./python-auto-release) |

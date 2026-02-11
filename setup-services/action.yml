@@ -1,0 +1,36 @@
+name: 'Setup Services'
+description: '🚀 Orchestrate background services and wait for health check endpoints before test execution.'
+branding:
+  icon: 'server'
+  color: 'purple'
+inputs:
+  start-services-command:
+    description: 'Command to start background services (e.g., npm start &)'
+    required: true
+  health-check-urls:
+    description: 'Space-separated URLs to wait for (e.g., http://localhost:3000)'
+    required: true
+  health-check-timeout:
+    description: 'Timeout in milliseconds for health checks'
+    required: false
+    default: '60000'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Start Services
+      shell: bash
+      run: |
+        echo "Starting services: ${{ inputs.start-services-command }}"
+        ${{ inputs.start-services-command }}
+          
+    - name: Wait for Services
+      shell: bash
+      run: |
+        echo "Waiting for health checks: ${{ inputs.health-check-urls }}"
+        npx wait-on ${{ inputs.health-check-urls }} --timeout ${{ inputs.health-check-timeout }} || (
+          echo "::error::Health check failed for ${{ inputs.health-check-urls }}"
+          if [ -f "backend.log" ]; then echo "--- Backend Logs ---"; cat backend.log; fi
+          if [ -f "frontend.log" ]; then echo "--- Frontend Logs ---"; cat frontend.log; fi
+          exit 1
+        )

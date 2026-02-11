@@ -31,11 +31,15 @@ graph TD
 
 | Input | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `start-services-command` | `String` | `""` | Command to start your app (e.g., `npm start &`). |
-| `health-check-urls` | `String` | `""` | Space-separated URLs to wait for (e.g., `http://localhost:3000`). |
+| `start-services-command` | `String` | `""` | [DEPRECATED] Command to start your app. Use `setup-services` action. |
+| `health-check-urls` | `String` | `""` | [DEPRECATED] Space-separated URLs to wait for. Use `setup-services` action. |
 | `test-command-api` | `String` | `""` | Command for API tests (e.g., `pytest tests/api`). |
 | `test-command-gui` | `String` | `""` | Command for GUI tests (e.g., `npm run test:gui`). |
+| `test-command-performance` | `String` | `""` | Command for Performance tests (e.g., `locust -f locustfile.py`). |
 | `enable-coverage` | `Boolean`| `false`| Whether to collect code coverage. |
+
+!!! success "Simplified execution"
+    You no longer need to pass boolean flags like `run-api: true`. The action now automatically detects which tests to run based on the presence of the corresponding test command. This reduces redundancy and makes your workflows cleaner.
 
 ---
 

@@ -5,11 +5,11 @@ branding:
   color: 'green'
 inputs:
   start-services-command:
-    description: 'Command to start background services (e.g., npm start &)'
+    description: '[DEPRECATED] Use setup-services action instead. Command to start background services.'
     required: false
     default: ''
   health-check-urls:
-    description: 'Space-separated URLs to wait for (e.g., http://localhost:3000)'
+    description: '[DEPRECATED] Use setup-services action instead. Space-separated URLs to wait for.'
     required: false
     default: ''
   test-command-api:
@@ -24,18 +24,6 @@ inputs:
     description: 'Command for GUI tests (e.g., npm run test:gui)'
     required: false
     default: ''
-  run-api:
-    description: 'Whether to run API tests'
-    required: false
-    default: 'true'
-  run-performance:
-    description: 'Whether to run performance tests'
-    required: false
-    default: 'true'
-  run-gui:
-    description: 'Whether to run GUI tests'
-    required: false
-    default: 'true'
   headless:
     description: 'Run GUI tests in headless mode'
     required: false
@@ -65,7 +53,7 @@ runs:
         npx wait-on ${{ inputs.health-check-urls }} --timeout 60000 || (cat backend.log 2>/dev/null || true && cat frontend.log 2>/dev/null || true && exit 1)
 
     - name: Run API Tests
-      if: inputs.run-api == 'true' && inputs.test-command-api != ''
+      if: inputs.test-command-api != ''
       shell: pwsh
       run: |
         if ("${{ inputs.enable-coverage }}" -eq "true" -and "${{ inputs.coverage-module }}" -ne "") {
@@ -80,13 +68,13 @@ runs:
         }
 
     - name: Run Performance Tests
-      if: inputs.run-performance == 'true' && inputs.test-command-performance != ''
+      if: inputs.test-command-performance != ''
       shell: pwsh
       run: |
         ${{ inputs.test-command-performance }}
 
     - name: Run GUI Tests
-      if: inputs.run-gui == 'true' && inputs.test-command-gui != ''
+      if: inputs.test-command-gui != ''
       shell: pwsh
       run: |
         ${{ inputs.test-command-gui }}

@@ -10,11 +10,15 @@ The unified core engine for test orchestration.
 ## 🛠️ Configuration
 
 | Input | Required | Description |
-| :--- | :---: | :--- |
-| `test-command-api` | No | Command for API tests. |
-| `test-command-gui` | No | Command for GUI tests. |
+| :--- | :--- | :--- |
+| `test-command-api` | No | Command for API tests. If provided, API tests will run. |
+| `test-command-gui` | No | Command for GUI tests. If provided, GUI tests will run. |
+| `test-command-performance` | No | Command for Performance tests. If provided, Performance tests will run. |
 | `headless` | No | Default `true`. |
 | `enable-coverage`| No | Collect Pytest coverage. |
+
+> [!TIP]
+> **Simplified Execution**: You no longer need to pass boolean flags like `run-api: true`. The action now automatically detects which tests to run based on the presence of the corresponding test command.
 
 ## 🚀 Quick Start
 
