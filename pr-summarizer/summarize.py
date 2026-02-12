@@ -12,15 +12,18 @@ def run_command(command):
         print(f"Error running command: {command}\n{e.stderr}")
         return ""
 
-def get_changed_files():
+def get_event_data():
     event_path = os.environ.get('GITHUB_EVENT_PATH')
     if event_path and os.path.exists(event_path):
         with open(event_path, 'r') as f:
-            event = json.load(f)
-            # PR base SHA
-            base_sha = event.get('pull_request', {}).get('base', {}).get('sha')
-            if base_sha:
-                return run_command(f"git diff --name-status {base_sha}...HEAD").split('\n')
+            return json.load(f)
+    return {}
+
+def get_changed_files(event):
+    # PR base SHA
+    base_sha = event.get('pull_request', {}).get('base', {}).get('sha')
+    if base_sha:
+        return run_command(f"git diff --name-status {base_sha}...HEAD").split('\n')
     
     # Fallback to base ref or last commit
     base_ref = os.environ.get('GITHUB_BASE_REF', 'main')
@@ -74,7 +77,10 @@ def main():
         with open(template_path, 'r', encoding='utf-8') as f:
             template_content = f.read()
 
-    changed_files = get_changed_files()
+    event = get_event_data()
+    pr_number = event.get('pull_request', {}).get('number')
+
+    changed_files = get_changed_files(event)
     if not changed_files or changed_files == ['']:
         print("No changes detected.")
         return
@@ -107,7 +113,6 @@ def main():
         
         # 1. Select Change Types
         for ct in change_types:
-            # Match both variations of checkboxes
             pattern = re.escape(f"- [ ] {ct}")
             processed_body = re.sub(pattern, f"- [x] {ct}", processed_body)
 
@@ -115,7 +120,6 @@ def main():
         if technical_details:
             details_str = "\n".join([f"- {d}" for d in technical_details[:10]])
             if "## 🛠️ Technical Details" in processed_body:
-                # Use \g<1> to avoid digit ambiguity and lambda for escaping safety
                 processed_body = re.sub(
                     r'(## 🛠️ Technical Details.*?\n)(?=-|\n)', 
                     lambda m: m.group(1) + details_str + '\n', 
@@ -150,16 +154,17 @@ def main():
         f.write(final_summary)
 
     if target == 'description':
-        print("Updating PR description via GitHub CLI...")
-        # Check if we are in a PR
-        pr_view = run_command("gh pr view --json number")
-        if pr_view:
-            run_command("gh pr edit --body-file final_pr_body.md")
+        if pr_number:
+            print(f"Updating PR #{pr_number} description via GitHub CLI...")
+            run_command(f"gh pr edit {pr_number} --body-file final_pr_body.md")
         else:
-            print("Not in a PR context or gh CLI error. Skipping edit.")
+            print("Not in a PR context (no PR number found). Skipping description edit.")
     else:
-        print("Posting PR comment via GitHub CLI...")
-        run_command("gh pr comment --body-file final_pr_body.md")
+        if pr_number:
+            print(f"Posting PR #{pr_number} comment via GitHub CLI...")
+            run_command(f"gh pr comment {pr_number} --body-file final_pr_body.md")
+        else:
+            print("Not in a PR context (no PR number found). Skipping comment.")
 
 if __name__ == "__main__":
     main()
