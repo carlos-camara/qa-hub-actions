@@ -30,14 +30,14 @@ runs:
         echo "Fetching milestones for $REPO..."
         
         if [ "${{ inputs.strategy }}" == "next_due" ]; then
-          MILESTONE_NUMBER=$(gh api repos/$REPO/milestones --jq 'sort_by(.due_on) | .[0].number')
+          MILESTONE_TITLE=$(gh api repos/$REPO/milestones --jq 'sort_by(.due_on) | .[0].title')
         else
-          MILESTONE_NUMBER=$(gh api repos/$REPO/milestones --jq 'sort_by(.created_at) | reverse | .[0].number')
+          MILESTONE_TITLE=$(gh api repos/$REPO/milestones --jq 'sort_by(.created_at) | reverse | .[0].title')
         fi
 
-        if [ "$MILESTONE_NUMBER" != "null" ] && [ -n "$MILESTONE_NUMBER" ]; then
-          echo "Assigning PR #$PR_NUMBER to milestone #$MILESTONE_NUMBER"
-          gh pr edit "$PR_NUMBER" --milestone "$MILESTONE_NUMBER" --repo "$REPO"
+        if [ "$MILESTONE_TITLE" != "null" ] && [ -n "$MILESTONE_TITLE" ]; then
+          echo "Assigning PR #$PR_NUMBER to milestone: $MILESTONE_TITLE"
+          gh pr edit "$PR_NUMBER" --milestone "$MILESTONE_TITLE" --repo "$REPO"
         else
           echo "No open milestones found in $REPO."
         fi
