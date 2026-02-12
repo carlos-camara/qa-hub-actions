@@ -52,25 +52,26 @@ runs:
       run: |
         npx wait-on ${{ inputs.health-check-urls }} --timeout 60000 || (cat backend.log 2>/dev/null || true && cat frontend.log 2>/dev/null || true && exit 1)
 
+    - name: Set Run Timestamp
+      id: timestamp
+      shell: bash
+      run: echo "ts=$(date +'%Y-%m-%d_%H-%M-%S')" >> "$GITHUB_OUTPUT"
+
     - name: Run API Tests
       if: inputs.test-command-api != ''
       shell: pwsh
       run: |
         $enableCoverage = "${{ inputs.enable-coverage }}" -eq "true"
         $coverageModule = "${{ inputs.coverage-module }}"
+        $reportDir = "reports/test_run/dashboard_${{ steps.timestamp.outputs.ts }}"
         
         if ($enableCoverage -and $coverageModule) {
           echo "::notice::Running API tests with coverage for module: $coverageModule"
           pytest --cov=$coverageModule tests/ --cov-report=xml
         } else {
           echo "::notice::Running standard API tests"
-          ${{ inputs.test-command-api }}
-        }
-        
-        # Standardize report stashing
-        if (Test-Path "reports") {
-          cp -r reports api_reports_tmp
-          rm -rf reports/test_run
+          $cmd = "${{ inputs.test-command-api }} --junit-dir $reportDir"
+          Invoke-Expression $cmd
         }
 
     - name: Run Performance Tests
@@ -85,6 +86,8 @@ runs:
       shell: pwsh
       run: |
         echo "::notice::Executing GUI Verification Suite"
-        ${{ inputs.test-command-gui }}
+        $reportDir = "reports/test_run/dashboard_${{ steps.timestamp.outputs.ts }}"
+        $cmd = "${{ inputs.test-command-gui }} --junit-dir $reportDir"
+        Invoke-Expression $cmd
       env:
         HEADLESS: ${{ inputs.headless }}
