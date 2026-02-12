@@ -1,0 +1,22 @@
+name: 'Validate Actions'
+
+on:
+  push:
+    branches: [ main, devel ]
+    paths:
+      - '**/action.yml'
+  pull_request:
+    branches: [ main, devel ]
+    paths:
+      - '**/action.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate GitHub Actions
+        uses: docker://ghcr.io/mpalmer/action-validator:v2
+        with:
+          args: ./*/action.yml

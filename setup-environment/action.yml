@@ -1,7 +1,7 @@
 name: 'Setup QA Environment'
 description: '🚀 Standardized environment setup for Python and Node.js with caching and custom install commands.'
 branding:
-  icon: 'terminal'
+  icon: 'box'
   color: 'blue'
 inputs:
   python-version:

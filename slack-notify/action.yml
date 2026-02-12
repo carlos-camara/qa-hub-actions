@@ -1,8 +1,8 @@
 name: 'Slack QA Notification'
 description: '📢 Send beautifully formatted test summaries and environment status to a Slack channel.'
 branding:
-  icon: 'message-square'
-  color: 'yellow'
+  icon: 'bell'
+  color: 'orange'
 
 inputs:
   slack-webhook-url:

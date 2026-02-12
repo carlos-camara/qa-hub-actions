@@ -1,8 +1,8 @@
 name: 'Collect and Publish QA Results'
 description: '📊 Aggregate JUnit results, upload artifacts, and publish reporter summaries with configurable paths.'
 branding:
-  icon: 'upload-cloud'
-  color: 'purple'
+  icon: 'share-2'
+  color: 'orange'
 inputs:
   reports-path:
     description: 'Path to test reports directory (API/GUI)'

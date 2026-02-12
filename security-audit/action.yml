@@ -2,7 +2,7 @@ name: 'Security Audit'
 description: '🛡️ Scans dependencies for vulnerabilities and performs static analysis on Python code.'
 branding:
   icon: 'shield'
-  color: 'red'
+  color: 'purple'
 inputs:
   python-version:
     description: 'Python version to use'

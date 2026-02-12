@@ -2,7 +2,7 @@ name: 'Run QA Test Suite'
 description: '🧪 Core engine for executing API, GUI, and Performance tests with service orchestration and health checks.'
 branding:
   icon: 'play-circle'
-  color: 'green'
+  color: 'blue'
 inputs:
   start-services-command:
     description: '[DEPRECATED] Use setup-services action instead. Command to start background services.'
