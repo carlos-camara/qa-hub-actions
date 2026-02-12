@@ -28,25 +28,27 @@ Our actions are architected to work as a unified ecosystem, moving from environm
 
 ```mermaid
 graph LR
-    A["🚀 Setup Environment"] -- 1. Prepare --> B["🏗️ Setup Services"]
-    B -- 2. Orchestrate --> C["🧪 Run QA Test Suite"]
-    C -- 3. Execute --> D["📊 Collect & Publish"]
-    D -- 4. Report --> E{"Integrations"}
-    E -- Notify --> F["📢 Slack Notification"]
-    E -- Audit --> G["🛡️ Security Audit"]
+    A["🚀 Setup Environment"] -- 1. Prepare --> B["🛡️ Health Check"]
+    B -- 2. Purify --> C["🏗️ Setup Services"]
+    C -- 3. Orchestrate --> D["🧪 Run QA Test Suite"]
+    D -- 4. Execute --> E["📊 Collect & Publish"]
+    E -- 5. Report --> F{"Integrations"}
+    F -- Notify --> G["📢 Slack Notification"]
+    F -- Audit --> H["🛡️ Security Audit"]
     
     style A fill:#e8eaf6,stroke:#3f51b5,stroke-width:2px
-    style B fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px
-    style C fill:#e8f5e9,stroke:#4caf50,stroke-width:2px
-    style D fill:#fce4ec,stroke:#e91e63,stroke-width:2px
-    style F fill:#fff3e0,stroke:#ff9800,stroke-width:2px
+    style B fill:#e8f5e9,stroke:#4caf50,stroke-width:2px
+    style C fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px
+    style D fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
+    style E fill:#fce4ec,stroke:#e91e63,stroke-width:2px
+    style G fill:#fff3e0,stroke:#ff9800,stroke-width:2px
 ```
 
 ## 📦 Action Registry
 
 | Category | Actions |
 | :--- | :--- |
-| **🚀 Core Engines** | [Run Tests](./run-tests) • [Setup Env](./setup-environment) • [Setup Services](./setup-services) • [Collect & Publish](./collect-and-publish) |
+| **🚀 Core Engines** | [Run Tests](./run-tests) • [Setup Env](./setup-environment) • [Setup Services](./setup-services) • [Collect & Publish](./collect-and-publish) • [Env Health](./environment-health-check) |
 | **🛡️ Quality & Sec** | [Security Audit](./security-audit) • [Link Checker](./link-checker) • [Linting](./lint-codebase) • [Performance](./performance-baseline-check) |
 | **📢 Distribution** | [Slack](./slack-notify) • [GH Pages](./deploy-gh-pages) • [AWS S3](./deploy-reports-s3) |
 | **🏗️ Maintenance** | [Labels](./pr-labeler) • [Auto-Release](./python-auto-release) |
