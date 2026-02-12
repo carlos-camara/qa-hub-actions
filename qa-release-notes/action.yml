@@ -1,0 +1,61 @@
+name: 'Automated QA Release Notes'
+description: '📝 Automatically generate human-readable testing summaries from changed .feature files.'
+branding:
+  icon: 'file-text'
+  color: 'orange'
+inputs:
+  features-path:
+    description: 'The root directory to scan for .feature files'
+    required: false
+    default: 'features'
+  github-token:
+    description: 'GitHub token for PR commenting (optional)'
+    required: false
+  publish-pr-comment:
+    description: 'Whether to post the summary as a PR comment'
+    required: false
+    default: 'false'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Generate QA Summary
+      shell: bash
+      run: |
+        echo "🔍 Discovering changes in .feature files..."
+        
+        # Helper to extract and format features
+        SUMMARY_FILE="qa_release_notes.md"
+        echo "### 🧪 QA Testing Scope" > $SUMMARY_FILE
+        echo "The following Features and Scenarios are covered in this deployment:" >> $SUMMARY_FILE
+        echo "" >> $SUMMARY_FILE
+        
+        # Track if we found anything
+        FOUND=0
+        
+        # Scan for feature files (in PRs we could optimize this with git diff, but scanning the path is safer for general use)
+        find "${{ inputs.features-path }}" -name "*.feature" | while read -r feature_file; do
+          FOUND=1
+          feature_name=$(grep -m 1 "^Feature:" "$feature_file" | sed 's/^Feature: //')
+          echo "#### 📋 Feature: $feature_name" >> $SUMMARY_FILE
+          
+          # Extract scenarios
+          grep "^  Scenario:" "$feature_file" | sed 's/^  Scenario: /  - [x] /' >> $SUMMARY_FILE
+          echo "" >> $SUMMARY_FILE
+        done
+        
+        if [ "$FOUND" -eq 0 ]; then
+          echo "> [!NOTE]" >> $SUMMARY_FILE
+          echo "> No .feature files found in the specified path." >> $SUMMARY_FILE
+        fi
+
+        # Output to Step Summary
+        cat $SUMMARY_FILE >> $GITHUB_STEP_SUMMARY
+        
+        # Optional: PR Comment
+        if [ "${{ inputs.publish-pr-comment }}" == "true" ] && [ "${{ inputs.github-token }}" != "" ]; then
+          PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+          if [ "$PR_NUMBER" != "null" ]; then
+            gh pr comment $PR_NUMBER --body-file $SUMMARY_FILE
+          fi
+        fi

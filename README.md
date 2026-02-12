@@ -51,7 +51,7 @@ graph LR
 | **🚀 Core Engines** | [Run Tests](./run-tests) • [Setup Env](./setup-environment) • [Setup Services](./setup-services) • [Collect & Publish](./collect-and-publish) • [Env Health](./environment-health-check) |
 | **🛡️ Quality & Sec** | [Security Audit](./security-audit) • [Link Checker](./link-checker) • [Linting](./lint-codebase) • [Performance](./performance-baseline-check) |
 | **📢 Distribution** | [Slack](./slack-notify) • [GH Pages](./deploy-gh-pages) • [AWS S3](./deploy-reports-s3) |
-| **🏗️ Maintenance** | [Labels](./pr-labeler) • [Auto-Release](./python-auto-release) • [Visual Mgr](./visual-regression-manager) |
+| **🏗️ Maintenance** | [Labels](./pr-labeler) • [Auto-Release](./python-auto-release) • [Visual Mgr](./visual-regression-manager) • [QA Notes](./qa-release-notes) |
 
 ## 🚀 Getting Started in 30 Seconds
 
