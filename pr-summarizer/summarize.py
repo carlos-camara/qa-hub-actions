@@ -29,11 +29,12 @@ def get_changed_files(event):
 def get_file_diff(file_path, base_sha):
     return run_command(f"git diff -U0 {base_sha}...HEAD -- {file_path}")
 
-def analyze_python(file_path, base_sha):
-    insights = []
-    breaking = []
+def analyze_python(file_path, base_sha, status):
+    insights = {"Structural": [], "API": [], "Breaking": []}
     if not os.path.exists(file_path):
-        return insights, breaking
+        return insights
+    
+    label = "  " if status == 'M' else "✨ "
     
     # Structural Insights
     try:
@@ -41,28 +42,29 @@ def analyze_python(file_path, base_sha):
             tree = ast.parse(f.read())
         for node in ast.walk(tree):
             if isinstance(node, ast.FunctionDef):
-                insights.append(f"Function: `{node.name}`")
+                prefix = "[NEW]" if status == 'A' else "[MOD]"
+                insights["Structural"].append(f"`{prefix}` `{node.name}`")
             elif isinstance(node, ast.ClassDef):
-                insights.append(f"Class: `{node.name}`")
+                prefix = "[NEW]" if status == 'A' else "[MOD]"
+                insights["Structural"].append(f"`{prefix}` `{node.name}`")
     except: pass
 
-    # API Footprint (Simplified)
+    # API Footprint
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
             routes = re.findall(r'\.(get|post|put|delete|patch)\([\'"](/.+?)[\'"]', content)
             for method, path in routes:
-                insights.append(f"API Route: `{method.upper()} {path}`")
+                insights["API"].append(f"`{method.upper()}` `{path}`")
     except: pass
 
-    # Breaking Changes (AST Diffing placeholder)
-    # If a file was modified, we'd ideally compare trees. Here we use diff markers.
+    # Breaking Changes
     diff = get_file_diff(file_path, base_sha)
     deleted_funcs = re.findall(r'^-def\s+(\w+)', diff, re.MULTILINE)
     for func in deleted_funcs:
-        breaking.append(f"Deleted Function: `{func}`")
+        insights["Breaking"].append(f"🚨 `{func}` (Deleted)")
 
-    return list(set(insights)), list(set(breaking))
+    return insights
 
 def analyze_gherkin(file_path, base_sha):
     insights = []
@@ -75,22 +77,23 @@ def analyze_gherkin(file_path, base_sha):
             content = f.read()
             scenarios = re.findall(r'Scenario: (.*)', content)
             for scenario in scenarios:
-                insights.append(f"Scenario: `{scenario.strip()}`")
-            
-            # Extract tags
+                insights.append(f"`{scenario.strip()}`")
             all_tags = re.findall(r'@\w+', content)
             tags.extend(list(set(all_tags)))
     except: pass
-    
-    return list(set(insights)), list(set(tags))
+    return insights, list(set(tags))
 
 def analyze_locators(file_path, base_sha):
     insights = []
     diff = get_file_diff(file_path, base_sha)
-    # Detect changed keys in YAML-like files
-    changed_keys = re.findall(r'^[+-]\s*(\w+):', diff, re.MULTILINE)
-    for key in set(changed_keys):
-        insights.append(f"Locator Update: `{key}`")
+    adds = re.findall(r'^\+\s*(\w+):', diff, re.MULTILINE)
+    mods = re.findall(r'^-\s*(\w+):', diff, re.MULTILINE)
+    
+    for key in set(adds):
+        insights.append(f"`[NEW]` `{key}`")
+    for key in set(mods):
+        if key not in set(adds): # Only if not replaced in the same diff
+            insights.append(f"`[MOD]` `{key}`")
     return insights
 
 def main():
@@ -112,12 +115,11 @@ def main():
     changed_files = get_changed_files(event)
     if not changed_files or changed_files == ['']: return
 
-    technical_details = []
+    tech_insights = {"API Route": [], "Structural": [], "Locators": [], "Breaking": []}
     testing_plan = []
-    breaking_changes = []
     quality_tags = set()
     change_types = set()
-    metrics = {"QA": 0, "Backend": 0, "Frontend": 0, "DevOps": 0, "Other": 0}
+    metrics = {"QA": 0, "Backend": 0, "Frontend": 0, "DevOps": 0}
 
     for line in changed_files:
         if not line: continue
@@ -125,11 +127,11 @@ def main():
         if len(parts) < 2: continue
         status, file_path = parts[0], parts[1]
         
-        # Metrics & Logic
         if file_path.endswith('.py'):
-            insights, breaking = analyze_python(file_path, base_sha)
-            technical_details.extend(insights)
-            breaking_changes.extend(breaking)
+            res = analyze_python(file_path, base_sha, status)
+            tech_insights["API Route"].extend(res["API"])
+            tech_insights["Structural"].extend(res["Structural"])
+            tech_insights["Breaking"].extend(res["Breaking"])
             metrics["Backend"] += 1
             change_types.add("♻️ **Refactor**" if status == 'M' else "✨ **New Feature**")
         elif file_path.endswith('.feature'):
@@ -139,7 +141,7 @@ def main():
             metrics["QA"] += 1
             change_types.add("✨ **New Feature**")
         elif file_path.endswith(('.yaml', '.yml')) and ('locators' in file_path or 'config' in file_path):
-            technical_details.extend(analyze_locators(file_path, base_sha))
+            tech_insights["Locators"].extend(analyze_locators(file_path, base_sha))
             metrics["QA"] += 1
             change_types.add("🔧 **Configuration**")
         elif file_path.endswith(('.tsx', '.jsx', '.css')):
@@ -149,38 +151,58 @@ def main():
             metrics["DevOps"] += 1
             change_types.add("🔧 **Configuration**")
 
+    # Format Technical Details (Grouped and Pretty)
+    details_str = ""
+    # 1. API Changes
+    if tech_insights["API Route"]:
+        details_str += "\n**🌐 API Footprint**\n"
+        for item in list(set(tech_insights["API Route"]))[:5]:
+            details_str += f"- {item}\n"
+    # 2. Structural Changes
+    if tech_insights["Structural"]:
+        details_str += "\n**🏗️ Structural Impact**\n"
+        for item in list(set(tech_insights["Structural"]))[:5]:
+            details_str += f"- {item}\n"
+    # 3. Locators
+    if tech_insights["Locators"]:
+        details_str += "\n**🎯 Locator Updates**\n"
+        for item in list(set(tech_insights["Locators"]))[:5]:
+            details_str += f"- {item}\n"
+    # 4. Breaking
+    if tech_insights["Breaking"]:
+        details_str += "\n> [!CAUTION]\n"
+        details_str += "> **Potential Breaking Changes Detected**\n"
+        for item in list(set(tech_insights["Breaking"])):
+            details_str += f"> - {item}\n"
+
     # Construct Output
     if template_content:
         processed_body = template_content
         for ct in change_types:
             processed_body = re.sub(re.escape(f"- [ ] {ct}"), f"- [x] {ct}", processed_body)
 
-        # Technical Details injection
-        details_list = list(set(technical_details))[:15]
-        if breaking_changes:
-            details_list.insert(0, "⚠️ **BREAKING CHANGES DETECTED**")
-            details_list.extend([f"🚨 {b}" for b in breaking_changes])
-        
-        if details_list:
-            details_str = "\n".join([f"- {d}" for d in details_list])
-            if "## 🛠️ Technical Details" in processed_body:
-                processed_body = re.sub(r'(## 🛠️ Technical Details.*?\n)(?=-|\n)', lambda m: m.group(1) + details_str + '\n', processed_body, flags=re.DOTALL)
+        # Injection
+        if details_str:
+            processed_body = re.sub(r'(## 🛠️ Technical Details.*?\n)(?=-|\n)', lambda m: m.group(1) + details_str + '\n', processed_body, flags=re.DOTALL)
 
-        # Testing Plan injection
         if testing_plan:
             tests_str = "\n".join([f"{i+1}. [x] {t}" for i, t in enumerate(testing_plan[:10])])
             if quality_tags:
-                tests_str += f"\n\n**Tags Context**: {', '.join(quality_tags)}"
-            if "## 🧪 Testing Plan" in processed_body:
-                processed_body = re.sub(r'(## 🧪 Testing Plan.*?\n)(?=1\.|-|\n)', lambda m: m.group(1) + tests_str + '\n', processed_body, flags=re.DOTALL)
+                tests_str += f"\n\n> [!NOTE]\n> **Context Tags**: {', '.join(quality_tags)}"
+            processed_body = re.sub(r'(## 🧪 Testing Plan.*?\n)(?=1\.|-|\n)', lambda m: m.group(1) + tests_str + '\n', processed_body, flags=re.DOTALL)
         
-        # Add Metrics at the end
-        stats = "\n\n---\n### 📊 Change Metrics\n"
-        stats += " | ".join([f"**{k}**: {v}" for k, v in metrics.items() if v > 0])
-        final_summary = processed_body + stats
+        # Metrics Table
+        stats_table = "\n\n---\n### 📊 Impact Analysis\n\n"
+        stats_table += "| Category | Scope | Status |\n"
+        stats_table += "| :--- | :---: | :--- |\n"
+        for k, v in metrics.items():
+            if v > 0:
+                bar = "█" * min(v, 10)
+                stats_table += f"| {k} | {v} | {bar} |\n"
+        
+        final_summary = processed_body + stats_table
     else:
-        final_summary = "### 🤖 Automated Technical Summary\n"
-        # ... Fallback (similar structure)
+        final_summary = "### 🤖 Automated Technical Summary\n" + details_str
 
     with open('final_pr_body.md', 'w', encoding='utf-8') as f:
         f.write(final_summary)
