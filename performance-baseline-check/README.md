@@ -2,7 +2,13 @@
 
 > Part of the [QA Hub Actions](https://github.com/carlos-camara/qa-hub-actions) ecosystem.
 
-Compare current performance metrics against a baseline and fail on regressions automatically.
+Compare current performance metrics against a baseline, detect slowdowns, and generate automated Mermaid trend visualizations.
+
+## ✨ Key Features
+
+- **🩺 Drift Detection**: Compares JSON metrics against a baseline with configurable % thresholds.
+- **📊 Visual Trends**: Automatically generates a Mermaid `xychart-beta` in the Job Summary.
+- **🚫 Automated Guardrails**: Fails the CI pipeline if any metric deviates beyond the allowed drift.
 
 ## ⚡ Quick Info
 

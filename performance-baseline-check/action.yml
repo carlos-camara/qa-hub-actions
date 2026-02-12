@@ -42,16 +42,36 @@ runs:
           let regression = false;
           let summary = '### 🚀 Performance Comparison\n| Metric | Baseline | Current | Delta | Status |\n| :--- | :--- | :--- | :--- | :--- |\n';
           
-          for (const key in current) {
+          const keys = Object.keys(current);
+          const baselineValues = [];
+          const currentValues = [];
+          const matchedKeys = [];
+
+          for (const key of keys) {
             if (baseline[key]) {
               const delta = ((current[key] - baseline[key]) / baseline[key]) * 100;
               const status = delta > threshold ? '❌' : '✅';
               if (delta > threshold) regression = true;
               summary += \"| \" + key + \" | \" + baseline[key].toFixed(2) + \"ms | \" + current[key].toFixed(2) + \"ms | \" + delta.toFixed(2) + \"% | \" + status + \" |\n\";
+              
+              matchedKeys.push(key);
+              baselineValues.push(baseline[key].toFixed(2));
+              currentValues.push(current[key].toFixed(2));
             }
           }
           
-          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary);
+          // Generate Mermaid Chart
+          let mermaid = '\n### 📉 Performance Trend\n';
+          mermaid += '```mermaid\n';
+          mermaid += 'xychart-beta\n';
+          mermaid += '    title \"Baseline vs Current Performance (ms)\"\n';
+          mermaid += '    x-axis [' + matchedKeys.join(', ') + ']\n';
+          mermaid += '    y-axis \"Latency (ms)\"\n';
+          mermaid += '    bar [' + baselineValues.join(', ') + ']\n';
+          mermaid += '    line [' + currentValues.join(', ') + ']\n';
+          mermaid += '```\n';
+          
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary + mermaid);
           
           if (regression) {
             console.error('Performance regression detected above ' + threshold + '%');
