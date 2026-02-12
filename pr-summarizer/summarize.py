@@ -28,6 +28,8 @@ def get_changed_files():
 
 def analyze_python(file_path):
     insights = []
+    if not os.path.exists(file_path):
+        return insights
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             tree = ast.parse(f.read())
@@ -43,6 +45,8 @@ def analyze_python(file_path):
 
 def analyze_gherkin(file_path):
     insights = []
+    if not os.path.exists(file_path):
+        return insights
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
@@ -111,14 +115,24 @@ def main():
         if technical_details:
             details_str = "\n".join([f"- {d}" for d in technical_details[:10]])
             if "## 🛠️ Technical Details" in processed_body:
-                # Append after the header and optional comments, before the next section
-                processed_body = re.sub(r'(## 🛠️ Technical Details.*?\n)(?=-|\n)', r'\1' + details_str + '\n', processed_body, flags=re.DOTALL)
+                # Use \g<1> to avoid digit ambiguity and lambda for escaping safety
+                processed_body = re.sub(
+                    r'(## 🛠️ Technical Details.*?\n)(?=-|\n)', 
+                    lambda m: m.group(1) + details_str + '\n', 
+                    processed_body, 
+                    flags=re.DOTALL
+                )
 
         # 3. Inject Testing Plan
         if testing_plan:
             tests_str = "\n".join([f"{i+1}. [x] {t}" for i, t in enumerate(testing_plan[:10])])
             if "## 🧪 Testing Plan" in processed_body:
-                processed_body = re.sub(r'(## 🧪 Testing Plan.*?\n)(?=1\.|-|\n)', r'\1' + tests_str + '\n', processed_body, flags=re.DOTALL)
+                processed_body = re.sub(
+                    r'(## 🧪 Testing Plan.*?\n)(?=1\.|-|\n)', 
+                    lambda m: m.group(1) + tests_str + '\n', 
+                    processed_body, 
+                    flags=re.DOTALL
+                )
         
         final_summary = processed_body
     else:
