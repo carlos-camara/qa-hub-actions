@@ -1,0 +1,74 @@
+name: 'Visual Regression Manager'
+description: '🎨 Automate visual baseline promotion by promoting latest screenshots to baselines upon approval.'
+branding:
+  icon: 'camera'
+  color: 'blue'
+inputs:
+  run-id:
+    description: 'The ID of the workflow run to fetch screenshots from'
+    required: true
+  screenshots-artifact-name:
+    description: 'Name of the artifact containing screenshots'
+    required: false
+    default: 'gui-screenshots'
+  baseline-path:
+    description: 'Path where baselines are stored in the repo'
+    required: false
+    default: 'features/resources/screenshots/baselines'
+  driver-type:
+    description: 'Driver type prefix used in baselines (e.g., chrome, playwright)'
+    required: false
+    default: 'chrome'
+  github-token:
+    description: 'GitHub token for downloading artifacts and pushing changes'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Download Screenshots Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ inputs.screenshots-artifact-name }}
+        run-id: ${{ inputs.run-id }}
+        github-token: ${{ inputs.github-token }}
+        path: temp_screenshots
+
+    - name: Promote Screenshots to Baselines
+      shell: bash
+      run: |
+        echo "🚀 Promoting latest screenshots to baselines..."
+        mkdir -p ${{ inputs.baseline-path }}
+        
+        # Find all files ending in _latest.png
+        find temp_screenshots -name "*_latest.png" | while read -r latest_file; do
+          # Extract base name (e.g., dashboard_stats from stats_latest.png if path is diff)
+          filename=$(basename "$latest_file")
+          base_name=${filename%_latest.png}
+          
+          # Target baseline name (e.g., chrome_dashboard_stats.png)
+          target_name="${{ inputs.driver-type }}_${base_name}.png"
+          target_path="${{ inputs.baseline-path }}/${target_name}"
+          
+          echo "Promoting $filename -> $target_name"
+          cp "$latest_file" "$target_path"
+        done
+        
+        # Cleanup
+        rm -rf temp_screenshots
+
+    - name: Commit and Push Baselines
+      shell: bash
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        
+        git add ${{ inputs.baseline-path }}/*.png
+        
+        if git diff --cached --quiet; then
+          echo "No visual changes to promote."
+        else
+          git commit -m "chore: promote visual baselines from run ${{ inputs.run-id }} [skip ci]"
+          git push origin main
+          echo "✅ Baselines updated and pushed successfully."
+        fi
