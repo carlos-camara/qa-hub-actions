@@ -21,9 +21,12 @@ graph TD
     D -- Yes --> E[Wait for health-check-urls]
     D -- No --> F[Execute Tests]
     E --> F
-    F --> G[Stash Reports]
+    F --> G[Generate Project Timestamped Folder]
     G --> H[Action Completed]
 ```
+
+!!! info "Intelligent Reporting"
+    This action automatically organizes all JUnit XML output into a unique, timestamped folder for each run (e.g., `reports/test_run/dashboard_2026-02-12_11-16-47/`). This prevents test results from a multi-engine workflow (API + GUI) from overwriting each other.
 
 ---
 
@@ -36,6 +39,7 @@ graph TD
 | `test-command-api` | `String` | `""` | Command for API tests (e.g., `pytest tests/api`). |
 | `test-command-gui` | `String` | `""` | Command for GUI tests (e.g., `npm run test:gui`). |
 | `test-command-performance` | `String` | `""` | Command for Performance tests (e.g., `locust -f locustfile.py`). |
+| `project-name` | `String` | `"dashboard"` | Name of the project. Used for folder naming. |
 | `enable-coverage` | `Boolean`| `false`| Whether to collect code coverage. |
 
 !!! success "Simplified execution"

@@ -8,9 +8,9 @@ Welcome to the central repository of **QA Hub Actions**. This page provides a hi
 *The foundation of your CI/CD pipelines.*
 
 ### [🧪 Run QA Test Suite](actions/run-tests.md)
-The primary execution engine. Supports Pytest, Behave, and Locust.
-- **Key Inputs**: `test-command-api`, `test-command-gui`, `headless`, `enable-coverage`.
-- **Best Practice**: Use `health-check-urls` to ensure services are ready before testing.
+The primary execution engine. Standardizes API, GUI, and Performance runs.
+- **Key Inputs**: `test-command-api`, `test-command-gui`, `project-name`, `headless`.
+- **Intelligent Reporting**: Automatically creates timestamped, project-specific report folders.
 
 ### [⚙️ Setup QA Environment](actions/setup-environment.md)
 Standardizes Python and Node.js environments with automated caching.
@@ -67,6 +67,10 @@ Commits test results back to a repository branch.
 
 ### [🏷️ PR Labeler](actions/pr-labeler.md)
 Automatic triage based on file paths.
+
+### [🤖 PR Summarizer](actions/pr-summarizer.md)
+Ultra-deep structural analysis for technical PR overviews.
+- **Features**: API footprint detection, locator diffing, aesthetic impact tables.
 
 ### [🚀 Auto-Release](actions/python-auto-release.md)
 Semantic versioning and GitHub Releases.

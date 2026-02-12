@@ -1,10 +1,11 @@
 # 🧪 Action: Run QA Test Suite
 
-The unified core engine for test orchestration.
+The unified core engine for test orchestration, now with intelligent report organization.
 
 ## 📖 What it does
 - **Service Orchestration**: Starts background services and waits for health checks.
-- **Parallel Engines**: Runs API, GUI, and Performance tests simultaneously or sequentially.
+- **Parallel Engines**: Runs API, GUI, and Performance tests standardized as a single run.
+- **Intelligent Reporting**: Automatically organizes JUnit XML results into timestamped, project-specific folders (e.g., `reports/test_run/dashboard_2026-02-12_11-16-47/`).
 - **Service Isolation**: Handles environment variables for headless browsers and standardizes output.
 
 ## 🛠️ Configuration
@@ -13,21 +14,22 @@ The unified core engine for test orchestration.
 | :--- | :--- | :--- |
 | `test-command-api` | No | Command for API tests. If provided, API tests will run. |
 | `test-command-gui` | No | Command for GUI tests. If provided, GUI tests will run. |
-| `test-command-performance` | No | Command for Performance tests. If provided, Performance tests will run. |
+| `test-command-performance` | No | Command for Performance tests. |
+| `project-name` | No | Name of the project (default: `dashboard`). Used for folder naming. |
 | `headless` | No | Default `true`. |
 | `enable-coverage`| No | Collect Pytest coverage. |
 
-> [!TIP]
-> **Simplified Execution**: You no longer need to pass boolean flags like `run-api: true`. The action now automatically detects which tests to run based on the presence of the corresponding test command.
+> [!IMPORTANT]
+> **Dynamic Report Paths**: The action automatically injects the `--junit-dir` argument into your test commands to ensure all reports from the same run are consolidated into a unique timestamped folder.
 
 ## 🚀 Quick Start
 
 ```yaml
-- uses: carlos-camara/qa-hub-actions/run-tests@v1
+- uses: carlos-camara/qa-hub-actions/run-tests@main
   with:
-    test-command-api: "pytest tests/"
-    enable-coverage: 'true'
-    coverage-module: "qa_framework"
+    project-name: "ciber"
+    test-command-api: "qa-hub run --tags api"
+    test-command-gui: "qa-hub run --tags gui"
 ```
 
 ---

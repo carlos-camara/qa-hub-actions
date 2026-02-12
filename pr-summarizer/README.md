@@ -1,13 +1,19 @@
 # 🤖 PR Summarizer
 
-Automatically summarize Pull Request changes following your `.github/pull_request_template.md` structure. This action performs deep structural analysis to provide reviewers with a high-fidelity "TL;DR" of the technical impact.
+Automatically summarize Pull Request changes following your `.github/pull_request_template.md` structure. This action performs ultra-deep structural analysis to provide reviewers with a high-fidelity, aesthetic, and professional technical summary.
 
 ## 🌟 Key Features
 
-- **Structural Intelligence**: Uses Python's `ast` to detect new functions/classes.
-- **BDD Awareness**: Extracts new Gherkin scenarios from `.feature` files.
-- **Template Alignment**: Automatically maps findings to your existing PR template sections.
-- **Generic & Configurable**: Works across any repo with overridable domain mapping.
+- **Deep Technical Analysis**:
+    - **🌐 API Footprint**: Detects new/modified routes (Express, Flask, etc.).
+    - **🏗️ Structural Impact**: Identifies new functions and classes with `[NEW]` and `[MOD]` badges.
+    - **🎯 Locator Diffing**: Highlights exactly which UI locators were updated in `.yaml` files.
+    - **✨ BDD Intelligence**: Extracts new Gherkin scenarios and quality tags (`@smoke`, `@critical`).
+- **Aesthetic Refinement**:
+    - **📊 Impact Analysis**: Dynamic metrics table with visual intensity bars (█).
+    - **Premium Iconography**: High-fidelity emojis and grouped technical insights.
+    - **Status Badges**: Standardized `[NEW]`, `[MOD]`, and `[FIX]` markers.
+- **Breaking Change Detection**: Flags deleted functions or classes with `[!CAUTION]` alerts.
 
 ## 🚀 Usage
 
@@ -43,16 +49,24 @@ jobs:
 | `domain-mapping` | JSON string mapping patterns to domains. | No | `{}` |
 | `target` | Where to post (description or comment). | No | `description` |
 
-## ⚖️ How it works
+## 📊 Output Example
 
-The action performs the following steps:
-1. **Scans for Changes**: Analyzes the `git diff` against the base branch.
-2. **Deep Analysis**:
-    - **Python**: Detects structural changes (functions/classes).
-    - **Gherkin**: Extracts new scenarios.
-    - **YAML**: Identifies locator updates.
-3. **Template Injection**: Matches findings against your `.github/pull_request_template.md` headers.
-4. **Publish**: Updates the PR description or adds a comment.
+The action will inject a structured block into your template like this:
+
+### 🏗️ Technical Details
+**🌐 API Footprint**
+- `POST` `/api/incidents`
+**🏗️ Structural Impact**
+- `[NEW]` `verify_logic`
+**🎯 Locator Updates**
+- `[MOD]` `login_button`
+
+---
+### 📊 Impact Analysis
+| Category | Scope | Status |
+| :--- | :---: | :--- |
+| Backend | 5 | █████ |
+| QA | 8 | ████████ |
 
 ---
 <div align="center">
