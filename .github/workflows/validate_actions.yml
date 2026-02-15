@@ -20,3 +20,13 @@ jobs:
         uses: docker://ghcr.io/mpalmer/action-validator:v2
         with:
           args: ./*/action.yml
+
+      - name: Security Audit (Zizmor)
+        run: |
+          pip install zizmor
+          zizmor .
+
+      - name: Check Documentation Links
+        uses: lycheeverse/lychee-action@v1
+        with:
+          args: --verbose --no-progress './**/*.md'

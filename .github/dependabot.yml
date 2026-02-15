@@ -1,25 +1,24 @@
 version: 2
 updates:
+  # Maintain GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
-    labels:
-      - "dependencies"
-      - "devops"
+    groups:
+      dependencies:
+        patterns:
+          - "*"
 
+  # Maintain NPM dependencies in all sub-projects
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
-    labels:
-      - "dependencies"
-      - "frontend"
+    open-pull-requests-limit: 10
 
+  # Maintain Python dependencies
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
       interval: "weekly"
-    labels:
-      - "dependencies"
-      - "qa"
