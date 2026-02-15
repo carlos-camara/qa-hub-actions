@@ -27,6 +27,6 @@ jobs:
           zizmor .
 
       - name: Check Documentation Links
-        uses: lycheeverse/lychee-action@v1
+        uses: lycheeverse/lychee-action@v2
         with:
           args: --verbose --no-progress './**/*.md'
