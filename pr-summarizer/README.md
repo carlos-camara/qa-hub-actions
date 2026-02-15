@@ -5,14 +5,14 @@ Automatically summarize Pull Request changes following your `.github/pull_reques
 ## 🌟 Key Features
 
 - **Deep Technical Analysis**:
-    - **🌐 API Footprint**: Detects new/modified routes (Express, Flask, etc.).
-    - **🏗️ Structural Impact**: Identifies new functions and classes with `[NEW]` and `[MOD]` badges.
-    - **🎯 Locator Diffing**: Highlights exactly which UI locators were updated in `.yaml` files.
-    - **✨ BDD Intelligence**: Extracts new Gherkin scenarios and quality tags (`@smoke`, `@critical`).
+  - **🌐 API Footprint**: Detects new/modified routes (Express, Flask, etc.).
+  - **🏗️ Structural Impact**: Identifies new functions and classes with `[NEW]` and `[MOD]` badges.
+  - **🎯 Locator Diffing**: Highlights exactly which UI locators were updated in `.yaml` files.
+  - **✨ BDD Intelligence**: Extracts new Gherkin scenarios and quality tags (`@smoke`, `@critical`).
 - **Aesthetic Refinement**:
-    - **📊 Impact Analysis**: Dynamic metrics table with visual intensity bars (█).
-    - **Premium Iconography**: High-fidelity emojis and grouped technical insights.
-    - **Status Badges**: Standardized `[NEW]`, `[MOD]`, and `[FIX]` markers.
+  - **📊 Impact Analysis**: Dynamic metrics table with visual intensity bars (█).
+  - **Premium Iconography**: High-fidelity emojis and grouped technical insights.
+  - **Status Badges**: Standardized `[NEW]`, `[MOD]`, and `[FIX]` markers.
 - **Breaking Change Detection**: Flags deleted functions or classes with `[!CAUTION]` alerts.
 
 ## 🚀 Usage
