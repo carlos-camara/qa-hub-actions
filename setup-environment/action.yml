@@ -20,6 +20,14 @@ inputs:
     description: 'Command to install Node dependencies'
     required: false
     default: 'if [ -f "package.json" ]; then npm install; fi'
+  python-cache:
+    description: 'Cache strategy for Python (pip, poetry, etc.). Empty to disable.'
+    required: false
+    default: 'pip'
+  node-cache:
+    description: 'Cache strategy for Node (npm, yarn, pnpm). Empty to disable.'
+    required: false
+    default: 'npm'
 
 runs:
   using: 'composite'
@@ -29,7 +37,7 @@ runs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ inputs.python-version }}
-        cache: 'pip'
+        cache: ${{ inputs.python-cache }}
 
     - name: Install Python dependencies
       if: inputs.python-version != '' && inputs.python-install-command != ''
@@ -42,7 +50,7 @@ runs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ inputs.node-version }}
-        cache: 'npm'
+        cache: ${{ inputs.node-cache }}
 
     - name: Install Node dependencies
       if: inputs.node-version != '' && inputs.node-install-command != ''

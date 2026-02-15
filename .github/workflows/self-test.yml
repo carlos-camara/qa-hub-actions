@@ -19,6 +19,8 @@ jobs:
         with:
           node-version: '20'
           python-version: '3.11'
+          python-cache: '' # Disable cache for self-test (no requirements.txt)
+          node-cache: ''   # Disable cache for self-test (no package.json)
           
       - name: Verify Node
         run: node --version
