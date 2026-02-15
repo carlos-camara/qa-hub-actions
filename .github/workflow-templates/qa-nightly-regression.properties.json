@@ -1,0 +1,10 @@
+{
+    "name": "QA Hub Nightly Regression",
+    "description": "Comprehensive scheduled testing with S3 deployment and Slack notifications.",
+    "iconName": "clock",
+    "categories": [
+        "Python",
+        "Automation",
+        "Deployment"
+    ]
+}

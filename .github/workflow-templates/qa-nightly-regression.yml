@@ -1,0 +1,49 @@
+name: 🌙 QA Hub Nightly Regression
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # 2 AM UTC
+  workflow_dispatch:
+
+jobs:
+  full-suite:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Environment
+        uses: carlos-camara/qa-hub-actions/setup-environment@main
+        with:
+          node-version: '20'
+          python-version: '3.11'
+
+      - name: Service Orchestration
+        uses: carlos-camara/qa-hub-actions/setup-services@main
+        with:
+          start-services-command: "npm start &"
+          health-check-urls: "http://localhost:3000"
+
+      - name: Execute Full Suite
+        uses: carlos-camara/qa-hub-actions/run-tests@main
+        with:
+          test-commands: |
+            python -m qa_framework.cli run --tags "~@wip" --parallel 4
+          generate-performance-report: true
+
+      - name: Deploy Reports (S3)
+        if: always()
+        uses: carlos-camara/qa-hub-actions/deploy-reports-s3@main
+        with:
+          project-name: "my-project"
+          s3-bucket: ${{ secrets.S3_BUCKET }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          run-id: ${{ github.run_id }}
+
+      - name: Notify Team
+        if: always()
+        uses: carlos-camara/qa-hub-actions/slack-notify@main
+        with:
+          slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          status: ${{ job.status }}
+          test-summary: "Nightly Run Completed. Report: https://s3.amazonaws.com/..."

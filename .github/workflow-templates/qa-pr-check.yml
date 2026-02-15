@@ -1,0 +1,30 @@
+name: 🛡️ QA Hub PR Check
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+  push:
+    branches: [main]
+
+jobs:
+  quality-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Environment
+        uses: carlos-camara/qa-hub-actions/setup-environment@main
+        with:
+          node-version: '20'
+          python-version: '3.11'
+
+      - name: Lint Codebase
+        uses: carlos-camara/qa-hub-actions/lint-codebase@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Smoke Tests
+        uses: carlos-camara/qa-hub-actions/run-tests@main
+        with:
+          test-commands: |
+            python -m qa_framework.cli run --tags "@smoke"

@@ -1,0 +1,9 @@
+{
+    "name": "QA Hub Visual Baselines",
+    "description": "Workflow to promote new visual regression baselines from a test run.",
+    "iconName": "image",
+    "categories": [
+        "Utilities",
+        "Automation"
+    ]
+}

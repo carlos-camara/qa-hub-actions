@@ -1,0 +1,10 @@
+{
+    "name": "QA Hub PR Quality Gate",
+    "description": "Standard CI pipeline with linting and smoke tests.",
+    "iconName": "shield",
+    "categories": [
+        "Python",
+        "JavaScript",
+        "Automation"
+    ]
+}
