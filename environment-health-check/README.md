@@ -1,6 +1,6 @@
-# 🛡️ Environment Health Check & Teardown
+# 🛡️ Action: Environment Health Check & Teardown
 
-A premium GitHub Action designed to ensure **infrastructure stability** by performing pre-flight purification and post-test surgical cleanup.
+> Ensure infrastructure stability before tests and perform surgical cleanup after execution.
 
 ---
 

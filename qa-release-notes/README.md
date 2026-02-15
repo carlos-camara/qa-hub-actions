@@ -1,6 +1,6 @@
-# 📝 Automated QA Release Notes
+# 📝 Action: Automated QA Release Notes
 
-Bridge the gap between technical automation and stakeholder visibility. This action scans your BDD source files and generates professional summaries of the testing coverage.
+> Bridge the gap between technical automation and stakeholder visibility.
 
 ---
 

@@ -4,13 +4,12 @@
 
 Downloads standard QA Hub test reports and deploys them to AWS S3.
 
-## ⚡ Quick Info
+## 📖 What it does
+- **Artifact Retrieval**: Downloads API, GUI, and Performance reports from the current run.
+- **Cloud Distribution**: Syncs reports to a structured S3 bucket (`s3://bucket/project/`).
+- **Secure Handling**: UIses AWS credentials safely via secrets.
 
-- **Category**: Reporting & Notifications
-- **Complexity**: Medium
-- **Version**: v2.1.0
-
-## 🚀 Usage
+## 🛠️ Configuration
 
 ```yaml
 - uses: carlos-camara/qa-hub-actions/deploy-reports-s3@main

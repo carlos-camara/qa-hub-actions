@@ -1,6 +1,6 @@
-# 🎨 Visual Regression Manager
+# 🎨 Action: Visual Regression Manager
 
-Automate the lifecycle of your visual baselines. This action allows you to promote "latest" screenshots from a failing test run to become the new "baselines" with a single click or command.
+> Automate the lifecycle of your visual baselines.
 
 ---
 

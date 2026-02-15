@@ -1,5 +1,8 @@
 name: 'Lint Codebase Standard'
 description: 'Runs Super-Linter with standardized rules for QA Hub projects.'
+branding:
+  icon: 'shield'
+  color: 'green'
 inputs:
   github-token:
     description: 'GitHub Token for posting status checks.'

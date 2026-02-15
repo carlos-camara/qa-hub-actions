@@ -4,13 +4,12 @@
 
 Runs Super-Linter with standardized rules for QA Hub projects.
 
-## ⚡ Quick Info
+## 📖 What it does
+- **Multi-Language Linting**: Validates Python, YAML, Markdown, JSON, and more.
+- **QA Standard**: Enforces the official QA Hub coding guidelines.
+- **Pull Request Guard**: Blocks merges if code quality standards are not met.
 
-- **Category**: Quality & Security
-- **Complexity**: Low
-- **Version**: v1.5.0
-
-## 🚀 Usage
+## 🛠️ Configuration
 
 ```yaml
 - name: Lint Codebase

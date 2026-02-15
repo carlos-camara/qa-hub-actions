@@ -1,8 +1,13 @@
-# 🚀 Setup Services Action
+# 🚀 Action: Setup Services
 
-This action orchestrates background services and waits for health check endpoints before test execution. It is designed to be used in conjunction with `run-tests` for a more modular CI/CD pipeline.
+> Orchestrate background services and wait for health checks before test execution.
 
-## 🏗️ Usage
+## 📖 What it does
+- **Service Orchestration**: Starts backend/frontend processes in the background.
+- **Health Checks**: Waits for specific URLs to be 200 OK before proceeding.
+- **Debug Logging**: Automatically prints service logs if startup fails.
+
+## 🛠️ Configuration
 
 ```yaml
 - name: Setup Services

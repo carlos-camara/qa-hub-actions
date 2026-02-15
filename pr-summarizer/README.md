@@ -1,6 +1,6 @@
-# 🤖 PR Summarizer
+# 🤖 Action: PR Summarizer
 
-Automatically summarize Pull Request changes following your `.github/pull_request_template.md` structure. This action performs ultra-deep structural analysis to provide reviewers with a high-fidelity, aesthetic, and professional technical summary.
+> Deep technical analysis and aesthetic summaries for Pull Requests.
 
 ## 🌟 Key Features
 

@@ -1,38 +1,64 @@
-# 🤝 Contributing to QA Hub Actions
+# Contributing to QA Hub Actions
 
-<div align="center">
+Thank you for your interest in contributing to the **QA Hub Actions** ecosystem! 🚀
 
-![Contribution](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=for-the-badge)
-![License](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge)
+We are building the standard for Enterprise Quality Orchestration on GitHub. To maintain this high standard, we ask that all contributors follow these guidelines.
 
-**First off, thank you for considering contributing to QA Hub Actions! It's people like you that make this ecosystem great.**
+## 🏗️ Repository Structure
 
-</div>
+This is a **monorepo** containing multiple composite actions. Each action resides in its own directory:
 
----
+```text
+qa-hub-actions/
+├── setup-environment/   # Action: Setup Env
+│   ├── action.yml       # Metadata & Logic
+│   └── README.md        # Documentation
+├── run-tests/           # Action: Run Tests
+└── ...
+```
 
-## 🛠 Development Workflow
+## 🛠️ Development Workflow
 
-1. **Fork the repo** and create your branch from `main`.
-2. **Make your changes**. If you are adding a new action, please follow the existing folder structure:
-    - Root-level folder (kebab-case)
-    - `action.yml` (metadata)
-    - `README.md` (documentation)
-3. **Validate**. Ensure your `action.yml` is well-formatted and includes branding (icon and color).
-4. **Issue a Pull Request**. Provide a clear description of the new features or fixes.
+1.  **Fork & Clone**: Fork the repository and clone it locally.
+2.  **Branching**: Create a feature branch: `git checkout -b feat/my-new-action`.
+3.  **Development**:
+    - If modifying an existing action, edit its `action.yml`.
+    - If creating a new action, create a new folder and follow the **Action Standard** below.
+4.  **Documentation**: Update the `README.md` within the action's folder.
+5.  **Commit**: Use [Conventional Commits](https://www.conventionalcommits.org/):
+    - `feat: add new input to setup-environment`
+    - `fix: resolve caching issue in run-tests`
+    - `docs: update examples`
+6.  **Pull Request**: Submit a PR to `main`.
 
-## 📝 Coding Standards
+## 💎 Action Standard (Definition of Done)
 
-- **Naming**: Use `kebab-case` for input names, action folder names, and arguments.
-- **Shell**: Use `bash` for cross-platform compatibility in composite steps where possible. Use `pwsh` only if specific Windows features are needed.
-- **Documentation**: Every action **MUST** have its own `README.md` with clear `Inputs` table and `Usage` examples.
+Every action in this repository must meet the following criteria:
 
-## ⚖️ License
+### 1. Metadata (`action.yml`)
+- **Name**: Clear, concise name (e.g., "Run QA Test Suite").
+- **Description**: Professional summary starting with an emoji.
+- **Branding**: Must define `icon` and `color`.
+    - *Preferred Color*: `blue`, `purple`, or `green`.
+- **Inputs**: All inputs must have descriptions and (where possible) defaults.
 
-By contributing, you agree that your contributions will be licensed under its [MIT License](LICENSE).
+### 2. Documentation (`README.md`)
+Must use the **Gold Standard Template**:
+- **Title**: `# 🔧 Action: [Name]`
+- **Hero**: One-line value proposition.
+- **What it does**: Bullet points explaining the technical impact.
+- **Configuration**: Markdown table of Inputs.
+- **Quick Start**: Copy-pasteable YAML snippet.
 
----
+### 3. Idempotency
+Actions should be designed to be idempotent where possible. Ensure that running the action multiple times does not cause failures (e.g., checking if a directory exists before creating it).
 
-<p align="center">
-  <b>Happy Testing!</b>
-</p>
+## 🧪 Testing
+
+Before submitting:
+1.  **Lint**: Run the codebase linter to ensure YAML/Markdown compliance.
+2.  **Verify**: If possible, test your action in a private workflow to ensure it executes as expected.
+
+## 📜 License
+
+By contributing, you agree that your contributions will be licensed under the [MIT License](./LICENSE).

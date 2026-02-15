@@ -1,5 +1,8 @@
 name: 'Deploy QA Reports to S3'
 description: 'Downloads standard QA Hub test reports (API, GUI, Performance) and deploys them to AWS S3.'
+branding:
+  icon: 'upload-cloud'
+  color: 'orange'
 inputs:
   project-name:
     description: 'Name of the project (e.g., dashboard). Used as the subfolder in S3.'
