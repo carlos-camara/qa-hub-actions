@@ -53,21 +53,21 @@ runs:
             # Replace the section up to the next heading or end of file
             # Using python for safe multiline replacement
             NEW_BODY=$(python -c "
-import sys, re
-body = sys.stdin.read()
-summary = open('test_summary.md').read()
-anchor = '## 🚦 Test Results'
-pattern = rf'({re.escape(anchor)})(.*?)(\n## |$)'
-# If anchor is found, replace its content (group 2)
-if anchor in body:
-    new_body = re.sub(pattern, rf'\1\n\n' + summary.replace('\\', '\\\\').replace('$', '\\$') + r'\3', body, flags=re.DOTALL)
-    print(new_body)
-else:
-    # If not found, append to end
-    print(body + '\n\n' + anchor + '\n\n' + summary)
-" <<EOF
-$CURRENT_BODY
-EOF
+            import sys, re
+            body = sys.stdin.read()
+            summary = open('test_summary.md').read()
+            anchor = '## 🚦 Test Results'
+            pattern = rf'({re.escape(anchor)})(.*?)(\n## |$)'
+            # If anchor is found, replace its content (group 2)
+            if anchor in body:
+                new_body = re.sub(pattern, rf'\1\n\n' + summary.replace('\\', '\\\\').replace('$', '\\$') + r'\3', body, flags=re.DOTALL)
+                print(new_body)
+            else:
+                # If not found, append to end
+                print(body + '\n\n' + anchor + '\n\n' + summary)
+            " <<EOF
+            $CURRENT_BODY
+            EOF
             )
             echo "$NEW_BODY" > final_body.md
             gh pr edit "$PR_NUMBER" --body-file final_body.md
