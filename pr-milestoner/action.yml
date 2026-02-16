@@ -1,0 +1,45 @@
+name: 'PR Milestoner'
+description: '🎯 Automatically assigns the latest open milestone to a Pull Request.'
+branding:
+  icon: 'target'
+  color: 'gray-dark'
+
+inputs:
+  github-token:
+    description: 'The GITHUB_TOKEN or a personal access token'
+    required: true
+  strategy:
+    description: 'Selection strategy: "latest_created" or "next_due"'
+    required: false
+    default: 'latest_created'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Auto Milestone
+      shell: bash
+      run: |
+        REPO="${{ github.repository }}"
+        PR_NUMBER="${{ github.event.pull_request.number }}"
+        
+        if [ -z "$PR_NUMBER" ] || [ "$PR_NUMBER" == "null" ]; then
+          echo "No PR number found. Skipping milestone assignment."
+          exit 0
+        fi
+
+        echo "Fetching milestones for $REPO..."
+        
+        if [ "${{ inputs.strategy }}" == "next_due" ]; then
+          MILESTONE_TITLE=$(gh api repos/$REPO/milestones --jq 'sort_by(.due_on) | .[0].title')
+        else
+          MILESTONE_TITLE=$(gh api repos/$REPO/milestones --jq 'sort_by(.created_at) | reverse | .[0].title')
+        fi
+
+        if [ "$MILESTONE_TITLE" != "null" ] && [ -n "$MILESTONE_TITLE" ]; then
+          echo "Assigning PR #$PR_NUMBER to milestone: $MILESTONE_TITLE"
+          gh pr edit "$PR_NUMBER" --milestone "$MILESTONE_TITLE" --repo "$REPO"
+        else
+          echo "No open milestones found in $REPO."
+        fi
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
