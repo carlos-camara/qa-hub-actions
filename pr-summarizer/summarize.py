@@ -241,15 +241,31 @@ def main():
         intel_str += "\n"
     
     # 📦 File Intelligence Section
-    status_map = {"A": "[NEW]", "M": "[MOD]", "D": "[DELETED]", "R": "[REN]"}
+    # 📦 File Intelligence Section
+    status_map = {"A": "✨", "M": "📝", "D": "🔥", "R": "🚚"}
     intel_str += "### 📦 File Intelligence Breakdown\n"
-    for line in changed_files_raw[:10]:
+    
+    files_by_category = {}
+    for line in changed_files_raw:
         if not line: continue
         parts = line.split('\t')
+        if len(parts) < 2: continue
         s, f = parts[0], parts[1]
         p = detect_file_purpose(f)
-        intel_str += f"- `{f}`: {status_map.get(s[0], '[MOD]')} {p}\n"
-    if len(changed_files_raw) > 10: intel_str += f"- *...and {len(changed_files_raw)-10} more files.*\n"
+        
+        if p not in files_by_category:
+            files_by_category[p] = []
+        files_by_category[p].append({'path': f, 'status': s})
+
+    for category in sorted(files_by_category.keys()):
+        intel_str += f"\n<details><summary><strong>{category}</strong> ({len(files_by_category[category])})</summary>\n\n"
+        for item in files_by_category[category][:10]:
+            icon = status_map.get(item['status'][0], '📝')
+            intel_str += f"- {icon} `{item['path']}`\n"
+        
+        if len(files_by_category[category]) > 10:
+            intel_str += f"- *...and {len(files_by_category[category]) - 10} more*\n"
+        intel_str += "\n</details>\n"
     intel_str += "\n"
 
     if suggestions:
