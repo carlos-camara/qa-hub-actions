@@ -279,15 +279,19 @@ def main():
         tech_anchors = ["## 🎯 Technical Strategy", "## 🛠️ Technical Details", "## ⚙️ Implementation Details"]
         for anchor in tech_anchors:
             if anchor in processed_body:
-                processed_body = processed_body.replace(f"{anchor}\n<!-- Briefly describe the technical approach or specific design decisions. -->\n-", f"{anchor}\n{details_str}")
+                # Look for the anchor and replace the empty bullet list (with or without trailing space)
+                pattern = rf"({re.escape(anchor)}\n(?:<!--.*?-->\n)?)-[ \t]*"
+                processed_body = re.sub(pattern, rf"\1{details_str}", processed_body, flags=re.DOTALL)
                 break
 
-        # 4. Auto-Summary for Executive Summary if empty
+        # 4. Auto-Summary for Executive Summary
         summary_anchor = "## 🌟 Executive Summary"
         if summary_anchor in processed_body:
             auto_summary = f"This PR introduces changes across **{', '.join(metrics.keys())}** modules. Targeted efforts were focused on **{', '.join([ct.split('**')[1] for ct in change_types if '**' in ct])}**."
-            processed_body = processed_body.replace("> \n", f"> {auto_summary}\n")
-            processed_body = processed_body.replace("<!-- What is the purpose of this change? Describe the problem and your solution. -->", "")
+            # Look for the anchor and replace the empty blockquote (with or without trailing space)
+            pattern = rf"({re.escape(summary_anchor)}\n(?:<!--.*?-->\n)?)>[ \t]*"
+            processed_body = re.sub(pattern, rf"\1> {auto_summary}", processed_body, flags=re.DOTALL)
+            processed_body = re.sub(r'<!-- What is the purpose of this change? Describe the problem and your solution. -->', '', processed_body)
 
         # 5. Cleanup remaining placeholders/comments
         processed_body = re.sub(r'<!--.*?-->', '', processed_body, flags=re.DOTALL)

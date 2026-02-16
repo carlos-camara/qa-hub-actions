@@ -14,7 +14,7 @@
 
 ## 🌟 Executive Summary
 
-> This PR introduces changes across **Frontend, Other, QA** modules. Targeted efforts were focused on **Documentation, New Feature, UI/UX**.
+> This PR introduces changes across **Frontend, Other, QA** modules. Targeted efforts were focused on **UI/UX, Documentation, New Feature**.
 
 ## 🛠️ Type of Change
 - [x] 🚀 **New Feature**: A non-breaking change that adds functionality.
@@ -26,7 +26,8 @@
 - [ ] 💥 **Breaking Change**: Core logic shift requiring migration.
 
 ## 🎯 Technical Strategy
- 
+
+
 
 ## 🧪 Verification & Quality
 
