@@ -56,15 +56,22 @@ runs:
             import sys, re
             body = sys.stdin.read()
             summary = open('test_summary.md').read()
+            outcome = open('test_outcome.txt').read().strip()
+            
+            # Inject Summary
             anchor = '## 🚦 Test Results'
             pattern = rf'({re.escape(anchor)})(.*?)(\n## |$)'
-            # If anchor is found, replace its content (group 2)
+            
             if anchor in body:
-                new_body = re.sub(pattern, rf'\1\n\n' + summary.replace('\\', '\\\\').replace('$', '\\$') + r'\3', body, flags=re.DOTALL)
-                print(new_body)
+                body = re.sub(pattern, rf'\1\n\n' + summary.replace('\\', '\\\\').replace('$', '\\$') + r'\3', body, flags=re.DOTALL)
             else:
-                # If not found, append to end
-                print(body + '\n\n' + anchor + '\n\n' + summary)
+                body = body + '\n\n' + anchor + '\n\n' + summary
+            
+            # Auto-check box if success
+            if outcome == 'SUCCESS':
+                body = body.replace('- [ ] 🧪 **Automated Tests**', '- [x] 🧪 **Automated Tests**')
+            
+            print(body)
             " <<EOF
             $CURRENT_BODY
             EOF
@@ -74,6 +81,12 @@ runs:
           else
             echo "Anchor not found, appending to description..."
             { echo "$CURRENT_BODY"; echo ""; echo "## 🚦 Test Results"; echo ""; cat test_summary.md; } > final_body.md
+            
+            # Attempt to check box via sedan substitution if appending
+            if [ -f test_outcome.txt ] && grep -q "SUCCESS" test_outcome.txt; then
+               sed -i 's/- \[ \] 🧪 \*\*Automated Tests\*\*/- [x] 🧪 **Automated Tests**/' final_body.md
+            fi
+            
             gh pr edit "$PR_NUMBER" --body-file final_body.md
           fi
         else

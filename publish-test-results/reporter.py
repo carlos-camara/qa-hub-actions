@@ -107,4 +107,10 @@ if __name__ == "__main__":
     
     with open('test_summary.md', 'w', encoding='utf-8') as f:
         f.write(md)
-    print("Markdown summary generated in test_summary.md")
+    
+    # Write outcome for action to read
+    outcome = "FAILURE" if (res['failed'] > 0 or res['total'] == 0) else "SUCCESS"
+    with open('test_outcome.txt', 'w', encoding='utf-8') as f:
+        f.write(outcome)
+        
+    print(f"Markdown summary generated in test_summary.md (Outcome: {outcome})")

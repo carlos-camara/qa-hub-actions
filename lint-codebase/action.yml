@@ -57,3 +57,26 @@ runs:
         VALIDATE_JAVASCRIPT_ES: ${{ inputs.validate-ts }}
         VALIDATE_TSX: ${{ inputs.validate-ts }}
         FILTER_REGEX_EXCLUDE: ${{ inputs.filter-regex-exclude }}
+
+    - name: Mark Linting as Passed
+      if: success() && github.event_name == 'pull_request'
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      run: |
+        echo "Linting passed! Updating PR checklist..."
+        CURRENT_BODY=$(gh pr view "$PR_NUMBER" --json body --template '{{.body}}')
+        
+        # Check if the checkbox exists and is unchecked
+        if echo "$CURRENT_BODY" | grep -q "\- \[ \] 🧹 \*\*Linting\*\*"; then
+          # Replace with checked version
+          NEW_BODY=${CURRENT_BODY//- [ ] 🧹 **Linting**/- [x] 🧹 **Linting**}
+          
+          # Write to file to handle newlines correctly
+          echo "$NEW_BODY" > pr_body.md
+          gh pr edit "$PR_NUMBER" --body-file pr_body.md
+          echo "✅ PR checklist updated."
+        else
+          echo "⚠️ Linting checkbox not found or already checked."
+        fi
