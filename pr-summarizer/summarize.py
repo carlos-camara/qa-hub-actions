@@ -211,7 +211,7 @@ def main():
             tech_insights["API Route"].extend(res["API"])
             tech_insights["Structural"].extend(res["Structural"])
             tech_insights["Breaking"].extend(res["Breaking"])
-            change_types.add("♻️ **Refactor**" if status == 'M' else "✨ **New Feature**")
+            change_types.add("♻️ **Refactor**" if status == 'M' else "🚀 **New Feature**")
         elif file_path.endswith('.feature'):
             scenarios, tags = analyze_gherkin(file_path, base_sha)
             testing_plan.extend(scenarios)
@@ -222,7 +222,11 @@ def main():
         elif file_path.endswith(('.tsx', '.jsx')):
             res = analyze_javascript(file_path, base_sha, status)
             tech_insights["Structural"].extend(res["Structural"])
-            change_types.add("🎨 **Style/Design**")
+            change_types.add("💄 **UI/UX**")
+        elif file_path.endswith('.md'):
+            change_types.add("📚 **Documentation**")
+        elif 'security' in file_path.lower():
+            change_types.add("🛡️ **Security**")
 
     # Final Construction
     risk_level = calculate_risk(metrics, tech_insights)
@@ -237,9 +241,15 @@ def main():
         intel_str += "\n"
     
     # 📦 File Intelligence Section
+    status_map = {"A": "[NEW]", "M": "[MOD]", "D": "[DELETED]", "R": "[REN]"}
     intel_str += "### 📦 File Intelligence Breakdown\n"
-    for item in file_intelligence[:10]: intel_str += f"{item}\n"
-    if len(file_intelligence) > 10: intel_str += f"- *...and {len(file_intelligence)-10} more files.*\n"
+    for line in changed_files_raw[:10]:
+        if not line: continue
+        parts = line.split('\t')
+        s, f = parts[0], parts[1]
+        p = detect_file_purpose(f)
+        intel_str += f"- `{f}`: {status_map.get(s[0], '[MOD]')} {p}\n"
+    if len(changed_files_raw) > 10: intel_str += f"- *...and {len(changed_files_raw)-10} more files.*\n"
     intel_str += "\n"
 
     if suggestions:
@@ -256,9 +266,34 @@ def main():
 
     if template_content:
         processed_body = template_content
-        for ct in change_types: processed_body = re.sub(re.escape(f"- [ ] {ct}"), f"- [x] {ct}", processed_body)
-        processed_body = re.sub(r'(## 🛠️ Technical Details.*?\n)(?=-|\n)', lambda m: m.group(1) + details_str + '\n', processed_body, flags=re.DOTALL)
+        # 1. Replace Title Placeholder
+        processed_body = processed_body.replace("[Brief Title]", pr_title)
         
+        # 2. Check Change Type Boxes
+        for ct in change_types:
+            # Use regex to find the line with the icon/name and check the box
+            processed_body = re.sub(rf"- \[ \] (.*{re.escape(ct)}.*)", r"- [x] \1", processed_body)
+            
+        # 3. Inject Technical Details
+        # Try different possible headers for technical strategy/details
+        tech_anchors = ["## 🎯 Technical Strategy", "## 🛠️ Technical Details", "## ⚙️ Implementation Details"]
+        for anchor in tech_anchors:
+            if anchor in processed_body:
+                processed_body = processed_body.replace(f"{anchor}\n<!-- Briefly describe the technical approach or specific design decisions. -->\n-", f"{anchor}\n{details_str}")
+                break
+
+        # 4. Auto-Summary for Executive Summary if empty
+        summary_anchor = "## 🌟 Executive Summary"
+        if summary_anchor in processed_body:
+            auto_summary = f"This PR introduces changes across **{', '.join(metrics.keys())}** modules. Targeted efforts were focused on **{', '.join([ct.split('**')[1] for ct in change_types if '**' in ct])}**."
+            processed_body = processed_body.replace("> \n", f"> {auto_summary}\n")
+            processed_body = processed_body.replace("<!-- What is the purpose of this change? Describe the problem and your solution. -->", "")
+
+        # 5. Cleanup remaining placeholders/comments
+        processed_body = re.sub(r'<!--.*?-->', '', processed_body, flags=re.DOTALL)
+        processed_body = processed_body.replace("_[Drop screenshot/video here]_", "*(Automated: No attachments detected)*")
+        processed_body = processed_body.replace("**Component Name**", "Global")
+
         stats_table = "\n\n---\n### 📊 Impact Analysis\n"
         stats_table += "| Category | Scope | Bar |\n| :--- | :---: | :--- |\n"
         for k, v in metrics.items(): stats_table += f"| {k} | {v} | {'█' * min(v, 10)} |\n"
