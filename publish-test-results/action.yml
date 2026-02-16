@@ -1,0 +1,48 @@
+name: 'Publish Test Results'
+description: '📊 Parse JUnit results and post a professional summary comment to the PR.'
+branding:
+  icon: 'message-square'
+  color: 'blue'
+inputs:
+  reports-path:
+    description: 'Path to JUnit XML reports'
+    required: true
+  github-token:
+    description: 'GitHub Token'
+    required: true
+  title:
+    description: 'Title for the test report'
+    required: false
+    default: 'Test Execution Summary'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Generate Summary Markdown
+      shell: bash
+      run: python ${{ github.action_path }}/reporter.py "${{ inputs.reports-path }}"
+
+    - name: Post PR Comment
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      run: |
+        if [ -n "$PR_NUMBER" ]; then
+          # Check if we already commented to update it instead of spamming
+          COMMENT_ID=$(gh pr view "$PR_NUMBER" --json comments --template '{{range .comments}}{{if contains .body "🚦 Test Suite Results"}}{{.id}}{{"\n"}}{{end}}{{end}}' | head -n 1)
+          
+          if [ -n "$COMMENT_ID" ]; then
+            gh pr comment "$PR_NUMBER" --edit-id "$COMMENT_ID" --body-file test_summary.md
+          else
+            gh pr comment "$PR_NUMBER" --body-file test_summary.md
+          fi
+        else
+          echo "Not a PR, appending to step summary."
+          cat test_summary.md >> $GITHUB_STEP_SUMMARY
+        fi
