@@ -74,7 +74,7 @@ def generate_markdown(results):
     if not results:
         return "### 🚦 No test results found."
 
-    summary = f"### 🚦 Test Suite Results\n\n"
+    summary = ""
     summary += f"| Status | Count | Percentage |\n"
     summary += f"| :--- | :---: | :--- |\n"
     
