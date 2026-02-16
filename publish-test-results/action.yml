@@ -49,49 +49,11 @@ runs:
           CURRENT_BODY=$(gh pr view "$PR_NUMBER" --json body --template '{{.body}}')
           
           # Export body to env for python script
+          # Export body to env for python script
           export CURRENT_BODY
           
-          # Create python script to handle replacement safely
-          cat << 'EOF' > patch_pr.py
-          import sys, re, os
-          
-          try:
-              body = os.environ.get('CURRENT_BODY', '')
-              with open('test_summary.md', 'r', encoding='utf-8') as f:
-                  summary = f.read()
-              
-              outcome = "FAILURE"
-              if os.path.exists('test_outcome.txt'):
-                  with open('test_outcome.txt', 'r', encoding='utf-8') as f:
-                      outcome = f.read().strip()
-          
-              anchor = '## 🚦 Test Results'
-              
-              # regex to find the anchor and potentially existing content until next header or end
-              pattern = rf'({re.escape(anchor)})(.*?)(\n## |$)'
-              
-              if anchor in body:
-                  # Replace existing section using a callback to avoid escaping hell
-                  def replacement(match):
-                      return match.group(1) + '\n\n' + summary + match.group(3)
-                      
-                  body = re.sub(pattern, replacement, body, flags=re.DOTALL)
-              else:
-                  # Append if not found
-                  body = body + '\n\n' + anchor + '\n\n' + summary
-          
-              # Auto-check box if success
-              if outcome == 'SUCCESS':
-                  body = body.replace('- [ ] 🧪 **Automated Tests**', '- [x] 🧪 **Automated Tests**')
-                  
-              print(body)
-          except Exception as e:
-              print(f"Error patching PR: {e}", file=sys.stderr)
-              sys.exit(1)
-          EOF
-          
-          # Run the script and capture output
-          python patch_pr.py > final_body.md
+          # Run the external script and capture output
+          python ${{ github.action_path }}/patch_pr.py > final_body.md
           gh pr edit "$PR_NUMBER" --body-file final_body.md
         else
           echo "Posting as a PR comment..."
