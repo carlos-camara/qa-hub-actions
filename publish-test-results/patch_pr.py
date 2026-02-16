@@ -50,7 +50,16 @@ try:
         pattern_check = r'-\s*\[\s*\]\s*🧪\s*\*\*Automated Tests\*\*'
         replacement_check = '- [x] 🧪 **Automated Tests**'
         
+        
         body = re.sub(pattern_check, replacement_check, body)
+        
+        if replacement_check in body:
+             print("CHECKBOX: Successfully marked 'Automated Tests' as checked.", file=sys.stderr)
+        else:
+             print(f"CHECKBOX: Failed to mark 'Automated Tests'. Pattern '{pattern_check}' not found in body.", file=sys.stderr)
+             # print(f"DEBUG BODY: {body[:500]}...", file=sys.stderr) 
+    else:
+        print(f"CHECKBOX: Outcome is '{outcome}', skipping check.", file=sys.stderr)
         
     # Output the new body to stdout
     print(body)
