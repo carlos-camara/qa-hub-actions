@@ -51,10 +51,13 @@ runs:
           # Check if anchor exists
           if echo "$CURRENT_BODY" | grep -q "## 🚦 Test Results"; then
             # Replace the section up to the next heading or end of file
-            # Using python for safe multiline replacement
+            # Export body to env for python script
+            export CURRENT_BODY
+            
+            # Using python to safe multiline replacement
             NEW_BODY=$(python -c "
-            import sys, re
-            body = sys.stdin.read()
+            import sys, re, os
+            body = os.environ['CURRENT_BODY']
             summary = open('test_summary.md').read()
             outcome = open('test_outcome.txt').read().strip()
             
@@ -72,10 +75,7 @@ runs:
                 body = body.replace('- [ ] 🧪 **Automated Tests**', '- [x] 🧪 **Automated Tests**')
             
             print(body)
-            " <<EOF
-            $CURRENT_BODY
-            EOF
-            )
+            ")
             echo "$NEW_BODY" > final_body.md
             gh pr edit "$PR_NUMBER" --body-file final_body.md
           else
