@@ -14,6 +14,10 @@ inputs:
     description: 'Title for the test report'
     required: false
     default: 'Test Execution Summary'
+  target:
+    description: 'Where to publish: comment or description'
+    required: false
+    default: 'description'
 
 runs:
   using: 'composite'
@@ -27,14 +31,53 @@ runs:
       shell: bash
       run: python ${{ github.action_path }}/reporter.py "${{ inputs.reports-path }}"
 
-    - name: Post PR Comment
+    - name: Publish Results
       shell: bash
       env:
         GH_TOKEN: ${{ inputs.github-token }}
         PR_NUMBER: ${{ github.event.pull_request.number }}
+        TARGET: ${{ inputs.target }}
       run: |
-        if [ -n "$PR_NUMBER" ]; then
-          # Check if we already commented to update it instead of spamming
+        if [ -z "$PR_NUMBER" ]; then
+          echo "Not a PR, appending to step summary."
+          cat test_summary.md >> $GITHUB_STEP_SUMMARY
+          exit 0
+        fi
+
+        if [ "$TARGET" == "description" ]; then
+          echo "Injecting results into PR description..."
+          CURRENT_BODY=$(gh pr view "$PR_NUMBER" --json body --template '{{.body}}')
+          
+          # Check if anchor exists
+          if echo "$CURRENT_BODY" | grep -q "## 🚦 Test Results"; then
+            # Replace the section up to the next heading or end of file
+            # Using python for safe multiline replacement
+            NEW_BODY=$(python -c "
+import sys, re
+body = sys.stdin.read()
+summary = open('test_summary.md').read()
+anchor = '## 🚦 Test Results'
+pattern = rf'({re.escape(anchor)})(.*?)(\n## |$)'
+# If anchor is found, replace its content (group 2)
+if anchor in body:
+    new_body = re.sub(pattern, rf'\1\n\n' + summary.replace('\\', '\\\\').replace('$', '\\$') + r'\3', body, flags=re.DOTALL)
+    print(new_body)
+else:
+    # If not found, append to end
+    print(body + '\n\n' + anchor + '\n\n' + summary)
+" <<EOF
+$CURRENT_BODY
+EOF
+            )
+            echo "$NEW_BODY" > final_body.md
+            gh pr edit "$PR_NUMBER" --body-file final_body.md
+          else
+            echo "Anchor not found, appending to description..."
+            { echo "$CURRENT_BODY"; echo ""; echo "## 🚦 Test Results"; echo ""; cat test_summary.md; } > final_body.md
+            gh pr edit "$PR_NUMBER" --body-file final_body.md
+          fi
+        else
+          echo "Posting as a PR comment..."
           COMMENT_ID=$(gh pr view "$PR_NUMBER" --json comments --template '{{range .comments}}{{if contains .body "🚦 Test Suite Results"}}{{.id}}{{"\n"}}{{end}}{{end}}' | head -n 1)
           
           if [ -n "$COMMENT_ID" ]; then
@@ -42,7 +85,4 @@ runs:
           else
             gh pr comment "$PR_NUMBER" --body-file test_summary.md
           fi
-        else
-          echo "Not a PR, appending to step summary."
-          cat test_summary.md >> $GITHUB_STEP_SUMMARY
         fi
