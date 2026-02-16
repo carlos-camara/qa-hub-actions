@@ -45,8 +45,12 @@ try:
 
     # Auto-check "Automated Tests" box if success
     if outcome == 'SUCCESS':
-        # Handles both unchecked formats just in case
-        body = body.replace('- [ ] 🧪 **Automated Tests**', '- [x] 🧪 **Automated Tests**')
+        # Use regex to be robust against whitespace or minor formatting differences
+        # Matches: - [ ] 🧪 **Automated Tests**
+        pattern_check = r'-\s*\[\s*\]\s*🧪\s*\*\*Automated Tests\*\*'
+        replacement_check = '- [x] 🧪 **Automated Tests**'
+        
+        body = re.sub(pattern_check, replacement_check, body)
         
     # Output the new body to stdout
     print(body)

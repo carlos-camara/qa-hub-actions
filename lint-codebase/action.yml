@@ -68,15 +68,38 @@ runs:
         echo "Linting passed! Updating PR checklist..."
         CURRENT_BODY=$(gh pr view "$PR_NUMBER" --json body --template '{{.body}}')
         
-        # Check if the checkbox exists and is unchecked
-        if echo "$CURRENT_BODY" | grep -q "\- \[ \] 🧹 \*\*Linting\*\*"; then
-          # Replace with checked version
-          NEW_BODY=${CURRENT_BODY//- [ ] 🧹 **Linting**/- [x] 🧹 **Linting**}
-          
-          # Write to file to handle newlines correctly
-          echo "$NEW_BODY" > pr_body.md
-          gh pr edit "$PR_NUMBER" --body-file pr_body.md
-          echo "✅ PR checklist updated."
+        cat << 'EOF' > patch_lint.py
+        import sys, re, os
+        
+        try:
+            body = os.environ.get('CURRENT_BODY', '')
+            
+            # Regex for: - [ ] 🧹 **Linting**
+            # Handles variable whitespace
+            pattern = r'-\s*\[\s*\]\s*🧹\s*\*\*Linting\*\*'
+            
+            if re.search(pattern, body):
+                print("Linting checkbox found. Marking as checked...", file=sys.stderr)
+                replacement = '- [x] 🧹 **Linting**'
+                new_body = re.sub(pattern, replacement, body)
+                print(new_body)
+            else:
+                print("Linting checkbox not found or already checked.", file=sys.stderr)
+                sys.exit(0) # Exit success but don't print body to avoid processing
+                
+        except Exception as e:
+            print(f"Error patching PR: {e}", file=sys.stderr)
+            sys.exit(1)
+        EOF
+        
+        # Capture logic
+        export CURRENT_BODY
+        NEW_BODY=$(python patch_lint.py)
+        
+        if [ -n "$NEW_BODY" ]; then
+            echo "$NEW_BODY" > pr_body.md
+            gh pr edit "$PR_NUMBER" --body-file pr_body.md
+            echo "✅ PR checklist updated."
         else
-          echo "⚠️ Linting checkbox not found or already checked."
+            echo "⚠️ No changes to apply."
         fi
