@@ -216,7 +216,7 @@ def main():
             scenarios, tags = analyze_gherkin(file_path, base_sha)
             testing_plan.extend(scenarios)
             quality_tags.update(tags)
-            change_types.add("✨ **New Feature**")
+            change_types.add("🚀 **New Feature**")
         elif file_path.endswith(('.yaml', '.yml')) and ('locators' in file_path or 'config' in file_path):
             change_types.add("🔧 **Configuration**")
         elif file_path.endswith(('.tsx', '.jsx')):
