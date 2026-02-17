@@ -1,3 +1,4 @@
+---
 name: 'Slack QA Notification'
 description: '📢 Send beautifully formatted test summaries and environment status to a Slack channel.'
 branding:

@@ -1,3 +1,4 @@
+---
 name: 'Performance Baseline Check'
 description: '📉 Compare current performance metrics against a baseline and fail on regressions.'
 branding:

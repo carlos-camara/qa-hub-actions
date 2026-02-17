@@ -1,3 +1,4 @@
+---
 name: 'PR Labeler'
 description: 'Automatically labels pull requests based on the paths of files that are changed.'
 branding:

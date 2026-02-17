@@ -1,3 +1,4 @@
+---
 name: 'Publish Test Results'
 description: '📊 Parse JUnit results and post a professional summary comment to the PR.'
 branding:

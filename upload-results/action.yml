@@ -1,3 +1,4 @@
+---
 name: 'Upload Test Results to Repo'
 description: 'Downloads standard QA Hub test reports and commits them to the repository.'
 inputs:

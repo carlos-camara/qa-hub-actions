@@ -1,3 +1,4 @@
+---
 name: 'Sync from S3 to Repository'
 description: 'Downloads files from AWS S3 and commits them to the repository.'
 

@@ -1,3 +1,4 @@
+---
 name: 'Automated QA Release Notes'
 description: '📝 Automatically generate human-readable testing summaries from changed .feature files.'
 branding:

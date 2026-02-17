@@ -1,3 +1,4 @@
+---
 name: 'Collect and Publish QA Results'
 description: '📊 Aggregate JUnit results, upload artifacts, and publish reporter summaries with configurable paths.'
 branding:

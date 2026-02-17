@@ -1,3 +1,4 @@
+---
 name: 'Security Audit'
 description: '🛡️ Scans dependencies for vulnerabilities and performs static analysis on Python code.'
 branding:

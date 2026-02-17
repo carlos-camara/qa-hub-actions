@@ -1,3 +1,4 @@
+---
 name: 'Deploy to GitHub Pages'
 description: 'Builds a Node.js project and deploys it to GitHub Pages.'
 inputs:

@@ -1,3 +1,4 @@
+---
 name: 'Lint Codebase Standard'
 description: 'Runs Super-Linter with standardized rules for QA Hub projects.'
 branding:

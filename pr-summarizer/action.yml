@@ -1,3 +1,4 @@
+---
 name: 'PR Summarizer'
 description: '🤖 Automatically summarize PR changes following your pull_request_template.md structure.'
 branding:

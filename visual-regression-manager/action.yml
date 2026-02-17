@@ -1,3 +1,4 @@
+---
 name: 'Visual Regression Manager'
 description: '🎨 Automate visual baseline promotion by promoting latest screenshots to baselines upon approval.'
 branding:
