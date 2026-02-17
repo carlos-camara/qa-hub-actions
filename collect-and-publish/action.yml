@@ -37,7 +37,7 @@ runs:
       run: |
         mkdir -p ${{ inputs.junit-results-dir }}
         if [ "${{ inputs.reports-path }}" != "" ] && [ -d "${{ inputs.reports-path }}" ]; then
-          find ${{ inputs.reports-path }} -name "*.xml" -exec cp {} ${{ inputs.junit-results-dir }}/ \;
+          find ${{ inputs.reports-path }} -name "*.xml" -not -path "*/seed_*" -exec cp {} ${{ inputs.junit-results-dir }}/ \;
         fi
         echo "Collected $(find ${{ inputs.junit-results-dir }} -maxdepth 1 -name "*.xml" | wc -l) XML files."
 
