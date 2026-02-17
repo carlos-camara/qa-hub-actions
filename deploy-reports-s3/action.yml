@@ -1,0 +1,103 @@
+name: 'Deploy Reports to S3'
+description: 'Downloads test artifacts and uploads them to AWS S3 with proper project structure.'
+
+inputs:
+  project-name:
+    description: 'Project identifier for S3 prefix (e.g., "dashboard", "api-tests")'
+    required: true
+  s3-bucket:
+    description: 'AWS S3 bucket name'
+    required: true
+  aws-access-key-id:
+    description: 'AWS Access Key ID'
+    required: true
+  aws-secret-access-key:
+    description: 'AWS Secret Access Key'
+    required: true
+  aws-region:
+    description: 'AWS Region'
+    required: false
+    default: 'us-east-1'
+  run-id:
+    description: 'GitHub Workflow Run ID to download artifacts from'
+    required: true
+  upload-reports:
+    description: 'Upload test reports?'
+    required: false
+    default: 'true'
+  upload-screenshots:
+    description: 'Upload GUI screenshots?'
+    required: false
+    default: 'true'
+  upload-perf:
+    description: 'Upload performance reports?'
+    required: false
+    default: 'true'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Download Test Reports
+      if: inputs.upload-reports == 'true'
+      uses: actions/download-artifact@v7
+      with:
+        name: test-reports
+        path: temp_s3/reports
+        github-token: ${{ github.token }}
+        run-id: ${{ inputs.run-id }}
+
+    - name: Download GUI Screenshots
+      if: inputs.upload-screenshots == 'true'
+      uses: actions/download-artifact@v7
+      with:
+        name: gui-screenshots
+        path: temp_s3/screenshots
+        github-token: ${{ github.token }}
+        run-id: ${{ inputs.run-id }}
+
+    - name: Download Performance Reports
+      if: inputs.upload-perf == 'true'
+      uses: actions/download-artifact@v7
+      with:
+        name: performance-reports
+        path: temp_s3/performance
+        github-token: ${{ github.token }}
+        run-id: ${{ inputs.run-id }}
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ inputs.aws-access-key-id }}
+        aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
+        aws-region: ${{ inputs.aws-region }}
+
+    - name: Upload to S3
+      shell: bash
+      run: |
+        echo "🚀 Uploading reports to S3..."
+        
+        PROJECT="${{ inputs.project-name }}"
+        BUCKET="${{ inputs.s3-bucket }}"
+        
+        if [ "${{ inputs.upload-reports }}" == "true" ] && [ -d "temp_s3/reports" ]; then
+          echo "📦 Uploading test reports..."
+          aws s3 sync temp_s3/reports/ s3://${BUCKET}/${PROJECT}/reports/test_run/ \
+            --delete \
+            --exclude "*.gitkeep" || echo "No reports to upload"
+        fi
+        
+        if [ "${{ inputs.upload-screenshots }}" == "true" ] && [ -d "temp_s3/screenshots" ]; then
+          echo "📸 Uploading screenshots..."
+          aws s3 sync temp_s3/screenshots/ s3://${BUCKET}/${PROJECT}/reports/screenshots/ \
+            --delete \
+            --exclude "*.gitkeep" || echo "No screenshots to upload"
+        fi
+        
+        if [ "${{ inputs.upload-perf }}" == "true" ] && [ -d "temp_s3/performance" ]; then
+          echo "⚡ Uploading performance reports..."
+          aws s3 sync temp_s3/performance/ s3://${BUCKET}/${PROJECT}/reports/performance_run/ \
+            --delete \
+            --exclude "*.gitkeep" || echo "No performance reports to upload"
+        fi
+        
+        echo "✅ S3 upload complete!"

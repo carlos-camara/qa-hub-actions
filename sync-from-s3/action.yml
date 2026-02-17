@@ -1,0 +1,81 @@
+name: 'Sync from S3 to Repository'
+description: 'Downloads files from AWS S3 and commits them to the repository.'
+
+inputs:
+  project-name:
+    description: 'Project identifier for S3 prefix (e.g., "dashboard", "api-tests")'
+    required: true
+  s3-bucket:
+    description: 'AWS S3 bucket name'
+    required: true
+  aws-access-key-id:
+    description: 'AWS Access Key ID'
+    required: true
+  aws-secret-access-key:
+    description: 'AWS Secret Access Key'
+    required: true
+  aws-region:
+    description: 'AWS Region'
+    required: false
+    default: 'us-east-1'
+  target-path:
+    description: 'Local repository path to sync files to (e.g., "reports/")'
+    required: true
+  s3-path:
+    description: 'S3 path suffix after project name (e.g., "reports/")'
+    required: false
+    default: 'reports/'
+  commit-message:
+    description: 'Git commit message'
+    required: false
+    default: 'chore: sync from S3 [skip ci]'
+  branch:
+    description: 'Target branch to commit to'
+    required: false
+    default: 'main'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ inputs.aws-access-key-id }}
+        aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
+        aws-region: ${{ inputs.aws-region }}
+
+    - name: Sync from S3
+      shell: bash
+      run: |
+        echo "🔄 Syncing from S3..."
+        
+        PROJECT="${{ inputs.project-name }}"
+        BUCKET="${{ inputs.s3-bucket }}"
+        S3_PATH="${{ inputs.s3-path }}"
+        LOCAL_PATH="${{ inputs.target-path }}"
+        
+        # Create target directory if it doesn't exist
+        mkdir -p "${LOCAL_PATH}"
+        
+        # Sync from S3
+        aws s3 sync s3://${BUCKET}/${PROJECT}/${S3_PATH} ${LOCAL_PATH} \
+          --delete \
+          --exclude "*.gitkeep" || echo "No files to sync"
+        
+        echo "✅ S3 sync complete!"
+
+    - name: Commit and Push Changes
+      shell: bash
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        
+        git add "${{ inputs.target-path }}"
+        
+        if git diff --staged --quiet; then
+          echo "ℹ️ No changes to commit."
+        else
+          git commit -m "${{ inputs.commit-message }}"
+          git push origin "HEAD:${{ inputs.branch }}"
+          echo "✅ Changes committed and pushed!"
+        fi
