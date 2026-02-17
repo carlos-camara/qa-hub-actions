@@ -37,32 +37,17 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Download Test Reports
-      if: inputs.upload-reports == 'true'
+    - name: Download All Artifacts
       uses: actions/download-artifact@v4
       with:
-        name: test-reports
-        path: temp_s3/reports
-        github-token: ${{ github.token }}
+        pattern: |
+          test-reports
+          gui-screenshots
+          performance-reports
+        path: temp_s3
+        github-token: ${{ inputs.github-token }}
         run-id: ${{ inputs.run-id }}
-
-    - name: Download GUI Screenshots
-      if: inputs.upload-screenshots == 'true'
-      uses: actions/download-artifact@v4
-      with:
-        name: gui-screenshots
-        path: temp_s3/screenshots
-        github-token: ${{ github.token }}
-        run-id: ${{ inputs.run-id }}
-
-    - name: Download Performance Reports
-      if: inputs.upload-perf == 'true'
-      uses: actions/download-artifact@v4
-      with:
-        name: performance-reports
-        path: temp_s3/performance
-        github-token: ${{ github.token }}
-        run-id: ${{ inputs.run-id }}
+        merge-multiple: false
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
