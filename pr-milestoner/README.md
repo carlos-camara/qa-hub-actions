@@ -1,23 +1,39 @@
 # 🎯 Action: PR Milestoner
 
-> Automatically assigns the latest open milestone to a Pull Request.
+Surgically assign the latest open milestones to your Pull Requests to ensure automated project tracking and roadmap alignment.
 
-## 📖 What it does
-- **Smart Assignment**: Fetches open milestones from the repository.
-- **Strategy Support**: Choose between `latest_created` (default) or `next_due`.
-- **Zero Config**: Works out of the box with standard GitHub milestones.
+---
+
+## 🚀 Key Impact
+
+- **🎯 Automated Alignment**: Automatically detects the most relevant open milestone for any incoming Pull Request.
+- **⚖️ Selection Strategies**: Toggle between `latest_created` (default) or `next_due` to match your roadmap methodology.
+- **✨ Zero Config**: Integrates seamlessly with standard GitHub Milestones without requiring extra data files.
+- **🤖 Triage Efficiency**: Reduces manual maintenance for project managers and developers.
+
+---
 
 ## 🛠️ Configuration
-| Input | Description | Default |
-| :--- | :--- | :--- |
-| `github-token` | `REQUIRED` | Token for API access. |
-| `strategy` | `latest_created` | Milestone selection logic. |
 
-## 🚀 Usage
+| Input | Required | Default | Description |
+| :--- | :---: | :---: | :--- |
+| `github-token` | **Yes** | - | Token for API access (requires PR editing scope). |
+| `strategy` | No | `latest_created` | Selection logic: `latest_created` or `next_due`. |
+
+---
+
+## ⚡ Quick Start
 
 ```yaml
-- uses: carlos-camara/qa-hub-actions/pr-milestoner@main
+- name: 🎯 Assign Milestone
+  uses: carlos-camara/qa-hub-actions/pr-milestoner@main
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     strategy: "next_due"
 ```
+
+---
+
+<div align="center">
+  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/pr-milestoner/)
+</div>

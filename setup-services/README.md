@@ -1,31 +1,41 @@
 # 🚀 Action: Setup Services
 
-> Orchestrate background services and wait for health checks before test execution.
+Orchestrate background services and perform automated health checks to ensure infrastructure readiness before any test execution.
 
-## 📖 What it does
-- **Service Orchestration**: Starts backend/frontend processes in the background.
-- **Health Checks**: Waits for specific URLs to be 200 OK before proceeding.
-- **Debug Logging**: Automatically prints service logs if startup fails.
+---
+
+## 🚀 Key Impact
+
+- **🏗️ Service Orchestration**: Seamlessly launches backend and frontend processes in the background for integrated testing.
+- **🩺 Automated Health Checks**: Waits for specific endpoints to return `200 OK` before allowing the pipeline to proceed.
+- **🔍 Debug Intelligence**: Automatically captures and prints service logs (`backend.log`, `frontend.log`) upon startup failure.
+- **⚡ Performance-Focused**: Minimizes waiting time with configurable timeouts and intelligent retry logic.
+
+---
 
 ## 🛠️ Configuration
 
+| Input | Required | Default | Description |
+| :--- | :---: | :---: | :--- |
+| `start-services-command` | **Yes** | - | Shell command to start background services. |
+| `health-check-urls` | **Yes** | - | Space-separated URLs to wait for (health endpoints). |
+| `health-check-timeout` | No | `60000` | Maximum time to wait for services in milliseconds. |
+
+---
+
+## ⚡ Quick Start
+
 ```yaml
-- name: Setup Services
+- name: 🚀 Setup Application Services
   uses: carlos-camara/qa-hub-actions/setup-services@main
   with:
-    start-services-command: "npm run start-backend > backend.log 2>&1 & npm run dev > frontend.log 2>&1 &"
-    health-check-urls: "http://localhost:3000 http://localhost:3001/api/health"
-    health-check-timeout: '60000'
+    start-services-command: "npm start &"
+    health-check-urls: "http://localhost:3000/health"
+    health-check-timeout: "45000"
 ```
 
-## 🛠️ Inputs
+---
 
-| Input | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `start-services-command` | `String` | **Required** | Command to start background services (e.g., `npm start &`). |
-| `health-check-urls` | `String` | **Required** | Space-separated URLs to wait for (e.g., `http://localhost:3000`). |
-| `health-check-timeout` | `String` | `60000` | Timeout in milliseconds for health checks. |
-
-## 🆘 Troubleshooting
-
-If the health check fails, the action will attempt to print `backend.log` and `frontend.log` if they exist in the workspace to help debug startup issues.
+<div align="center">
+  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/setup-services/)
+</div>

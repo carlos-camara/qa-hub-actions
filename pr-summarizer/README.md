@@ -1,74 +1,53 @@
 # 🤖 Action: PR Summarizer
 
-> Deep technical analysis and aesthetic summaries for Pull Requests.
+AI-powered deep technical analysis and high-fidelity visual summaries for Pull Requests, providing surgical visibility into code impact.
 
-## 🌟 Key Features
+---
 
-- **Deep Technical Analysis**:
-  - **🌐 API Footprint**: Detects new/modified routes (Express, Flask, etc.).
-  - **🏗️ Structural Impact**: Identifies new functions and classes with `[NEW]` and `[MOD]` badges.
-  - **🎯 Locator Diffing**: Highlights exactly which UI locators were updated in `.yaml` files.
-  - **✨ BDD Intelligence**: Extracts new Gherkin scenarios and quality tags (`@smoke`, `@critical`).
-- **Aesthetic Refinement**:
-  - **📊 Impact Analysis**: Dynamic metrics table with visual intensity bars (█).
-  - **Premium Iconography**: High-fidelity emojis and grouped technical insights.
-  - **Status Badges**: Standardized `[NEW]`, `[MOD]`, and `[FIX]` markers.
-- **Breaking Change Detection**: Flags deleted functions or classes with `[!CAUTION]` alerts.
+## 🚀 Key Impact
 
-## 🚀 Usage
+- **🏗️ Structural Intelligence**: Automatically identifies new classes, functions, and deleted methods with professional badges (`[NEW]`, `[MOD]`, `[FIX]`).
+- **🌐 API Footprint**: Scans for new or modified API routes (Express/Flask) and documents the effective impact.
+- **🎯 Locator Awareness**: Highlights exactly which UI locators were updated in `.yaml` files for GUI test suites.
+- **📊 Impact Analysis**: Generates a dynamic metrics table with visual intensity bars (█) to represent the volume of changes.
+- **✨ Gherkin Insights**: Extracts new BDD scenarios and quality tags (`@smoke`, `@critical`) from changed feature files.
 
-Add this to your PR orchestration workflow (e.g., `.github/workflows/pr_intelligence.yml`):
+---
+
+## 🛠️ Configuration
+
+| Input | Required | Default | Description |
+| :--- | :---: | :---: | :--- |
+| `github-token` | **Yes** | - | GitHub token for PR description/comment updates. |
+| `target` | No | `description` | Where to post the summary: `description` or `comment`. |
+| `domain-mapping` | No | `{}` | Optional JSON mapping of file patterns to domains. |
+
+---
+
+## ⚡ Quick Start
 
 ```yaml
-name: PR Intelligence
-
-on:
-  pull_request:
-    types: [opened, synchronize]
-
-jobs:
-  summarize:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # Required for git diff analysis
-
-      - name: Generate Summary
-        uses: carlos-camara/qa-hub-actions/pr-summarizer@main
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          target: 'description' # Or 'comment'
+- name: 🤖 Generate AI Summary
+  uses: carlos-camara/qa-hub-actions/pr-summarizer@main
+  with:
+    github-token: ${{ secrets.GITHUB_TOKEN }}
+    target: "description"
 ```
 
-## 🔧 Inputs
-
-| Input | Description | Required | Default |
-| :--- | :--- | :--- | :--- |
-| `github-token` | Token for PR description/comment updates. | Yes | - |
-| `domain-mapping` | JSON string mapping patterns to domains. | No | `{}` |
-| `target` | Where to post (description or comment). | No | `description` |
-
-## 📊 Output Example
-
-The action will inject a structured block into your template like this:
-
-### 🏗️ Technical Details
-**🌐 API Footprint**
-- `POST` `/api/incidents`
-**🏗️ Structural Impact**
-- `[NEW]` `verify_logic`
-**🎯 Locator Updates**
-- `[MOD]` `login_button`
-
 ---
-### 📊 Impact Analysis
+
+## 📊 Impact Analysis Example
+
+The action injects a premium overview into your PR:
+
 | Category | Scope | Status |
 | :--- | :---: | :--- |
-| Backend | 5 | █████ |
-| QA | 8 | ████████ |
+| **Backend** | 5 | █████ |
+| **Testing** | 12 | ████████████ |
+| **Docs** | 3 | ███ |
 
 ---
+
 <div align="center">
-  <i>Part of the <b>QA Hub Actions</b> Ecosystem</i>
+  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/pr-summarizer/)
 </div>

@@ -1,36 +1,47 @@
 # 🧪 Action: Run QA Test Suite
 
-The unified core engine for test orchestration, now with intelligent report organization.
+The unified core engine for test orchestration, featuring industrial-grade report consolidation and multi-engine support for API, GUI, and Performance tests.
 
-## 📖 What it does
-- **Service Orchestration**: Starts background services and waits for health checks.
-- **Parallel Engines**: Runs API, GUI, and Performance tests standardized as a single run.
-- **Intelligent Reporting**: Automatically organizes JUnit XML results into timestamped, project-specific folders (e.g., `reports/test_run/dashboard_2026-02-12_11-16-47/`).
-- **Service Isolation**: Handles environment variables for headless browsers and standardizes output.
+---
+
+## 🚀 Key Impact
+
+- **🏗️ Industrial Orchestration**: Executes API, GUI, and Performance test suites with standardized control.
+- **📊 Intelligent Reporting**: Automatically organizes JUnit XML results into timestamped, project-specific directories.
+- **🔄 Surgical Isolation**: Injects dynamic report paths into test engines to prevent cross-run collisions.
+- **🩺 Health Integration**: Built-in support for starting background services and performing pre-flight health checks.
+
+---
 
 ## 🛠️ Configuration
 
-| Input | Required | Description |
-| :--- | :--- | :--- |
-| `test-command-api` | No | Command for API tests. If provided, API tests will run. |
-| `test-command-gui` | No | Command for GUI tests. If provided, GUI tests will run. |
-| `test-command-performance` | No | Command for Performance tests. |
-| `project-name` | No | Name of the project (default: `dashboard`). Used for folder naming. |
-| `headless` | No | Default `true`. |
-| `enable-coverage`| No | Collect Pytest coverage. |
+| Input | Required | Default | Description |
+| :--- | :---: | :---: | :--- |
+| `test-command-api` | No | - | Command for API tests (e.g., `pytest`). |
+| `test-command-gui` | No | - | Command for GUI tests (e.g., `playwright`). |
+| `test-command-performance`| No | - | Command for Performance tests (e.g., `locust`).|
+| `project-name` | No | `dashboard` | Project identifier used for report folder naming. |
+| `headless` | No | `true` | Run GUI tests in headless mode. |
+| `enable-coverage` | No | `false` | Whether to collect and report code coverage. |
 
 > [!IMPORTANT]
-> **Dynamic Report Paths**: The action automatically injects the `--junit-dir` argument into your test commands to ensure all reports from the same run are consolidated into a unique timestamped folder.
+> **Dynamic Pathing**: This action automatically appends `--junit-dir` to your test commands to ensure results are archived in unique, project-isolated folders located in `reports/test_run/`.
 
-## 🚀 Quick Start
+---
+
+## ⚡ Quick Start
 
 ```yaml
-- uses: carlos-camara/qa-hub-actions/run-tests@main
+- name: 🧪 Run Quality Suites
+  uses: carlos-camara/qa-hub-actions/run-tests@main
   with:
-    project-name: "ciber"
-    test-command-api: "qa-hub run --tags api"
-    test-command-gui: "qa-hub run --tags gui"
+    project-name: "core-api"
+    test-command-api: "pytest tests/api"
+    test-command-gui: "pytest tests/gui"
 ```
 
 ---
-[View full documentation →](https://carlos-camara.github.io/qa-hub-actions/actions/run-tests/)
+
+<div align="center">
+  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/run-tests/)
+</div>

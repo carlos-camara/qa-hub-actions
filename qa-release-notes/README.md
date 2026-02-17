@@ -1,46 +1,19 @@
-# 📝 Action: Automated QA Release Notes
+# 📝 Action: QA Release Notes
 
-> Bridge the gap between technical automation and stakeholder visibility.
-
----
-
-## ✨ Key Features
-
-- **📖 Gherkin Intelligence**: Directly parses `.feature` files to extract human-readable titles.
-- **📊 Executive Summary**: Generates a clean, structured table of Features and Scenarios.
-- **💬 PR Integration**: Can automatically comment on Pull Requests to keep Devs and PMs informed about what is being tested.
-- **🚀 Agile Visibility**: Perfect for shifting left on testing visibility, ensuring the whole team knows the automated coverage before merge.
+Bridge the gap between technical automation and stakeholder visibility by generating high-fidelity, human-readable testing dossiers from your BDD feature files.
 
 ---
 
-## 🚀 Usage
+## 🚀 Key Impact
 
-### PR Visibility Workflow
-
-```yaml
-name: QA Visibility
-
-on:
-  pull_request:
-    types: [opened, synchronize]
-
-jobs:
-  summary:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Generate QA Notes
-        uses: carlos-camara/qa-hub-actions/qa-release-notes@main
-        with:
-          features-path: 'features'
-          publish-pr-comment: 'true'
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-```
+- **📖 Gherkin Intelligence**: Surgically parses `.feature` files to extract professional titles and scenario checklists.
+- **📊 Executive Dossiers**: Generates a structured overview of the testing scope directly in your Job Summary.
+- **💬 Stakeholder Alignment**: Optionally posts the testing scope as a PR comment to inform Devs and PMs before merge.
+- **🚀 Agile Transparency**: Ensures consistent visibility into automated coverage across every deployment.
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ Technical Lifecycle
 
 ```mermaid
 graph TD
@@ -54,10 +27,29 @@ graph TD
 
 ---
 
-## 📄 Inputs
+## 🛠️ Configuration
 
-| Input | Description | Default |
-| :--- | :--- | :--- |
-| `features-path` | Root directory to scan for BDD files | `features` |
-| `github-token` | Token for PR commenting | - |
-| `publish-pr-comment` | Whether to post a comment on the PR | `false` |
+| Input | Required | Default | Description |
+| :--- | :---: | :---: | :--- |
+| `features-path` | No | `features` | Root directory to scan for `.feature` files. |
+| `github-token` | No | - | Token required for PR commenting. |
+| `publish-pr-comment`| No | `false` | Whether to post the summary as a PR comment. |
+
+---
+
+## ⚡ Quick Start
+
+```yaml
+- name: 📝 Generate QA Release Notes
+  uses: carlos-camara/qa-hub-actions/qa-release-notes@main
+  with:
+    features-path: "features"
+    publish-pr-comment: "true"
+    github-token: ${{ secrets.GITHUB_TOKEN }}
+```
+
+---
+
+<div align="center">
+  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/qa-release-notes/)
+</div>

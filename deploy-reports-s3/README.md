@@ -1,60 +1,63 @@
-# Deploy Reports to S3
+# ☁️ Action: Deploy Reports to S3
 
-Generic composite action for uploading test artifacts to AWS S3 with proper project structure.
+Securely archive and organize industrial-grade QA reports in AWS S3 with project-based isolation and long-term retention.
 
-## Features
+---
 
-- ✅ Downloads test reports, screenshots, and performance artifacts from workflow runs
-- ☁️ Uploads to S3 with organized project-based structure
-- 🔧 Configurable upload toggles (reports, screenshots, performance)
-- 🌍 Multi-region AWS support
+## 🚀 Key Impact
 
-## Usage
+- **📥 Artifact Orchestration**: Automatically downloads test reports, GUI screenshots, and performance data from GitHub Actions.
+- **☁️ Cloud-Native Storage**: Syncs artifacts to AWS S3 using short-lived credentials for maximum security.
+- **🏗️ Organized Structure**: Enforces a standard project hierarchy in S3 (e.g., `s3://bucket/project/reports/`).
+- **🔧 Granular Control**: Toggle synchronization for specific artifact types independently.
 
-```yaml
-- name: Deploy Reports to S3
-  uses: carlos-camara/qa-hub-actions/deploy-reports-s3@main
-  with:
-    project-name: "my-project"
-    s3-bucket: ${{ secrets.AWS_S3_BUCKET }}
-    aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    aws-region: "us-east-1"
-    run-id: ${{ github.run_id }}
-    upload-reports: 'true'
-    upload-screenshots: 'true'
-    upload-perf: 'true'
-```
+---
 
-## Inputs
+## 🏗️ S3 Architecture
 
-| Input | Description | Required | Default |
-|-------|-------------|----------|---------|
-| `project-name` | Project identifier for S3 prefix | Yes | - |
-| `s3-bucket` | AWS S3 bucket name | Yes | - |
-| `aws-access-key-id` | AWS Access Key ID | Yes | - |
-| `aws-secret-access-key` | AWS Secret Access Key | Yes | - |
-| `aws-region` | AWS Region | No | `us-east-1` |
-| `run-id` | GitHub Workflow Run ID | Yes | - |
-| `upload-reports` | Upload test reports? | No | `true` |
-| `upload-screenshots` | Upload GUI screenshots? | No | `true` |
-| `upload-perf` | Upload performance reports? | No | `true` |
-
-## S3 Structure
-
-Files are organized in S3 as:
-```
+Files are organized in your bucket as:
+```text
 s3://bucket-name/
   └── project-name/
       └── reports/
-          ├── test_run/        # Test reports
-          ├── screenshots/     # GUI screenshots
-          └── performance_run/ # Performance reports
+          ├── test_run/        # Unified JUnit XMLs
+          ├── screenshots/     # Visual evidence
+          └── performance_run/ # Monitoring data
 ```
 
-## Required Secrets
+---
 
-- `AWS_S3_BUCKET`: Your S3 bucket name
-- `AWS_ACCESS_KEY_ID`: AWS credentials
-- `AWS_SECRET_ACCESS_KEY`: AWS credentials
-- `AWS_REGION`: AWS region (optional)
+## 🛠️ Configuration
+
+| Input | Required | Default | Description |
+| :--- | :---: | :---: | :--- |
+| `project-name` | **Yes** | - | Unique identifier for the project. |
+| `s3-bucket` | **Yes** | - | Target AWS S3 bucket name. |
+| `aws-access-key-id` | **Yes** | - | AWS Authentication Key. |
+| `aws-secret-access-key` | **Yes** | - | AWS Authentication Secret. |
+| `run-id` | **Yes** | - | GitHub Run ID to pull reports from. |
+| `aws-region` | No | `us-east-1` | AWS Infrastructure region. |
+| `upload-reports` | No | `true` | Toggle for test report upload. |
+| `upload-screenshots` | No | `true` | Toggle for screenshot upload. |
+| `upload-perf` | No | `true` | Toggle for performance metadata. |
+
+---
+
+## ⚡ Quick Start
+
+```yaml
+- name: ☁️ Deploy Reports to S3
+  uses: carlos-camara/qa-hub-actions/deploy-reports-s3@v1
+  with:
+    project-name: "dashboard"
+    s3-bucket: "qa-hub-storage"
+    aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    run-id: ${{ github.run_id }}
+```
+
+---
+
+<div align="center">
+  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/deploy-reports-s3/)
+</div>

@@ -1,32 +1,43 @@
-# 📥 Upload Test Results to Repo
+# 📥 Action: Upload Results
 
-> Part of the [QA Hub Actions](https://github.com/carlos-camara/qa-hub-actions) ecosystem.
+Consolidate and archive surgical test reports, visual evidence, and performance metadata directly into your repository branch for persistent history.
 
-Downloads standard QA Hub test reports and commits them to the repository's specified branch.
+---
 
-## ⚡ Quick Info
+## 🚀 Key Impact
 
-- **Category**: Maintenance & CI
-- **Complexity**: Medium
-- **Version**: v1.0.0
+- **📥 Artifact Consolidation**: Automatically downloads and merges unified test reports and GUI screenshots from workflow runs.
+- **💾 Repository Persistence**: Commits and pushes the consolidated results back to a specified branch (e.g., `gh-pages` or `results`).
+- **📸 Screenshot Capture**: Handles visual evidence by organizing artifacts into a dedicated `screenshots` resource directory.
+- **🤝 Standardized Layout**: Enforces the official QA Hub directory structure for reports and assets.
 
-## 🚀 Usage
+---
+
+## 🛠️ Configuration
+
+| Input | Required | Default | Description |
+| :--- | :---: | :---: | :--- |
+| `run-id` | **Yes** | - | GitHub Run ID to pull consolidated artifacts from. |
+| `branch` | **Yes** | - | Target branch for committing the results. |
+| `upload-reports` | No | `true` | Toggle for processing test results and screenshots. |
+| `upload-perf` | No | `true` | Toggle for processing performance metadata. |
+| `commit-message` | No | (Table) | Custom Git commit message for the updates. |
+
+---
+
+## ⚡ Quick Start
 
 ```yaml
-- uses: carlos-camara/qa-hub-actions/upload-results@main
+- name: 📥 Upload persistent results
+  uses: carlos-camara/qa-hub-actions/upload-results@main
   with:
     run-id: ${{ github.run_id }}
     branch: "gh-pages"
+    commit-message: "chore: update test dashboard artifacts"
 ```
 
-## 🛠️ Inputs
-
-| Input | Description | Default |
-| :--- | :--- | :--- |
-| `run-id` | GitHub Workflow Run ID. | `REQUIRED` |
-| `branch` | Target branch name. | `REQUIRED` |
-| `upload-reports` | Process test reports? | `'true'` |
-| `commit-message` | Custom commit message. | `'docs: auto-generate...'` |
-
 ---
-[View Full Documentation](https://carlos-camara.github.io/qa-hub-actions/actions/upload-results/)
+
+<div align="center">
+  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/upload-results/)
+</div>

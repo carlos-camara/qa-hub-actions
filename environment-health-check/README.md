@@ -1,55 +1,19 @@
-# 🛡️ Action: Environment Health Check & Teardown
+# 🏥 Action: Env Health & Teardown
 
-> Ensure infrastructure stability before tests and perform surgical cleanup after execution.
+Ensure infrastructure stability before execution and perform surgical environment cleanup after testing to prevent flakiness and state leakage.
 
 ---
 
-## ✨ Key Features
+## 🚀 Key Impact
 
 - **🧹 Pre-flight Purification**: Automatically identifies and terminates orphaned processes on specified ports before starting tests.
-- **🔍 Database Integrity**: Validates the health of SQLite databases (PRAGMA check) and auto-recovers from corruption.
-- **🚿 Surgical Teardown**: Ensures all background services are terminated and temporary logs are purged, regardless of test outcome.
-- **🔄 Lifecycle Orchestration**: Seamlessly integrates with `setup-services` for unified environmental management.
+- **🔍 Database Integrity**: Validates the health of SQLite databases (Integrity Check) and auto-recovers from corruption.
+- **🚿 Surgical Teardown**: Ensures all background services (Node, Python) are terminated and temporary logs are purged.
+- **🔄 Lifecycle Orchestration**: Seamlessly handles setup/startup and teardown/cleanup tasks in a single interface.
 
 ---
 
-## 🚀 Usage
-
-### Standard Setup & Teardown
-
-```yaml
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      # 1. Setup Environment
-      - name: Prep Infrastructure
-        uses: carlos-camara/qa-hub-actions/environment-health-check@main
-        with:
-          task: 'setup'
-          start-services-command: 'npm start &'
-          health-check-urls: 'http://localhost:3000'
-          db-path: 'data/database.sqlite'
-          ports-to-clean: '3000 3001'
-
-      # 2. Run Tests
-      - name: Execute Tests
-        run: npm test
-
-      # 3. Teardown (Always runs)
-      - name: Cleanup
-        if: always()
-        uses: carlos-camara/qa-hub-actions/environment-health-check@main
-        with:
-          task: 'teardown'
-          ports-to-clean: '3000 3001'
-```
-
----
-
-## 🏗️ Architecture
+## 🏗️ Technical Lifecycle
 
 ```mermaid
 graph TD
@@ -58,18 +22,46 @@ graph TD
     C --> D[Start Services]
     D --> E[Wait for Health Check]
     
-    F[Teardown Task] --> G[Kill Processes]
+    F[Teardown Task] --> G[Kill Residual Processes]
     G --> H[Purge Temporary Logs]
 ```
 
 ---
 
-## 📄 Inputs
+## 🛠️ Configuration
 
-| Input | Description | Default |
-| :--- | :--- | :--- |
-| `task` | `setup` or `teardown` | `setup` |
-| `start-services-command` | Command to launch background services | - |
-| `health-check-urls` | URLs to wait for before proceeding | - |
-| `db-path` | Path to SQLite DB for integrity check | - |
-| `ports-to-clean` | Ports to purge of orphaned processes | `3000 3001` |
+| Input | Required | Default | Description |
+| :--- | :---: | :---: | :--- |
+| `task` | **Yes** | `setup` | Task to perform: `setup` or `teardown`. |
+| `ports-to-clean` | No | `3000 3001` | Ports to purge of orphaned processes. |
+| `start-services-command`| No | - | Optional command to launch background services. |
+| `health-check-urls` | No | - | URLs to wait for before proceeding. |
+| `db-path` | No | - | Path to SQLite DB for hardware integrity check. |
+
+---
+
+## ⚡ Quick Start
+
+```yaml
+- name: 🏥 Prepare Infrastructure
+  uses: carlos-camara/qa-hub-actions/environment-health-check@main
+  with:
+    task: 'setup'
+    start-services-command: 'npm start &'
+    health-check-urls: 'http://localhost:3000'
+    db-path: 'data/qa.db'
+
+# ... Run Tests ...
+
+- name: 🧼 surgical Teardown
+  if: always()
+  uses: carlos-camara/qa-hub-actions/environment-health-check@main
+  with:
+    task: 'teardown'
+```
+
+---
+
+<div align="center">
+  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/environment-health-check/)
+</div>

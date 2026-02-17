@@ -1,26 +1,42 @@
 # 🛡️ Action: Security Audit
 
-Automated security shield for Python automation projects.
+Surgical protection for your codebase by scanning dependencies for vulnerabilities and performing static security analysis on Python code.
 
-## 📖 What it does
-- **Dependency Shield**: Scans `requirements.txt` via `Safety`.
-- **Static Analysis**: Identifies security smells via `Bandit`.
-- **Shift Left**: Catches vulnerabilities before they reach production.
+---
+
+## 🚀 Key Impact
+
+- **🔒 Dependency Shield**: Scans your `requirements.txt` via `Safety` to detect known vulnerabilities in third-party packages.
+- **🔍 Static Analysis**: Performs deep security audits of your Python source code using `Bandit` to identify common security smells.
+- **⚖️ Configurable Audits**: Skip specific audit rules or toggle between dependency and code scans independently.
+- **🛡️ Shift Left Security**: Catches critical security flaws during the CI process before they reach production environments.
+
+---
 
 ## 🛠️ Configuration
 
-| Input | Default | Description |
-| :--- | :---: | :--- |
-| `target-path` | `"."` | Path to scan with Bandit. |
-| `python-version`| `'3.11'` | Python version to use. |
+| Input | Required | Default | Description |
+| :--- | :---: | :---: | :--- |
+| `python-version` | No | `3.11` | Python runtime version to use for auditing. |
+| `target-path` | No | `.` | Directory or file path to scan for code security. |
+| `scan-dependencies` | No | `true` | Whether to perform `Safety` dependency checks. |
+| `scan-code` | No | `true` | Whether to perform `Bandit` static analysis. |
+| `bandit-skip` | No | - | Comma-separated list of Bandit IDs to ignore. |
 
-## 🚀 Quick Start
+---
+
+## ⚡ Quick Start
 
 ```yaml
-- uses: carlos-camara/qa-hub-actions/security-audit@v1
+- name: 🛡️ Security Audit
+  uses: carlos-camara/qa-hub-actions/security-audit@v1
   with:
-    target-path: "qa_framework/"
+    target-path: "app/"
+    scan-dependencies: "true"
 ```
 
 ---
-[View full documentation →](https://carlos-camara.github.io/qa-hub-actions/actions/security-audit/)
+
+<div align="center">
+  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/security-audit/)
+</div>

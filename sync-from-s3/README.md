@@ -1,73 +1,47 @@
-# Sync from S3 to Repository
+# 🔄 Action: Sync from S3
 
-Generic composite action for downloading files from AWS S3 and committing them to your repository.
+Generic cloud-to-local synchronization for downloading files from AWS S3 and automatically committing them to your repository.
 
-## Features
+---
 
-- ☁️ Downloads files from S3 with project-based structure
-- 📦 Automatically commits changes to your repository
-- 🔧 Configurable paths and commit messages
-- 🌍 Multi-region AWS support
+## 🚀 Key Impact
 
-## Usage
+- **☁️ Cloud-to-Repo Sync**: Efficiently downloads artifacts from S3 using optimized synchronization logic.
+- **💾 Automated Commits**: Automatically stages, commits, and pushes downloaded files back to your repository branch.
+- **🏗️ Project Sharding**: Supports project-based S3 prefixes to maintain isolation across multi-project environments.
+- **🔄 Trigger Integration**: Perfect for `workflow_run` events to update documentation or dashboard sites after data generation.
+
+---
+
+## 🛠️ Configuration
+
+| Input | Required | Default | Description |
+| :--- | :---: | :---: | :--- |
+| `project-name` | **Yes** | - | Unique identifier for the project sharding. |
+| `s3-bucket` | **Yes** | - | Target AWS S3 bucket name. |
+| `target-path` | **Yes** | - | Local directory to sync files into. |
+| `aws-access-key-id` | **Yes** | - | AWS Authentication Key. |
+| `aws-secret-access-key`| **Yes** | - | AWS Authentication Secret. |
+| `s3-path` | No | `reports/` | S3 path suffix after the project name. |
+| `commit-message` | No | `chore: sync` | Custom Git commit message. |
+
+---
+
+## ⚡ Quick Start
 
 ```yaml
-- name: Sync Reports from S3
+- name: 🔄 Sync Reports from Cloud
   uses: carlos-camara/qa-hub-actions/sync-from-s3@main
   with:
-    project-name: "my-project"
-    s3-bucket: ${{ secrets.AWS_S3_BUCKET }}
-    aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    aws-region: "us-east-1"
-    target-path: "reports/"
-    s3-path: "reports/"
-    commit-message: "chore: sync from S3 [skip ci]"
-    branch: "main"
+    project-name: "dashboard"
+    s3-bucket: "qa-hub-storage"
+    aws-access-key-id: ${{ secrets.AWS_KEY }}
+    aws-secret-access-key: ${{ secrets.AWS_SECRET }}
+    target-path: "docs/reports/"
 ```
 
-## Inputs
+---
 
-| Input | Description | Required | Default |
-|-------|-------------|----------|---------|
-| `project-name` | Project identifier for S3 prefix | Yes | - |
-| `s3-bucket` | AWS S3 bucket name | Yes | - |
-| `aws-access-key-id` | AWS Access Key ID | Yes | - |
-| `aws-secret-access-key` | AWS Secret Access Key | Yes | - |
-| `aws-region` | AWS Region | No | `us-east-1` |
-| `target-path` | Local path to sync files to | Yes | - |
-| `s3-path` | S3 path suffix after project name | No | `reports/` |
-| `commit-message` | Git commit message | No | `chore: sync from S3 [skip ci]` |
-| `branch` | Target branch for commit | No | `main` |
-
-## Use Cases
-
-### Test Report Synchronization
-Perfect for pulling test results from S3 into your repository for display on GitHub Pages:
-
-```yaml
-on:
-  workflow_run:
-    workflows: ["Deploy Reports to S3"]
-    types: [completed]
-
-jobs:
-  sync:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - uses: carlos-camara/qa-hub-actions/sync-from-s3@main
-        with:
-          project-name: "dashboard"
-          s3-bucket: ${{ secrets.AWS_S3_BUCKET }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          target-path: "reports/test_run"
-```
-
-## Required Secrets
-
-- `AWS_S3_BUCKET`: Your S3 bucket name
-- `AWS_ACCESS_KEY_ID`: AWS credentials
-- `AWS_SECRET_ACCESS_KEY`: AWS credentials
-- `AWS_REGION`: AWS region (optional)
+<div align="center">
+  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/sync-from-s3/)
+</div>

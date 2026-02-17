@@ -1,36 +1,43 @@
-# 📢 Slack QA Notification
+# 📢 Action: Slack Notification
 
-> Part of the [QA Hub Actions](https://github.com/carlos-camara/qa-hub-actions) ecosystem.
+Send beautifully formatted test summaries, environment status, and high-fidelity alerts to your team's Slack channels.
 
-Send beautifully formatted test summaries and environment status to a Slack channel.
+---
 
-## ⚡ Quick Info
+## 🚀 Key Impact
 
-- **Category**: Reporting & Notifications
-- **Complexity**: Low
-- **Version**: v1.0.2
-- **Required Secrets**: `SLACK_WEBHOOK_URL`
+- **🎨 High-Fidelity Layouts**: Delivers rich Slack attachments with status-colored sidebars (Success: Green, Failure: Red).
+- **📊 Run Intelligence**: Automatically includes deep links to the specific GitHub Action run for surgical debugging.
+- **🛠️ Configurable Summaries**: Injects custom test metrics or context-specific summaries into every notification.
+- **🦾 Automation Focused**: Designed to run in the `always()` hook to ensure visibility regardless of job outcome.
 
-## 🚀 Usage
+---
+
+## 🛠️ Configuration
+
+| Input | Required | Default | Description |
+| :--- | :---: | :---: | :--- |
+| `slack-webhook-url` | **Yes** | - | Your incoming Slack Webhook URL. |
+| `status` | **Yes** | `success` | Job status: `success`, `failure`, or `cancelled`. |
+| `test-summary` | No | (Table) | Brief text describing the execution results. |
+| `project-name` | No | (Repo) | Identifier for the project being tested. |
+
+---
+
+## ⚡ Quick Start
 
 ```yaml
-- name: Notify Slack
+- name: 📢 Notify Slack
   uses: carlos-camara/qa-hub-actions/slack-notify@main
   if: always()
   with:
     slack-webhook-url: ${{ secrets.SLACK_WEBHOOK }}
     status: ${{ job.status }}
-    test-summary: "Finished execution for PR #${{ github.event.number }}"
+    test-summary: "Test Suite Results: 45 Passed, 2 Failed."
 ```
 
-## 🛠️ Inputs
-
-| Input | Description | Default |
-| :--- | :--- | :--- |
-| `slack-webhook-url` | The Slack Webhook URL. | `REQUIRED` |
-| `status` | Job status (`success`, `failure`, `cancelled`). | `'success'` |
-| `test-summary` | Summary text for the notification. | `'Tests completed successfully.'` |
-| `project-name` | Name of the project. | `${{ github.repository }}` |
-
 ---
-[View Full Documentation](https://carlos-camara.github.io/qa-hub-actions/actions/slack-notify/)
+
+<div align="center">
+  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/slack-notify/)
+</div>

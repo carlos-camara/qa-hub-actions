@@ -1,38 +1,42 @@
-# 📉 Performance Baseline Check
+# 📉 Action: Performance Baseline
 
-> Part of the [QA Hub Actions](https://github.com/carlos-camara/qa-hub-actions) ecosystem.
+Protect your user experience by automatically detecting latency regressions and generating high-fidelity visual trend charts.
 
-Compare current performance metrics against a baseline, detect slowdowns, and generate automated Mermaid trend visualizations.
+---
 
-## ✨ Key Features
+## 🚀 Key Impact
 
-- **🩺 Drift Detection**: Compares JSON metrics against a baseline with configurable % thresholds.
-- **📊 Visual Trends**: Automatically generates a Mermaid `xychart-beta` in the Job Summary.
-- **🚫 Automated Guardrails**: Fails the CI pipeline if any metric deviates beyond the allowed drift.
+- **🩺 Regression Guardrails**: Compares current performance metrics (Locust/Playwright) against a baseline JSON with configurable drift tolerance.
+- **📊 Aesthetic reporting**: Automatically generates Mermaid `xychart-beta` visualizations directly in your GitHub Job Summary.
+- **🚫 Automated Gates**: Fails the CI pipeline with custom exit codes if performance deviates beyond the allowed threshold.
+- **🏗️ Zero Configuration**: Works with any standard flat JSON metric object `{ "metric_name": value }`.
 
-## ⚡ Quick Info
+---
 
-- **Category**: Quality & Security
-- **Complexity**: Low
-- **Version**: v1.1.0
+## 🛠️ Configuration
 
-## 🚀 Usage
+| Input | Required | Default | Description |
+| :--- | :---: | :---: | :--- |
+| `current-metrics` | **Yes** | - | Path to the latest performance JSON report. |
+| `baseline-metrics` | **Yes** | - | Path to the gold-standard baseline JSON. |
+| `threshold` | No | `10` | Frequency percentage allowed for drift (e.g., `5` for 5%). |
+| `failure-exit-code` | No | `1` | Exit code to return if regression threshold is met. |
+
+---
+
+## ⚡ Quick Start
 
 ```yaml
-- uses: carlos-camara/qa-hub-actions/performance-baseline-check@main
+- name: 📉 Performance Baseline Check
+  uses: carlos-camara/qa-hub-actions/performance-baseline-check@main
   with:
-    current-metrics: "results/perf.json"
-    baseline-metrics: "baseline/perf.json"
+    current-metrics: "results/perf_metrics.json"
+    baseline-metrics: "perf_baseline.json"
     threshold: "10"
 ```
 
-## 🛠️ Inputs
-
-| Input | Description | Default |
-| :--- | :--- | :--- |
-| `current-metrics` | Path to current JSON metrics. | `REQUIRED` |
-| `baseline-metrics` | Path to baseline JSON metrics. | `REQUIRED` |
-| `threshold` | % threshold for regression. | `'10'` |
-
 ---
-[View Full Documentation](https://carlos-camara.github.io/qa-hub-actions/actions/performance-baseline-check/)
+
+<div align="center">
+  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/performance-baseline-check/)
+</div>
