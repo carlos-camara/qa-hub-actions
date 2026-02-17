@@ -243,13 +243,36 @@ def main():
     # 📦 File Intelligence Section
     status_map = {"A": "[NEW]", "M": "[MOD]", "D": "[DELETED]", "R": "[REN]"}
     intel_str += "### 📦 File Intelligence Breakdown\n"
-    for line in changed_files_raw[:10]:
+    
+    # 1. Group files by purpose
+    grouped_files = {}
+    for line in changed_files_raw:
         if not line: continue
         parts = line.split('\t')
+        if len(parts) < 2: continue
         s, f = parts[0], parts[1]
         p = detect_file_purpose(f)
-        intel_str += f"- `{f}`: {status_map.get(s[0], '[MOD]')} {p}\n"
-    if len(changed_files_raw) > 10: intel_str += f"- *...and {len(changed_files_raw)-10} more files.*\n"
+        if p not in grouped_files: grouped_files[p] = []
+        grouped_files[p].append((s, f))
+    
+    # 2. Build collapsible sections
+    # Sort purposes to have a consistent order
+    sorted_purposes = sorted(grouped_files.keys())
+    
+    for p in sorted_purposes:
+        files = grouped_files[p]
+        count = len(files)
+        intel_str += f"<details>\n<summary><b>{p} ({count})</b></summary>\n\n"
+        
+        # Limit to 15 files per group for extreme cases
+        for s, f in files[:15]:
+            status_text = status_map.get(s[0], "[MOD]")
+            intel_str += f"- `{status_text}` `{f}`\n"
+        
+        if count > 15:
+            intel_str += f"- *... and {count - 15} more files in this category*\n"
+            
+        intel_str += "\n</details>\n"
     intel_str += "\n"
 
     if suggestions:
