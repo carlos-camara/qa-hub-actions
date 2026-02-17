@@ -16,7 +16,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Auto Milestone
+    - name: 🎯 Auto Milestone
       shell: bash
       run: |
         REPO="${{ github.repository }}"

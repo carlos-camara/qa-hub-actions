@@ -32,27 +32,27 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Set up Python
+    - name: 🐍 Set up Python
       if: inputs.python-version != ''
       uses: actions/setup-python@v5
       with:
         python-version: ${{ inputs.python-version }}
         cache: ${{ inputs.python-cache }}
 
-    - name: Install Python dependencies
+    - name: 📥 Install Python dependencies
       if: inputs.python-version != '' && inputs.python-install-command != ''
       shell: bash
       run: |
         ${{ inputs.python-install-command }}
 
-    - name: Set up Node.js
+    - name: 📦 Set up Node.js
       if: inputs.node-version != ''
       uses: actions/setup-node@v4
       with:
         node-version: ${{ inputs.node-version }}
         cache: ${{ inputs.node-cache }}
 
-    - name: Install Node dependencies
+    - name: 📥 Install Node dependencies
       if: inputs.node-version != '' && inputs.node-install-command != ''
       shell: bash
       run: |

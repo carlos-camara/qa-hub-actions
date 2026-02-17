@@ -25,7 +25,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Pre-flight Cleanup
+    - name: 🔍 Pre-flight Cleanup
       if: ${{ inputs.task == 'setup' }}
       shell: bash
       run: |
@@ -42,7 +42,7 @@ runs:
         pkill -f "node" || true
         pkill -f "python" || true
           
-    - name: Database Integrity Check
+    - name: 🗄️ Database Integrity Check
       if: ${{ inputs.task == 'setup' && inputs.db-path != '' }}
       shell: bash
       run: |
@@ -56,14 +56,14 @@ runs:
           echo "Note: Database file not found at ${{ inputs.db-path }}, skipping integrity check."
         fi
 
-    - name: Setup Services
+    - name: ⚙️ Setup Services
       if: ${{ inputs.task == 'setup' && inputs.start-services-command != '' }}
       uses: carlos-camara/qa-hub-actions/setup-services@main
       with:
         start-services-command: ${{ inputs.start-services-command }}
         health-check-urls: ${{ inputs.health-check-urls }}
 
-    - name: Teardown Environment
+    - name: 🛑 Teardown Environment
       if: ${{ inputs.task == 'teardown' }}
       shell: bash
       run: |

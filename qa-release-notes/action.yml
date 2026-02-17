@@ -19,7 +19,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Generate QA Summary
+    - name: 📊 Generate QA Summary
       shell: bash
       run: |
         echo "🔍 Discovering changes in .feature files..."

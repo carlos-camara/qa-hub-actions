@@ -18,13 +18,13 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Start Services
+    - name: 🚀 Start Services
       shell: bash
       run: |
         echo "Starting services: ${{ inputs.start-services-command }}"
         ${{ inputs.start-services-command }}
           
-    - name: Wait for Services
+    - name: ⏳ Wait for Services
       shell: bash
       run: |
         echo "Waiting for health checks: ${{ inputs.health-check-urls }}"

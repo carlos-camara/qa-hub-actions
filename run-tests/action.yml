@@ -44,7 +44,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Pre-execution Cleanup
+    - name: 🧹 Pre-execution Cleanup
       shell: bash
       run: |
         echo "::group::Cleanup stale reports"
@@ -54,24 +54,24 @@ runs:
         echo "Cleanup complete."
         echo "::endgroup::"
 
-    - name: Start Services
+    - name: 🚀 Start Services
       if: inputs.start-services-command != ''
       shell: bash
       run: |
         ${{ inputs.start-services-command }}
           
-    - name: Wait for Services
+    - name: ⏳ Wait for Services
       if: inputs.health-check-urls != ''
       shell: bash
       run: |
         npx wait-on ${{ inputs.health-check-urls }} --timeout 60000 || (cat backend.log 2>/dev/null || true && cat frontend.log 2>/dev/null || true && exit 1)
 
-    - name: Set Run Timestamp
+    - name: ⏰ Set Run Timestamp
       id: timestamp
       shell: bash
       run: echo "ts=$(date +'%Y-%m-%d_%H-%M-%S')" >> "$GITHUB_OUTPUT"
 
-    - name: Run API Tests
+    - name: 🧪 Run API Tests
       if: inputs.test-command-api != ''
       shell: pwsh
       run: |
@@ -89,14 +89,14 @@ runs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
         }
 
-    - name: Run Performance Tests
+    - name: 🧪 Run Performance Tests
       if: inputs.test-command-performance != ''
       shell: pwsh
       run: |
         echo "::notice::Executing Performance Stability Audit"
         ${{ inputs.test-command-performance }}
 
-    - name: Run GUI Tests
+    - name: 🧪 Run GUI Tests
       if: inputs.test-command-gui != ''
       shell: pwsh
       run: |

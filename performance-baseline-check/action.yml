@@ -23,7 +23,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Compare Performance
+    - name: 📊 Compare Performance
       shell: bash
       run: |
         echo "Comparing ${{ inputs.current-metrics }} against ${{ inputs.baseline-metrics }}..."

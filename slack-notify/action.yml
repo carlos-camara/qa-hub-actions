@@ -24,7 +24,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Send Slack Notification
+    - name: 📬 Send Slack Notification
       shell: bash
       run: |
         COLOR="good"

@@ -43,7 +43,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Super-Linter
+    - name: 🔍 Super-Linter
       uses: github/super-linter@v6
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
@@ -58,7 +58,7 @@ runs:
         VALIDATE_TSX: ${{ inputs.validate-ts }}
         FILTER_REGEX_EXCLUDE: ${{ inputs.filter-regex-exclude }}
 
-    - name: Mark Linting as Passed
+    - name: ✅ Mark Linting as Passed
       if: success() && github.event_name == 'pull_request'
       shell: bash
       env:

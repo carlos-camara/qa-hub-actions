@@ -22,16 +22,16 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Setup Python
+    - name: 🐍 Setup Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.x'
 
-    - name: Generate Summary Markdown
+    - name: 📊 Generate Summary Markdown
       shell: bash
       run: python ${{ github.action_path }}/reporter.py "${{ inputs.reports-path }}"
 
-    - name: Publish Results
+    - name: 📢 Publish Results
       shell: bash
       env:
         GH_TOKEN: ${{ inputs.github-token }}

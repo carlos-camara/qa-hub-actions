@@ -32,7 +32,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Collect All JUnit XMLs
+    - name: 📂 Collect All JUnit XMLs
       shell: bash
       run: |
         mkdir -p ${{ inputs.junit-results-dir }}
@@ -41,28 +41,28 @@ runs:
         fi
         echo "Collected $(find ${{ inputs.junit-results-dir }} -maxdepth 1 -name "*.xml" | wc -l) XML files."
 
-    - name: Upload Test Reports
+    - name: 📤 Upload Test Reports
       if: inputs.upload-artifacts == 'true' && inputs.reports-path != ''
       uses: actions/upload-artifact@v4
       with:
         name: test-reports
         path: ${{ inputs.reports-path }}
 
-    - name: Upload GUI Screenshots
+    - name: 📤 Upload GUI Screenshots
       if: inputs.upload-artifacts == 'true' && inputs.screenshots-path != ''
       uses: actions/upload-artifact@v4
       with:
         name: gui-screenshots
         path: ${{ inputs.screenshots-path }}
 
-    - name: Upload Performance Reports
+    - name: 📤 Upload Performance Reports
       if: inputs.upload-artifacts == 'true' && inputs.performance-reports-path != ''
       uses: actions/upload-artifact@v4
       with:
         name: performance-reports
         path: ${{ inputs.performance-reports-path }}
 
-    - name: Publish Test Results (PR)
+    - name: 📢 Publish Test Results (PR)
       if: inputs.publish-results == 'true'
       uses: dorny/test-reporter@v1
       with:
@@ -71,7 +71,7 @@ runs:
         reporter: java-junit
         fail-on-error: false
 
-    - name: Generate Job Summary
+    - name: 📊 Generate Job Summary
       shell: bash
       run: |
         {

@@ -23,7 +23,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Download Test Reports
+    - name: 📥 Download Test Reports
       if: inputs.upload-reports == 'true'
       uses: actions/download-artifact@v4
       with:
@@ -32,7 +32,7 @@ runs:
         github-token: ${{ github.token }}
         run-id: ${{ inputs.run-id }}
 
-    - name: Download GUI Screenshots
+    - name: 📥 Download GUI Screenshots
       if: inputs.upload-reports == 'true'
       uses: actions/download-artifact@v4
       with:
@@ -41,7 +41,7 @@ runs:
         github-token: ${{ github.token }}
         run-id: ${{ inputs.run-id }}
 
-    - name: Download Performance Reports
+    - name: 📥 Download Performance Reports
       if: inputs.upload-perf == 'true'
       uses: actions/download-artifact@v4
       with:
@@ -50,7 +50,7 @@ runs:
         github-token: ${{ github.token }}
         run-id: ${{ inputs.run-id }}
 
-    - name: Merge and Commit Results
+    - name: 🔀 Merge and Commit Results
       shell: bash
       run: |
         echo "Processing Reports..."

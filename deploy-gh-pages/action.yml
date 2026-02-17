@@ -24,23 +24,23 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Set up Node.js
+    - name: 📦 Set up Node.js
       uses: actions/setup-node@v4
       with:
         node-version: ${{ inputs.node-version }}
         cache: 'npm'
 
-    - name: Install Dependencies
+    - name: 📥 Install Dependencies
       shell: bash
       run: ${{ inputs.install-command }}
 
-    - name: Build
+    - name: 🏗️ Build
       shell: bash
       run: ${{ inputs.build-command }}
       env:
         VITE_API_URL: ${{ inputs.vite-api-url }}
 
-    - name: Configure for SPA (Disable Jekyll & Setup 404)
+    - name: ⚙️ Configure for SPA (Disable Jekyll & Setup 404)
       shell: bash
       run: |
         touch ${{ inputs.dist-dir }}/.nojekyll
@@ -48,10 +48,10 @@ runs:
           cp ${{ inputs.dist-dir }}/index.html ${{ inputs.dist-dir }}/404.html
         fi
 
-    - name: Upload artifact
+    - name: 📤 Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
         path: ${{ inputs.dist-dir }}
 
-    - name: Deploy to GitHub Pages
+    - name: 🚀 Deploy to GitHub Pages
       uses: actions/deploy-pages@v4

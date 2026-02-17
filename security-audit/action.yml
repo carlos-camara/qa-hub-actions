@@ -28,22 +28,22 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Set up Python
+    - name: 🐍 Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: ${{ inputs.python-version }}
 
-    - name: Install security tools
+    - name: 🔧 Install security tools
       shell: bash
       run: |
         pip install safety bandit
 
-    - name: Dependency Check (Safety)
+    - name: 🔒 Dependency Check (Safety)
       if: inputs.scan-dependencies == 'true'
       shell: bash
       run: safety check
 
-    - name: Static Analysis (Bandit)
+    - name: 🔍 Static Analysis (Bandit)
       if: inputs.scan-code == 'true'
       shell: bash
       run: |

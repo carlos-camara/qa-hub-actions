@@ -20,7 +20,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Label PR
+    - name: 🏷️ Label PR
       uses: actions/labeler@v5
       with:
         repo-token: ${{ inputs.repo-token }}
