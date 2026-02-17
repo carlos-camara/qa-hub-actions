@@ -76,6 +76,6 @@ runs:
           echo "ℹ️ No changes to commit."
         else
           git commit -m "${{ inputs.commit-message }}"
-          git push origin "HEAD:${{ inputs.branch }}"
+          git push origin HEAD
           echo "✅ Changes committed and pushed!"
         fi
