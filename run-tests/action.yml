@@ -76,6 +76,7 @@ runs:
           echo "::notice::Running standard API tests"
           $cmd = "${{ inputs.test-command-api }} --junit-dir $reportDir"
           Invoke-Expression $cmd
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
         }
 
     - name: Run Performance Tests
@@ -91,7 +92,8 @@ runs:
       run: |
         echo "::notice::Executing GUI Verification Suite"
         $reportDir = "reports/test_run/${{ inputs.project-name }}_${{ steps.timestamp.outputs.ts }}"
-        $cmd = "${{ inputs.test-command-gui }} --junit-dir $reportDir"
-        Invoke-Expression $cmd
+          $cmd = "${{ inputs.test-command-gui }} --junit-dir $reportDir"
+          Invoke-Expression $cmd
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       env:
         HEADLESS: ${{ inputs.headless }}
