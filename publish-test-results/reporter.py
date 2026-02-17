@@ -97,7 +97,6 @@ def generate_markdown(results):
         if len(results['issues']) > 15:
             summary += f"\n*... and {len(results['issues']) - 15} more issues. See job artifacts for full reports.*"
 
-    summary += "\n---\n_Reported with 🛡️ by the QA Hub Reporter_"
     return summary
 
 if __name__ == "__main__":
