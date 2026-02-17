@@ -76,6 +76,10 @@ runs:
           echo "ℹ️ No changes to commit."
         else
           git commit -m "${{ inputs.commit-message }}"
-          git push origin HEAD
-          echo "✅ Changes committed and pushed!"
+          
+          # Get the current branch name and push to it
+          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          git push origin "${CURRENT_BRANCH}"
+          
+          echo "✅ Changes committed and pushed to ${CURRENT_BRANCH}!"
         fi
