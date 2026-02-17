@@ -40,6 +40,14 @@ runs:
       env:
         VITE_API_URL: ${{ inputs.vite-api-url }}
 
+    - name: Configure for SPA (Disable Jekyll & Setup 404)
+      shell: bash
+      run: |
+        touch ${{ inputs.dist-dir }}/.nojekyll
+        if [ -f "${{ inputs.dist-dir }}/index.html" ]; then
+          cp ${{ inputs.dist-dir }}/index.html ${{ inputs.dist-dir }}/404.html
+        fi
+
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
