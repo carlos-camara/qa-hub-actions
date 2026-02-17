@@ -122,5 +122,5 @@ For detailed technical specifications, input/output schemas, and advanced config
 ---
 
 <div align="center">
-  <i>Built with ❤️ by the Advanced Agentic Coding Team</i>
+  <i>Designed & Engineered by <b><a href="https://github.com/carlos-camara">Carlos Cámara</a></b></i>
 </div>
