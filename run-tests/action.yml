@@ -44,6 +44,16 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Pre-execution Cleanup
+      shell: bash
+      run: |
+        echo "::group::Cleanup stale reports"
+        rm -rf reports/
+        mkdir -p reports/test_run
+        mkdir -p reports/performance_run
+        echo "Cleanup complete."
+        echo "::endgroup::"
+
     - name: Start Services
       if: inputs.start-services-command != ''
       shell: bash
