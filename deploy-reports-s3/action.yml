@@ -65,23 +65,23 @@ runs:
         PROJECT="${{ inputs.project-name }}"
         BUCKET="${{ inputs.s3-bucket }}"
         
-        if [ "${{ inputs.upload-reports }}" == "true" ] && [ -d "temp_s3/reports" ]; then
+        if [ "${{ inputs.upload-reports }}" == "true" ] && [ -d "temp_s3/test-reports" ]; then
           echo "📦 Uploading test reports..."
-          aws s3 sync temp_s3/reports/ s3://${BUCKET}/${PROJECT}/reports/test_run/ \
+          aws s3 sync temp_s3/test-reports/ s3://${BUCKET}/${PROJECT}/reports/test_run/ \
             --delete \
             --exclude "*.gitkeep" || echo "No reports to upload"
         fi
         
-        if [ "${{ inputs.upload-screenshots }}" == "true" ] && [ -d "temp_s3/screenshots" ]; then
+        if [ "${{ inputs.upload-screenshots }}" == "true" ] && [ -d "temp_s3/gui-screenshots" ]; then
           echo "📸 Uploading screenshots..."
-          aws s3 sync temp_s3/screenshots/ s3://${BUCKET}/${PROJECT}/reports/screenshots/ \
+          aws s3 sync temp_s3/gui-screenshots/ s3://${BUCKET}/${PROJECT}/reports/screenshots/ \
             --delete \
             --exclude "*.gitkeep" || echo "No screenshots to upload"
         fi
         
-        if [ "${{ inputs.upload-perf }}" == "true" ] && [ -d "temp_s3/performance" ]; then
+        if [ "${{ inputs.upload-perf }}" == "true" ] && [ -d "temp_s3/performance-reports" ]; then
           echo "⚡ Uploading performance reports..."
-          aws s3 sync temp_s3/performance/ s3://${BUCKET}/${PROJECT}/reports/performance_run/ \
+          aws s3 sync temp_s3/performance-reports/ s3://${BUCKET}/${PROJECT}/reports/performance_run/ \
             --delete \
             --exclude "*.gitkeep" || echo "No performance reports to upload"
         fi
