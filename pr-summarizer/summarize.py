@@ -292,13 +292,7 @@ def main():
     intel_str += "| :--- | :--- | :--- |\n"
     intel_str += f"| {risk_level} | **{effort}** | **{complexity}** |\n\n"
 
-    # --- 2. System Impact Visualization (Mermaid) ---
-    mermaid_diag = generate_mermaid_impact(metrics)
-    if mermaid_diag:
-        intel_str += "### 🌐 Architectural Change Surface\n"
-        intel_str += mermaid_diag + "\n\n"
-
-    # --- 3. Impacted Components (Collapsible) ---
+    # --- 2. Impacted Components (Collapsible) ---
     status_map = {"A": "🟢 NEW", "M": "🔵 MOD", "D": "🔴 DEL", "R": "🟡 REN"}
     intel_str += "### 📦 Components Inventory\n"
     
