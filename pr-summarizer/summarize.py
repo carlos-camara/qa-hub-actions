@@ -149,39 +149,51 @@ def evaluate_intelligence(changed_files, metrics, tech_insights):
     return flags, suggestions
 
 def generate_mermaid_impact(metrics):
-    nodes = []
-    links = []
-    
-    # Define architectural nodes based on metrics
-    mapping = {
-        "Frontend": "Frontend Layer",
-        "Backend": "Logic Services",
-        "QA": "Verification Suite",
-        "DevOps": "Infrastructure",
-        "📦 Miscellaneous": "Core Assets"
+    # Architectural definitions with professional icons and colors
+    architect = {
+        "Frontend": {"label": "🎨 Presentation Tier", "color": "#E1F5FE", "border": "#01579B"},
+        "Backend":  {"label": "⚙️ Logic Services", "color": "#FFF9C4", "border": "#FBC02D"},
+        "QA":       {"label": "🧪 Verification Suite", "color": "#E8F5E9", "border": "#2E7D32"},
+        "DevOps":   {"label": "🚀 Infrastructure", "color": "#F3E5F5", "border": "#7B1FA2"},
+        "📦 Miscellaneous": {"label": "📦 System Assets", "color": "#ECEFF1", "border": "#455A64"}
     }
     
-    active_nodes = []
-    for k, v in metrics.items():
-        if v > 0:
-            name = mapping.get(k, k)
-            active_nodes.append(f'N_{k.replace(" ", "_")}["{name} ({v} files)"]')
+    active_keys = [k for k, v in metrics.items() if v > 0]
+    if not active_keys: return ""
 
-    if not active_nodes: return ""
-
-    # Simple flow logic
-    if "Frontend" in metrics:
-        if "Backend" in metrics: links.append("N_Frontend <--> N_Backend")
-        if "QA" in metrics: links.append("N_Frontend --> N_QA")
-    if "Backend" in metrics:
-        if "QA" in metrics: links.append("N_Backend --> N_QA")
-        if "DevOps" in metrics: links.append("N_Backend --> N_DevOps")
+    mermaid = "```mermaid\ngraph TD\n"
+    # Unified Styling
+    mermaid += "  classDef default fill:#f9f9f9,stroke:#333,stroke-width:1px,font-size:12px;\n"
     
-    mermaid = "```mermaid\ngraph LR\n"
-    mermaid += "  classDef default fill:#f9f9f9,stroke:#333,stroke-width:1px;\n"
-    mermaid += "  classDef active fill:#e1f5fe,stroke:#01579b,stroke-width:2px;\n"
-    for n in active_nodes: mermaid += f"  {n}; class {n.split('[')[0]} active;\n"
-    for l in links: mermaid += f"  {l};\n"
+    # 1. Define Nodes
+    for k in active_keys:
+        cfg = architect.get(k, {"label": k, "color": "#fff", "border": "#333"})
+        label = f"{cfg['label']}<br/>({metrics[k]} files)"
+        node_id = f"N_{k.replace(' ', '_').replace('📦', 'Box')}"
+        mermaid += f"  {node_id}[\"{label}\"]\n"
+        mermaid += f"  style {node_id} fill:{cfg['color']},stroke:{cfg['border']},stroke-width:2px\n"
+
+    # 2. Semantic Mapping (Change Propagation)
+    # Define directional semantic relationships
+    if "Frontend" in active_keys:
+        f_id = "N_Frontend"
+        if "Backend" in active_keys:
+            mermaid += f"  {f_id} -- \"Consumes API\" --> N_Backend\n"
+        if "QA" in active_keys:
+            mermaid += f"  {f_id} -- \"UI Assertions\" --> N_QA\n"
+            
+    if "Backend" in active_keys:
+        b_id = "N_Backend"
+        if "QA" in active_keys:
+            mermaid += f"  {b_id} -- \"API Validation\" --> N_QA\n"
+        if "DevOps" in active_keys:
+            mermaid += f"  {b_id} -- \"Deployment Spec\" --> N_DevOps\n"
+
+    if "📦_Miscellaneous" in active_keys:
+        m_id = "N_Box_Miscellaneous"
+        if "Backend" in active_keys: mermaid += f"  {m_id} -. \"Core Dependency\" .-> N_Backend\n"
+        if "Frontend" in active_keys: mermaid += f"  {m_id} -. \"Asset Reference\" .-> N_Frontend\n"
+
     mermaid += "```"
     return mermaid
 
