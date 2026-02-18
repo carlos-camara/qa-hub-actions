@@ -311,11 +311,13 @@ def main():
         for ct in change_types:
             processed_body = re.sub(rf"- \[ \] (.*{re.escape(ct)}.*)", r"- [x] \1", processed_body)
         
-        tech_anchors = ["## 🎯 Technical Strategy", "## 🛠️ Technical Details", "## ⚙️ Implementation Details"]
+        tech_anchors = ["## 🎯 Technical Strategy & Impact", "## 🛠️ Technical Details", "## ⚙️ Implementation Details"]
         for anchor in tech_anchors:
             if anchor in processed_body:
+                # Match the header and the following bullet point placeholder
                 pattern = rf"({re.escape(anchor)}\n(?:<!--.*?-->\n)?)-[ \t]*"
-                processed_body = re.sub(pattern, rf"\1{details_str}", processed_body, flags=re.DOTALL)
+                if details_str:
+                    processed_body = re.sub(pattern, rf"\1{details_str}", processed_body, flags=re.DOTALL)
                 break
 
         summary_anchor = "# 🌟 Executive Summary"
