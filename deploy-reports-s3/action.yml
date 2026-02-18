@@ -19,6 +19,10 @@ inputs:
     description: 'AWS Region'
     required: false
     default: 'us-east-1'
+  github-token:
+    description: 'GitHub token with actions:read permissions'
+    required: true
+    default: ${{ github.token }}
   run-id:
     description: 'GitHub Workflow Run ID to download artifacts from'
     required: true
