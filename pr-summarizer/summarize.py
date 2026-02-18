@@ -61,7 +61,7 @@ def detect_file_purpose(file_path):
                 if 'export ' in content: return "📦 JS Module"
     except: pass
     
-    return "📄 Generic File"
+    return "📦 Miscellaneous"
 
 def analyze_python(file_path, base_sha, status):
     insights = {"Structural": [], "API": [], "Breaking": []}
@@ -201,7 +201,7 @@ def main():
             elif file_path.endswith('.feature'): matched_domain = "QA"
             elif file_path.endswith(('.tsx', '.jsx', '.css')): matched_domain = "Frontend"
             elif '.github/' in file_path: matched_domain = "DevOps"
-            else: matched_domain = "Other"
+            else: matched_domain = "📦 Miscellaneous"
         
         metrics[matched_domain] = metrics.get(matched_domain, 0) + 1
 
@@ -321,12 +321,21 @@ def main():
         processed_body = processed_body.replace("_[Drop screenshot/video here]_", "*(Automated: No attachments detected)*")
         processed_body = processed_body.replace("**Component Name**", "Global")
 
-        stats_table = "\n\n---\n### 📊 Impact Analysis\n"
+        stats_table = "\n### 📊 Impact Analysis\n"
         stats_table += "| Category | Scope | Bar |\n| :--- | :---: | :--- |\n"
-        for k, v in metrics.items(): stats_table += f"| {k} | {v} | {'█' * min(v, 10)} |\n"
-        final_summary = intel_str + "---\n" + processed_body + stats_table
+        
+        # Sort metrics by value descending
+        sorted_metrics = sorted(metrics.items(), key=lambda x: x[1], reverse=True)
+        for k, v in sorted_metrics:
+            filled = min(v, 10)
+            empty = 10 - filled
+            bar = '█' * filled + '░' * empty
+            stats_table += f"| {k} | {v} | `{bar}` |\n"
+            
+        # Combine sections avoiding double separators
+        final_summary = f"{intel_str}\n---\n{processed_body}\n{stats_table}"
     else:
-        final_summary = f"### 🤖 Automated Summary for: {pr_title}\n" + intel_str + "\n---\n" + details_str
+        final_summary = f"### 🤖 Automated Summary for: {pr_title}\n\n{intel_str}\n---\n{details_str}"
 
     with open('final_pr_body.md', 'w', encoding='utf-8') as f: f.write(final_summary)
     if pr_number:
