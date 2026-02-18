@@ -232,19 +232,20 @@ def main():
     risk_level = calculate_risk(metrics, tech_insights)
     flags, suggestions = evaluate_intelligence([f.split('\t')[-1] for f in changed_files_raw if '\t' in f], metrics, tech_insights)
 
-    # Building Markdown
-    intel_str = f"## 🧠 Reviewer Intelligence\n"
-    intel_str += f"**Risk Assessment**: {risk_level}\n\n"
-    if flags:
-        intel_str += "**Critical Flags**:\n"
-        for flag in flags: intel_str += f"- {flag}\n"
-        intel_str += "\n"
+    # --- 1. Header & Quick Intelligence Dashboard ---
+    intel_str = f"# 🧠 Engineering Intelligence Report\n\n"
     
-    # 📦 File Intelligence Section
+    # Risk Dashboard Card
+    risk_color = "CAUTION" if "High" in risk_level else "IMPORTANT" if "Medium" in risk_level else "NOTE"
+    intel_str += f"> [!{risk_color}]\n"
+    intel_str += f"> ### {risk_level} Change Detected\n"
+    intel_str += f"> **Primary Assessment**: This Pull Request is classified as {risk_level} based on file sensitivity and impact volume.\n\n"
+
+    # --- 2. File Intelligence Breakdown (Collapsible) ---
     status_map = {"A": "[NEW]", "M": "[MOD]", "D": "[DELETED]", "R": "[REN]"}
-    intel_str += "### 📦 File Intelligence Breakdown\n"
+    intel_str += "### 📦 Impacted Components Breakdown\n"
+    intel_str += "_Self-service guide to modified files and their architectural purpose._\n\n"
     
-    # 1. Group files by purpose
     grouped_files = {}
     for line in changed_files_raw:
         if not line: continue
@@ -255,76 +256,64 @@ def main():
         if p not in grouped_files: grouped_files[p] = []
         grouped_files[p].append((s, f))
     
-    # 2. Build collapsible sections
-    # Sort purposes to have a consistent order
     sorted_purposes = sorted(grouped_files.keys())
-    
     for p in sorted_purposes:
         files = grouped_files[p]
         count = len(files)
         intel_str += f"<details>\n<summary><b>{p} ({count})</b></summary>\n\n"
-        
-        # Limit to 15 files per group for extreme cases
         for s, f in files[:15]:
             status_text = status_map.get(s[0], "[MOD]")
             intel_str += f"- `{status_text}` `{f}`\n"
-        
         if count > 15:
-            intel_str += f"- *... and {count - 15} more files in this category*\n"
-            
+            intel_str += f"- *... and {count - 15} more files*\n"
         intel_str += "\n</details>\n"
     intel_str += "\n"
 
-    if suggestions:
-        intel_str += "**Suggested Actions**:\n"
-        for sugg in suggestions: intel_str += f"- {sugg}\n"
+    # --- 3. Critical Flags & Suggestions ---
+    if flags or suggestions:
+        intel_str += "### ⚡ Engineering Quality Insights\n"
+        if flags:
+            for flag in flags: intel_str += f"- {flag}\n"
+        if suggestions:
+            for sugg in suggestions: intel_str += f"- {sugg}\n"
         intel_str += "\n"
 
-    # technical details...
+    # --- 4. Technical Detail Extraction ---
     details_str = ""
     for category, items in tech_insights.items():
         if items and category != "Breaking":
             details_str += f"\n**{category} Updates**\n"
             for item in list(set(items))[:5]: details_str += f"- {item}\n"
 
+    # --- 5. Template Assembly ---
     if template_content:
         processed_body = template_content
-        # 1. Replace Title Placeholder
         processed_body = processed_body.replace("[Brief Title]", pr_title)
         
-        # 2. Check Change Type Boxes
         for ct in change_types:
-            # Use regex to find the line with the icon/name and check the box
             processed_body = re.sub(rf"- \[ \] (.*{re.escape(ct)}.*)", r"- [x] \1", processed_body)
             
-        # 3. Inject Technical Details
-        # Try different possible headers for technical strategy/details
         tech_anchors = ["## 🎯 Technical Strategy", "## 🛠️ Technical Details", "## ⚙️ Implementation Details"]
         for anchor in tech_anchors:
             if anchor in processed_body:
-                # Look for the anchor and replace the empty bullet list (with or without trailing space)
                 pattern = rf"({re.escape(anchor)}\n(?:<!--.*?-->\n)?)-[ \t]*"
                 processed_body = re.sub(pattern, rf"\1{details_str}", processed_body, flags=re.DOTALL)
                 break
 
-        # 4. Auto-Summary for Executive Summary
         summary_anchor = "## 🌟 Executive Summary"
         if summary_anchor in processed_body:
             auto_summary = f"This PR introduces changes across **{', '.join(metrics.keys())}** modules. Targeted efforts were focused on **{', '.join([ct.split('**')[1] for ct in change_types if '**' in ct])}**."
-            # Look for the anchor and replace the empty blockquote (with or without trailing space)
             pattern = rf"({re.escape(summary_anchor)}\n(?:<!--.*?-->\n)?)>[ \t]*"
             processed_body = re.sub(pattern, rf"\1> {auto_summary}", processed_body, flags=re.DOTALL)
             processed_body = re.sub(r'<!-- What is the purpose of this change? Describe the problem and your solution. -->', '', processed_body)
 
-        # 5. Cleanup remaining placeholders/comments
         processed_body = re.sub(r'<!--.*?-->', '', processed_body, flags=re.DOTALL)
         processed_body = processed_body.replace("_[Drop screenshot/video here]_", "*(Automated: No attachments detected)*")
         processed_body = processed_body.replace("**Component Name**", "Global")
 
-        stats_table = "\n### 📊 Impact Analysis\n"
-        stats_table += "| Category | Scope | Bar |\n| :--- | :---: | :--- |\n"
+        stats_table = "\n### 📊 Change Distribution & Magnitude\n"
+        stats_table += "| Structural Layer | Files | Blast Radius |\n| :--- | :---: | :--- |\n"
         
-        # Sort metrics by value descending
         sorted_metrics = sorted(metrics.items(), key=lambda x: x[1], reverse=True)
         for k, v in sorted_metrics:
             filled = min(v, 10)
@@ -332,8 +321,8 @@ def main():
             bar = '█' * filled + '░' * empty
             stats_table += f"| {k} | {v} | `{bar}` |\n"
             
-        # Combine sections avoiding double separators
-        final_summary = f"{intel_str}\n---\n{processed_body}\n{stats_table}"
+        footer = "\n---\n> [!TIP]\n> _Generated by **QA Hub Intelligence** • Keep your project history clean._\n"
+        final_summary = f"{intel_str}\n---\n{processed_body}\n{stats_table}{footer}"
     else:
         final_summary = f"### 🤖 Automated Summary for: {pr_title}\n\n{intel_str}\n---\n{details_str}"
 
