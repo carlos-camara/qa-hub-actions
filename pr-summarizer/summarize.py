@@ -306,19 +306,28 @@ def main():
             for item in list(set(items))[:5]: details_str += f"- {item}\n"
 
     if template_content:
+        # --- 2. Change Classification Mapping ---
+        # Map Conventional Commits from title to Taxonomy
+        title_map = {
+            "feat": "🚀", "fix": "🐛", "refactor": "♻️", 
+            "style": "💄", "docs": "📚", "chore": "🔧", "perf": "⚡"
+        }
+        
+        pr_type_match = re.search(r'^(feat|fix|refactor|style|docs|chore|perf)', pr_title.lower())
+        if pr_type_match:
+            detected_icon = title_map.get(pr_type_match.group(1))
+            if detected_icon: change_types.add(detected_icon)
+        
+        if risk_lvl == "🔴 High Risk": change_types.add("💥") # Suggest Breaking Change if very high risk
+
         processed_body = template_content
         processed_body = processed_body.replace("[Brief Title]", pr_title)
-        for ct in change_types:
-            processed_body = re.sub(rf"- \[ \] (.*{re.escape(ct)}.*)", r"- [x] \1", processed_body)
         
-        tech_anchors = ["## 🎯 Technical Strategy & Impact", "## 🛠️ Technical Details", "## ⚙️ Implementation Details"]
-        for anchor in tech_anchors:
-            if anchor in processed_body:
-                # Match the header and the following bullet point placeholder
-                pattern = rf"({re.escape(anchor)}\n(?:<!--.*?-->\n)?)-[ \t]*"
-                if details_str:
-                    processed_body = re.sub(pattern, rf"\1{details_str}", processed_body, flags=re.DOTALL)
-                break
+        # Apply automated classification
+        for ct in change_types:
+            # Match the [ ] next to the specific emoji/icon
+            pattern = rf"\| \[ \] {re.escape(ct)} (.*?) \|"
+            processed_body = re.sub(pattern, rf"| [X] {ct} \1 |", processed_body)
 
         summary_anchor = "# 🌟 Executive Summary"
         if summary_anchor in processed_body:
