@@ -232,21 +232,13 @@ def main():
     risk_level = calculate_risk(metrics, tech_insights)
     flags, suggestions = evaluate_intelligence([f.split('\t')[-1] for f in changed_files_raw if '\t' in f], metrics, tech_insights)
 
-    # --- 1. Header & KPI Dashboard Grid ---
-    intel_str = f"# 🧠 Engineering Intelligence Blueprint\n\n"
-    
-    # KPI Grid using a table for clean layout
-    effort = "⚡ Quick" if sum(metrics.values()) < 5 else "⚖️ Balanced" if sum(metrics.values()) < 15 else "🏋️ Heavy"
-    complexity = "💥 High" if tech_insights.get("Breaking") else "🧩 Modular"
-    
-    intel_str += "| 🚩 Risk Assessment | ⏱️ Review Effort | 🛠️ Complexity |\n"
-    intel_str += "| :--- | :--- | :--- |\n"
-    intel_str += f"| {risk_level} | **{effort}** | **{complexity}** |\n\n"
+    # --- 1. Intelligence Dashboard & Inventory ---
+    # We will prepend this to the Executive Summary later
+    dashboard_str = "| 🚩 Risk Assessment | ⏱️ Review Effort | 🛠️ Complexity |\n"
+    dashboard_str += "| :--- | :--- | :--- |\n"
+    dashboard_str += f"| {risk_level} | **{effort}** | **{complexity}** |\n\n"
 
-    # --- 2. Impacted Components (Collapsible) ---
-    status_map = {"A": "🟢 NEW", "M": "🔵 MOD", "D": "🔴 DEL", "R": "🟡 REN"}
-    intel_str += "### 📦 Components Inventory\n"
-    
+    inventory_str = "### 📦 Components Inventory\n"
     grouped_files = {}
     for line in changed_files_raw:
         if not line: continue
@@ -259,30 +251,35 @@ def main():
     
     for p in sorted(grouped_files.keys()):
         files = grouped_files[p]
-        intel_str += f"<details><summary><b>{p} ({len(files)})</b></summary>\n\n"
+        inventory_str += f"<details><summary><b>{p} ({len(files)})</b></summary>\n\n"
         for s, f in files[:10]:
             st = status_map.get(s[0], "🔵 MOD")
-            intel_str += f"- ` {st} ` `{f}`\n"
-        if len(files) > 10: intel_str += f"- *... and {len(files) - 10} more*\n"
-        intel_str += "\n</details>"
-    intel_str += "\n\n"
+            inventory_str += f"- ` {st} ` `{f}`\n"
+        if len(files) > 10: inventory_str += f"- *... and {len(files) - 10} more*\n"
+        inventory_str += "\n</details>"
+    inventory_str += "\n\n"
 
-    # --- 4. Quality Insights Alert ---
+    # Quality Insights
+    insights_str = ""
     if flags or suggestions:
-        intel_str += "> [!IMPORTANT]\n"
-        intel_str += "> **Quality & Integrity Audit**:\n"
-        for item in flags + suggestions: intel_str += f"> - {item}\n"
-        intel_str += "\n"
+        insights_str += "> [!IMPORTANT]\n"
+        insights_str += "> **Quality & Integrity Audit**:\n"
+        for item in flags + suggestions: insights_str += f"> - {item}\n"
+        insights_str += "\n"
 
-    # --- 5. Recommended Review Focus ---
+    # Review Focus
+    focus_str = ""
     focus_files = [f.split('\t')[-1] for f in changed_files_raw if '\t' in f]
     top_focus = [f for f in focus_files if any(p in f for p in ["server.js", "db.js", "App.tsx", ".yml"])]
     if top_focus:
-        intel_str += "### 🎯 high-Priority Review Focus\n"
-        for f in top_focus[:3]: intel_str += f"- [ ] `{f}` (Core System Change)\n"
-        intel_str += "\n"
+        focus_str += "### 🎯 High-Priority Review Focus\n"
+        for f in top_focus[:3]: focus_str += f"- [ ] `{f}` (Core System Change)\n"
+        focus_str += "\n"
 
-    # --- 6. Template Integration ---
+    # Assemble Intel Section
+    intel_str = f"{dashboard_str}{inventory_str}{insights_str}{focus_str}"
+
+    # --- 2. Template Integration ---
     details_str = ""
     for category, items in tech_insights.items():
         if items and category != "Breaking":
@@ -302,11 +299,12 @@ def main():
                 processed_body = re.sub(pattern, rf"\1{details_str}", processed_body, flags=re.DOTALL)
                 break
 
-        summary_anchor = "## 🌟 Executive Summary"
+        summary_anchor = "# 🌟 Executive Summary"
         if summary_anchor in processed_body:
             auto_summary = f"This PR introduce changes across **{', '.join(metrics.keys())}** modules. Targeted efforts focused on **{', '.join([ct.split('**')[1] for ct in change_types if '**' in ct])}**."
-            pattern = rf"({re.escape(summary_anchor)}\n(?:<!--.*?-->\n)?)>[ \t]*"
-            processed_body = re.sub(pattern, rf"\1> {auto_summary}", processed_body, flags=re.DOTALL)
+            # Replace the placeholder blockquote with the auto-summary
+            pattern = rf"({re.escape(summary_anchor)}\n(?:<!--.*?-->\n)?)>[ \t]*.*?\n"
+            processed_body = re.sub(pattern, rf"\1> {auto_summary}\n\n{intel_str}---\n", processed_body, flags=re.DOTALL)
 
         processed_body = re.sub(r'<!--.*?-->', '', processed_body, flags=re.DOTALL)
         processed_body = processed_body.replace("_[Drop screenshot/video here]_", "*(Automated: No attachments detected)*")
@@ -318,7 +316,7 @@ def main():
             bar = '█' * min(v, 10) + '░' * max(0, 10-v)
             stats_table += f"| {k} | {v} | `{bar}` |\n"
             
-        final_summary = f"{intel_str}---\n{processed_body}\n{stats_table}"
+        final_summary = f"{processed_body}\n{stats_table}"
     else:
         final_summary = f"{intel_str}\n---\n{details_str}"
 
