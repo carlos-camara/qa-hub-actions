@@ -148,6 +148,43 @@ def evaluate_intelligence(changed_files, metrics, tech_insights):
 
     return flags, suggestions
 
+def generate_mermaid_impact(metrics):
+    nodes = []
+    links = []
+    
+    # Define architectural nodes based on metrics
+    mapping = {
+        "Frontend": "Frontend Layer",
+        "Backend": "Logic Services",
+        "QA": "Verification Suite",
+        "DevOps": "Infrastructure",
+        "📦 Miscellaneous": "Core Assets"
+    }
+    
+    active_nodes = []
+    for k, v in metrics.items():
+        if v > 0:
+            name = mapping.get(k, k)
+            active_nodes.append(f'N_{k.replace(" ", "_")}["{name} ({v} files)"]')
+
+    if not active_nodes: return ""
+
+    # Simple flow logic
+    if "Frontend" in metrics:
+        if "Backend" in metrics: links.append("N_Frontend <--> N_Backend")
+        if "QA" in metrics: links.append("N_Frontend --> N_QA")
+    if "Backend" in metrics:
+        if "QA" in metrics: links.append("N_Backend --> N_QA")
+        if "DevOps" in metrics: links.append("N_Backend --> N_DevOps")
+    
+    mermaid = "```mermaid\ngraph LR\n"
+    mermaid += "  classDef default fill:#f9f9f9,stroke:#333,stroke-width:1px;\n"
+    mermaid += "  classDef active fill:#e1f5fe,stroke:#01579b,stroke-width:2px;\n"
+    for n in active_nodes: mermaid += f"  {n}; class {n.split('[')[0]} active;\n"
+    for l in links: mermaid += f"  {l};\n"
+    mermaid += "```"
+    return mermaid
+
 def main():
     token = os.environ.get('GITHUB_TOKEN')
     if not token: return
@@ -189,7 +226,7 @@ def main():
         purpose = detect_file_purpose(file_path)
         file_intelligence.append(f"- `{file_path}`: {purpose}")
 
-        # 2. Categorization (Generic vs Default)
+        # 2. Categorization
         matched_domain = None
         for domain, pattern in domain_mapping.items():
             if fnmatch.fnmatch(file_path, pattern):
@@ -228,23 +265,30 @@ def main():
         elif 'security' in file_path.lower():
             change_types.add("🛡️ **Security**")
 
-    # Final Construction
+    # High-Fidelity Construction
     risk_level = calculate_risk(metrics, tech_insights)
     flags, suggestions = evaluate_intelligence([f.split('\t')[-1] for f in changed_files_raw if '\t' in f], metrics, tech_insights)
 
-    # --- 1. Header & Quick Intelligence Dashboard ---
-    intel_str = f"# 🧠 Engineering Intelligence Report\n\n"
+    # --- 1. Header & KPI Dashboard Grid ---
+    intel_str = f"# 🧠 Engineering Intelligence Blueprint\n\n"
     
-    # Risk Dashboard Card
-    risk_color = "CAUTION" if "High" in risk_level else "IMPORTANT" if "Medium" in risk_level else "NOTE"
-    intel_str += f"> [!{risk_color}]\n"
-    intel_str += f"> ### {risk_level} Change Detected\n"
-    intel_str += f"> **Primary Assessment**: This Pull Request is classified as {risk_level} based on file sensitivity and impact volume.\n\n"
+    # KPI Grid using a table for clean layout
+    effort = "⚡ Quick" if sum(metrics.values()) < 5 else "⚖️ Balanced" if sum(metrics.values()) < 15 else "🏋️ Heavy"
+    complexity = "💥 High" if tech_insights.get("Breaking") else "🧩 Modular"
+    
+    intel_str += "| 🚩 Risk Assessment | ⏱️ Review Effort | 🛠️ Complexity |\n"
+    intel_str += "| :--- | :--- | :--- |\n"
+    intel_str += f"| {risk_level} | **{effort}** | **{complexity}** |\n\n"
 
-    # --- 2. File Intelligence Breakdown (Collapsible) ---
-    status_map = {"A": "[NEW]", "M": "[MOD]", "D": "[DELETED]", "R": "[REN]"}
-    intel_str += "### 📦 Impacted Components Breakdown\n"
-    intel_str += "_Self-service guide to modified files and their architectural purpose._\n\n"
+    # --- 2. System Impact Visualization (Mermaid) ---
+    mermaid_diag = generate_mermaid_impact(metrics)
+    if mermaid_diag:
+        intel_str += "### 🌐 Architectural Change Surface\n"
+        intel_str += mermaid_diag + "\n\n"
+
+    # --- 3. Impacted Components (Collapsible) ---
+    status_map = {"A": "🟢 NEW", "M": "🔵 MOD", "D": "🔴 DEL", "R": "🟡 REN"}
+    intel_str += "### 📦 Components Inventory\n"
     
     grouped_files = {}
     for line in changed_files_raw:
@@ -256,43 +300,44 @@ def main():
         if p not in grouped_files: grouped_files[p] = []
         grouped_files[p].append((s, f))
     
-    sorted_purposes = sorted(grouped_files.keys())
-    for p in sorted_purposes:
+    for p in sorted(grouped_files.keys()):
         files = grouped_files[p]
-        count = len(files)
-        intel_str += f"<details>\n<summary><b>{p} ({count})</b></summary>\n\n"
-        for s, f in files[:15]:
-            status_text = status_map.get(s[0], "[MOD]")
-            intel_str += f"- `{status_text}` `{f}`\n"
-        if count > 15:
-            intel_str += f"- *... and {count - 15} more files*\n"
-        intel_str += "\n</details>\n"
-    intel_str += "\n"
+        intel_str += f"<details><summary><b>{p} ({len(files)})</b></summary>\n\n"
+        for s, f in files[:10]:
+            st = status_map.get(s[0], "🔵 MOD")
+            intel_str += f"- ` {st} ` `{f}`\n"
+        if len(files) > 10: intel_str += f"- *... and {len(files) - 10} more*\n"
+        intel_str += "\n</details>"
+    intel_str += "\n\n"
 
-    # --- 3. Critical Flags & Suggestions ---
+    # --- 4. Quality Insights Alert ---
     if flags or suggestions:
-        intel_str += "### ⚡ Engineering Quality Insights\n"
-        if flags:
-            for flag in flags: intel_str += f"- {flag}\n"
-        if suggestions:
-            for sugg in suggestions: intel_str += f"- {sugg}\n"
+        intel_str += "> [!IMPORTANT]\n"
+        intel_str += "> **Quality & Integrity Audit**:\n"
+        for item in flags + suggestions: intel_str += f"> - {item}\n"
         intel_str += "\n"
 
-    # --- 4. Technical Detail Extraction ---
+    # --- 5. Recommended Review Focus ---
+    focus_files = [f.split('\t')[-1] for f in changed_files_raw if '\t' in f]
+    top_focus = [f for f in focus_files if any(p in f for p in ["server.js", "db.js", "App.tsx", ".yml"])]
+    if top_focus:
+        intel_str += "### 🎯 high-Priority Review Focus\n"
+        for f in top_focus[:3]: intel_str += f"- [ ] `{f}` (Core System Change)\n"
+        intel_str += "\n"
+
+    # --- 6. Template Integration ---
     details_str = ""
     for category, items in tech_insights.items():
         if items and category != "Breaking":
             details_str += f"\n**{category} Updates**\n"
             for item in list(set(items))[:5]: details_str += f"- {item}\n"
 
-    # --- 5. Template Assembly ---
     if template_content:
         processed_body = template_content
         processed_body = processed_body.replace("[Brief Title]", pr_title)
-        
         for ct in change_types:
             processed_body = re.sub(rf"- \[ \] (.*{re.escape(ct)}.*)", r"- [x] \1", processed_body)
-            
+        
         tech_anchors = ["## 🎯 Technical Strategy", "## 🛠️ Technical Details", "## ⚙️ Implementation Details"]
         for anchor in tech_anchors:
             if anchor in processed_body:
@@ -302,27 +347,22 @@ def main():
 
         summary_anchor = "## 🌟 Executive Summary"
         if summary_anchor in processed_body:
-            auto_summary = f"This PR introduces changes across **{', '.join(metrics.keys())}** modules. Targeted efforts were focused on **{', '.join([ct.split('**')[1] for ct in change_types if '**' in ct])}**."
+            auto_summary = f"This PR introduce changes across **{', '.join(metrics.keys())}** modules. Targeted efforts focused on **{', '.join([ct.split('**')[1] for ct in change_types if '**' in ct])}**."
             pattern = rf"({re.escape(summary_anchor)}\n(?:<!--.*?-->\n)?)>[ \t]*"
             processed_body = re.sub(pattern, rf"\1> {auto_summary}", processed_body, flags=re.DOTALL)
-            processed_body = re.sub(r'<!-- What is the purpose of this change? Describe the problem and your solution. -->', '', processed_body)
 
         processed_body = re.sub(r'<!--.*?-->', '', processed_body, flags=re.DOTALL)
         processed_body = processed_body.replace("_[Drop screenshot/video here]_", "*(Automated: No attachments detected)*")
         processed_body = processed_body.replace("**Component Name**", "Global")
 
-        stats_table = "\n### 📊 Change Distribution & Magnitude\n"
-        stats_table += "| Structural Layer | Files | Blast Radius |\n| :--- | :---: | :--- |\n"
-        
-        sorted_metrics = sorted(metrics.items(), key=lambda x: x[1], reverse=True)
-        for k, v in sorted_metrics:
-            filled = min(v, 10)
-            empty = 10 - filled
-            bar = '█' * filled + '░' * empty
+        stats_table = "\n### 📊 Impact Magnitude\n"
+        stats_table += "| Layer | Units | Magnitude |\n| :--- | :---: | :--- |\n"
+        for k, v in sorted(metrics.items(), key=lambda x: x[1], reverse=True):
+            bar = '█' * min(v, 10) + '░' * max(0, 10-v)
             stats_table += f"| {k} | {v} | `{bar}` |\n"
             
-        footer = "\n---\n> [!TIP]\n> _Generated by **QA Hub Intelligence** • Keep your project history clean._\n"
-        final_summary = f"{intel_str}\n---\n{processed_body}\n{stats_table}{footer}"
+        footer = "\n---\n> [!TIP]\n> _Generated by **QA Hub Engineering Intelligence** • High-Fidelity Manifest._\n"
+        final_summary = f"{intel_str}---\n{processed_body}\n{stats_table}{footer}"
     else:
         final_summary = f"### 🤖 Automated Summary for: {pr_title}\n\n{intel_str}\n---\n{details_str}"
 
