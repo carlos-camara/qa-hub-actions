@@ -8,8 +8,9 @@ Generic cloud-to-local synchronization for downloading files from AWS S3 and aut
 
 - **☁️ Cloud-to-Repo Sync**: Efficiently downloads artifacts from S3 using optimized synchronization logic.
 - **💾 Automated Commits**: Automatically stages, commits, and pushes downloaded files back to your repository branch.
+- **⚡ Surgical Incrementality**: Automatically skips already existing local directories, reducing sync time and network overhead.
+- **🛡️ History Preservation**: Explicitly avoids the `--delete` flag to ensure historical data in the repo is never wiped by S3 rotation.
 - **🏗️ Project Sharding**: Supports project-based S3 prefixes to maintain isolation across multi-project environments.
-- **🔄 Trigger Integration**: Perfect for `workflow_run` events to update documentation or dashboard sites after data generation.
 
 ---
 

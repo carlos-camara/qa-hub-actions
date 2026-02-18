@@ -95,7 +95,7 @@ Explore our curated collection of professional CI/CD utilities.
 
 ```yaml
 steps:
-  - uses: actions/checkout@v4
+  - uses: actions/checkout@v6
   
   # 1. Setup multi-runtime env with surgical caching
   - uses: carlos-camara/qa-hub-actions/setup-environment@v1
