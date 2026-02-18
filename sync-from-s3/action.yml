@@ -58,9 +58,19 @@ runs:
         # Create target directory if it doesn't exist
         mkdir -p "${LOCAL_PATH}"
         
-        # Sync from S3
+        # Identify existing reports to exclude them (skip duplicates)
+        EXCLUDES=""
+        if [ -d "${LOCAL_PATH}" ]; then
+          for dir in $(ls -d "${LOCAL_PATH}"/*/ 2>/dev/null); do
+            dir_name=$(basename "$dir")
+            echo "⏭️ Skipping existing report: ${dir_name}"
+            EXCLUDES="${EXCLUDES} --exclude \"${dir_name}/*\""
+          done
+        fi
+        
+        # Sync from S3 (removed --delete to ensure local history is preserved)
         aws s3 sync s3://${BUCKET}/${PROJECT}/${S3_PATH} ${LOCAL_PATH} \
-          --delete \
+          ${EXCLUDES} \
           --exclude "*.gitkeep" || echo "No files to sync"
         
         echo "✅ S3 sync complete!"
