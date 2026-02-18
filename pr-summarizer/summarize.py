@@ -229,15 +229,42 @@ def main():
             change_types.add("🛡️ **Security**")
 
     # High-Fidelity Construction
-    risk_level = calculate_risk(metrics, tech_insights)
     flags, suggestions = evaluate_intelligence([f.split('\t')[-1] for f in changed_files_raw if '\t' in f], metrics, tech_insights)
+    
+    # Unified Risk Calculation
+    score = 0
+    total_files = sum(metrics.values())
+    if total_files > 15: score += 3
+    elif total_files > 5: score += 1
+    if tech_insights.get("Breaking"): score += 5
+    if metrics.get("DevOps", 0) > 0: score += 2
+    if flags: score += 5 # Force High Risk if critical flags exist
 
-    # --- 1. Intelligence Dashboard & Inventory ---
-    # We will prepend this to the Executive Summary later
-    dashboard_str = "| 🚩 Risk Assessment | ⏱️ Review Effort | 🛠️ Complexity |\n"
-    dashboard_str += "| :--- | :--- | :--- |\n"
-    dashboard_str += f"| {risk_level} | **{effort}** | **{complexity}** |\n\n"
+    if score >= 5: risk_lvl, risk_color = "🔴 High Risk", "CAUTION"
+    elif score >= 2: risk_lvl, risk_color = "🟡 Medium Risk", "IMPORTANT"
+    else: risk_lvl, risk_color = "🟢 Low Risk", "NOTE"
 
+    # --- 1. Unified Engineering Assessment Card ---
+    effort = "⚡ Quick" if total_files < 5 else "⚖️ Balanced" if total_files < 15 else "🏋️ Heavy"
+    complexity = "💥 High" if tech_insights.get("Breaking") else "🧩 Modular"
+    
+    intel_str = f"> [!{risk_color}]\n"
+    intel_str += f"> # 🧠 Engineering Assessment\n"
+    intel_str += f"> | 🚩 Risk | ⏱️ Effort | 🛠️ Complexity |\n"
+    intel_str += f"> | :--- | :--- | :--- |\n"
+    intel_str += f"> | {risk_lvl} | **{effort}** | **{complexity}** |\n"
+    intel_str += f"> \n"
+    intel_str += f"> **Primary Findings**:\n"
+    if flags:
+        for f in flags: intel_str += f"> - {f}\n"
+    else:
+        intel_str += f"> - No critical architectural risks detected. Standard review protocols apply.\n"
+    if suggestions:
+        for s in suggestions: intel_str += f"> - {s}\n"
+    intel_str += "\n"
+
+    # --- 2. Components Inventory (Collapsible) ---
+    status_map = {"A": "🟢 NEW", "M": "🔵 MOD", "D": "🔴 DEL", "R": "🟡 REN"}
     inventory_str = "### 📦 Components Inventory\n"
     grouped_files = {}
     for line in changed_files_raw:
@@ -259,25 +286,17 @@ def main():
         inventory_str += "\n</details>"
     inventory_str += "\n\n"
 
-    # Quality Insights
-    insights_str = ""
-    if flags or suggestions:
-        insights_str += "> [!IMPORTANT]\n"
-        insights_str += "> **Quality & Integrity Audit**:\n"
-        for item in flags + suggestions: insights_str += f"> - {item}\n"
-        insights_str += "\n"
-
-    # Review Focus
+    # --- 3. High-Priority Review Focus ---
     focus_str = ""
     focus_files = [f.split('\t')[-1] for f in changed_files_raw if '\t' in f]
-    top_focus = [f for f in focus_files if any(p in f for p in ["server.js", "db.js", "App.tsx", ".yml"])]
+    top_focus = [f for f in focus_files if any(p in f for p in ["server.js", "db.js", "App.tsx", ".yml"]) or "workflows/" in f]
     if top_focus:
         focus_str += "### 🎯 High-Priority Review Focus\n"
         for f in top_focus[:3]: focus_str += f"- [ ] `{f}` (Core System Change)\n"
         focus_str += "\n"
 
-    # Assemble Intel Section
-    intel_str = f"{dashboard_str}{inventory_str}{insights_str}{focus_str}"
+    # Final Intel Assembly
+    intel_str = f"{intel_str}{inventory_str}{focus_str}"
 
     # --- 2. Template Integration ---
     details_str = ""
