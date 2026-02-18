@@ -20,14 +20,11 @@ try:
         with open('test_outcome.txt', 'r', encoding='utf-8') as f:
             outcome = f.read().strip()
 
-    anchor = '## 🚦 Test Results'
+    anchor = '## ✅ Verification Evidence'
     
-    # Regex to find the anchor and potentially existing content until next header or end
-    # We use a pattern that captures:
-    # 1. The anchor itself
-    # 2. Any content following it (non-greedy)
-    # 3. The start of the next section (## ) or end of string ($)
-    pattern = rf'({re.escape(anchor)})(.*?)(\n## |$)'
+    # Improved pattern to capture the header AND the default placeholder (e.g., - or empty line)
+    # We want to replace everything between this header and the next one (or footer)
+    pattern = rf'({re.escape(anchor)}\n(?:<!--.*?-->\n)?)(.*?)(\n## |\n---|$)'
     
     if anchor in body:
         # Replace existing section using a callback to avoid backslash escaping issues

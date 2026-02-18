@@ -72,30 +72,37 @@ def parse_junit_xml(directory):
 
 def generate_markdown(results):
     if not results:
-        return "### 🚦 No test results found."
+        return "> [!WARNING]\n> **No test data discovered**. Manual verification evidence is required.\n"
 
-    summary = ""
-    summary += f"| Status | Count | Percentage |\n"
-    summary += f"| :--- | :---: | :--- |\n"
-    
     pass_pct = (results['passed'] / results['total'] * 100) if results['total'] > 0 else 0
     fail_pct = (results['failed'] / results['total'] * 100) if results['total'] > 0 else 0
     skip_pct = (results['skipped'] / results['total'] * 100) if results['total'] > 0 else 0
     
-    summary += f"| ✅ Passed | {results['passed']} | {pass_pct:.1f}% |\n"
-    summary += f"| ❌ Failed | {results['failed']} | {fail_pct:.1f}% |\n"
-    summary += f"| ⏭️ Skipped | {results['skipped']} | {skip_pct:.1f}% |\n"
-    summary += f"| **Total** | **{results['total']}** | **Duration: {results['time']:.2f}s** |\n\n"
+    # High-fidelity Bar
+    filled = min(round(pass_pct / 10), 10)
+    bar = '▰' * filled + '▱' * (10 - filled)
+    
+    status_icon = "🟩" if results['failed'] == 0 else "🟥"
+    
+    summary = f"### {status_icon} Automated Verification Dossier\n"
+    summary += f"The CI suite has executed **{results['total']}** test cases with a **{pass_pct:.1f}%** success rate.\n\n"
+    
+    summary += f"| Metric | Count | % | Status Bar |\n"
+    summary += f"| :--- | :---: | :---: | :--- |\n"
+    summary += f"| ✅ Passed | {results['passed']} | {pass_pct:.1f}% | `{bar}` |\n"
+    summary += f"| ❌ Failed | {results['failed']} | {fail_pct:.1f}% | `{'▰' * (10-filled) if results['failed']>0 else '▱'*10}` |\n"
+    summary += f"| ⏭️ Skipped | {results['skipped']} | {skip_pct:.1f}% | - |\n"
+    summary += f"| **Total** | **{results['total']}** | **100%** | **Duration: {results['time']:.2f}s** |\n\n"
 
     if results['issues']:
-        summary += "#### 🔎 Failed/Skipped Details\n\n"
-        summary += "| Test Case | Status | Time |\n"
+        summary += "<details><summary><b>🔍 View Failure/Skip Root Cause Analysis</b></summary>\n\n"
+        summary += "| Test Case | Status | Duration |\n"
         summary += "| :--- | :---: | :--- |\n"
-        for issue in results['issues'][:15]: # Cap at 15 for PR readability
+        for issue in results['issues'][:15]:
             summary += f"| `{issue['class']}`: {issue['name']} | {issue['status']} | {issue['time']:.2f}s |\n"
-        
         if len(results['issues']) > 15:
-            summary += f"\n*... and {len(results['issues']) - 15} more issues. See job artifacts for full reports.*"
+            summary += f"\n*... and {len(results['issues']) - 15} more issues. See job artifacts for full traces.*"
+        summary += "\n</details>\n"
 
     return summary
 
