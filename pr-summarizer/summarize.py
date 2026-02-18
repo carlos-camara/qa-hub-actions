@@ -310,11 +310,29 @@ def main():
         processed_body = processed_body.replace("_[Drop screenshot/video here]_", "*(Automated: No attachments detected)*")
         processed_body = processed_body.replace("**Component Name**", "Global")
 
-        stats_table = "\n### 📊 Impact Magnitude\n"
-        stats_table += "| Layer | Units | Magnitude |\n| :--- | :---: | :--- |\n"
+        # --- 3. Impact Magnitude Dashboard ---
+        total_files = sum(metrics.values())
+        stats_table = "\n### 📊 Change Magnitude & Distribution\n"
+        stats_table += "| Layer | Units | % | Magnitude |\n| :--- | :---: | :---: | :--- |\n"
+        
+        # Define layer icons for the table
+        layer_icons = {
+            "Frontend": "🎨",
+            "Backend": "⚙️",
+            "QA": "🧪",
+            "DevOps": "🚀",
+            "📦 Miscellaneous": "📦"
+        }
+
         for k, v in sorted(metrics.items(), key=lambda x: x[1], reverse=True):
-            bar = '█' * min(v, 10) + '░' * max(0, 10-v)
-            stats_table += f"| {k} | {v} | `{bar}` |\n"
+            pct = (v / total_files * 100) if total_files > 0 else 0
+            icon = layer_icons.get(k, "📄")
+            
+            # Progress bar using high-fidelity symbols
+            filled_count = min(round(pct / 10), 10)
+            bar = '▰' * filled_count + '▱' * (10 - filled_count)
+            
+            stats_table += f"| {icon} {k} | {v} | {pct:.1f}% | `{bar}` |\n"
             
         final_summary = f"{processed_body}\n{stats_table}"
     else:
