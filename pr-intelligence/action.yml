@@ -2,7 +2,7 @@
 name: 'PR Intelligence'
 description: '🤖 Automated PR Hygiene, Size Labeling, and Risk Analysis.'
 branding:
-  icon: 'brain'
+  icon: 'zap'
   color: 'blue'
 
 inputs:
