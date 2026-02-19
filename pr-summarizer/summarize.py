@@ -249,7 +249,7 @@ def main():
     complexity = "💥 High" if tech_insights.get("Breaking") else "🧩 Modular"
     
     intel_str = f"> [!{risk_color}]\n"
-    intel_str += f"> # 🧠 Engineering Assessment\n"
+    intel_str += f"> # 🌟 Executive Summary\n"
     intel_str += f"> | 🚩 Risk | ⏱️ Effort | 🛠️ Complexity |\n"
     intel_str += f"> | :--- | :--- | :--- |\n"
     intel_str += f"> | {risk_lvl} | **{effort}** | **{complexity}** |\n"
