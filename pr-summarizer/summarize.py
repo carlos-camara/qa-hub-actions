@@ -353,20 +353,33 @@ def main():
     else:
         final_summary = f"{intel_str}\n---\n*Manual review required: No PR template found.*"
 
-    # --- 3. Change Magnitude Dashboard ---
-    total_files = sum(metrics.values())
-    stats_table = "\n### 📊 Change Magnitude & Distribution\n"
-    stats_table += "| Layer | Units | % | Magnitude |\n| :--- | :---: | :---: | :--- |\n"
-    layer_icons = {"Frontend": "🎨", "Backend": "⚙️", "QA": "🧪", "DevOps": "🚀", "📦 Miscellaneous": "📦"}
+        # 2.4 Evidence Delivery (Relocating Magnitude Stats)
+        evidence_anchor = "## ✅ Verification Evidence"
+        total_files = sum(metrics.values())
+        stats_table = "\n### 📊 Change Magnitude & Distribution\n"
+        stats_table += "| Layer | Units | % | Magnitude |\n| :--- | :---: | :---: | :--- |\n"
+        layer_icons = {"Frontend": "🎨", "Backend": "⚙️", "QA": "🧪", "DevOps": "🚀", "📦 Miscellaneous": "📦"}
 
-    for k, v in sorted(metrics.items(), key=lambda x: x[1], reverse=True):
-        pct = (v / total_files * 100) if total_files > 0 else 0
-        icon = layer_icons.get(k, "📄")
-        filled_count = min(round(pct / 10), 10)
-        bar = '▰' * filled_count + '▱' * (10 - filled_count)
-        stats_table += f"| {icon} {k} | {v} | {pct:.1f}% | `{bar}` |\n"
-    
-    final_summary = f"{final_summary}\n{stats_table}"
+        for k, v in sorted(metrics.items(), key=lambda x: x[1], reverse=True):
+            pct = (v / total_files * 100) if total_files > 0 else 0
+            icon = layer_icons.get(k, "📄")
+            filled_count = min(round(pct / 10), 10)
+            bar = '▰' * filled_count + '▱' * (10 - filled_count)
+            stats_table += f"| {icon} {k} | {v} | {pct:.1f}% | `{bar}` |\n"
+
+        if evidence_anchor in processed_body:
+            # Inject stats table into the Verification Evidence section
+            pattern = rf"({re.escape(evidence_anchor)}\n(?:<!--.*?-->\n)?)"
+            processed_body = re.sub(pattern, rf"\1{stats_table}\n", processed_body, flags=re.DOTALL)
+        else:
+            processed_body = f"{processed_body}\n{stats_table}"
+
+        processed_body = re.sub(r'<!--.*?-->', '', processed_body, flags=re.DOTALL)
+        processed_body = processed_body.replace("_[Drop screenshot/video here]_", "*(Automated: No attachments detected)*")
+        final_summary = processed_body
+    else:
+        # Fallback for missing template
+        final_summary = f"{intel_str}\n---\n*Manual review required: No PR template found.*"
 
     with open('final_pr_body.md', 'w', encoding='utf-8') as f: f.write(final_summary)
     if pr_number:
