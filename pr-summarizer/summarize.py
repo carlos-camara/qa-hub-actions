@@ -298,64 +298,62 @@ def main():
     # Final Intel Assembly
     intel_str = f"{intel_str}{inventory_str}{focus_str}"
 
-        # Apply high-fidelity classification highlighting
+    # --- 2. Template Integration ---
+    if template_content:
+        # 2.1 Change Classification Auto-Detection
         title_map = {
-            "feat": "🚀", "fix": "🐛", "refactor": "♻️", 
-            "style": "💄", "docs": "📚", "chore": "🔧", "perf": "⚡"
+            "feat": "🚀 **PROD-FEATURE**", 
+            "fix": "🐛 **HOTFIX**", 
+            "refactor": "♻️ **REFACTOR**", 
+            "style": "💄 **STYLING**", 
+            "docs": "🔧 **INFRA**", 
+            "chore": "🔧 **INFRA**", 
+            "perf": "⚡ **PERF-BOOST**"
         }
         
         pr_type_match = re.search(r'^(feat|fix|refactor|style|docs|chore|perf)', pr_title.lower())
         if pr_type_match:
-            detected_icon = title_map.get(pr_type_match.group(1))
-            if detected_icon: change_types.add(detected_icon)
+            detected_class = title_map.get(pr_type_match.group(1))
+            if detected_class: change_types.add(detected_class)
         
-        if risk_lvl == "🔴 High Risk": change_types.add("💥")
+        if risk_lvl == "🔴 High Risk": change_types.add("💥 **BREAKING**")
 
         processed_body = template_content
         processed_body = processed_body.replace("[Brief Title]", pr_title)
         
-        for ct in change_types:
-            # Highlight the status column with a high-fidelity checkmark
-            pattern = rf"\| \[ \] \| {re.escape(ct)}"
-            processed_body = re.sub(pattern, f"| ✅ | {ct}", processed_body)
+        # 2.2 Dashboard Highlighting
+        for cls in change_types:
+            # Match the [ ] next to the specific class name
+            pattern = rf"\| \[ \] \| {re.escape(cls)}"
+            processed_body = re.sub(pattern, f"| ✅ | {cls}", processed_body)
 
+        # 2.3 Executive Summary & Intelligence Injection
         summary_anchor = "# 🌟 Executive Summary"
         if summary_anchor in processed_body:
-            auto_summary = f"Architectural analysis confirms changes across **{', '.join(metrics.keys())}** layers. Primary focus identified as **{', '.join([ct.replace('**', '') for ct in change_types if '**' in ct])}** refinement."
+            auto_summary = f"Architectural analysis confirms modifications across **{', '.join(metrics.keys())}** layers. Primary impact identified as **{', '.join([c.split(' ')[1].replace('**', '') for c in change_types if '**' in c] or ['General Maintenance'])}**."
             pattern = rf"({re.escape(summary_anchor)}\n(?:<!--.*?-->\n)?)>[ \t]*.*?\n"
             processed_body = re.sub(pattern, rf"\1> {auto_summary}\n\n{intel_str}----- \n", processed_body, flags=re.DOTALL)
 
         processed_body = re.sub(r'<!--.*?-->', '', processed_body, flags=re.DOTALL)
         processed_body = processed_body.replace("_[Drop screenshot/video here]_", "*(Automated: No attachments detected)*")
-        processed_body = processed_body.replace("**Component Name**", "Global")
-
-        # --- 3. Impact Magnitude Dashboard ---
-        total_files = sum(metrics.values())
-        stats_table = "\n### 📊 Change Magnitude & Distribution\n"
-        stats_table += "| Layer | Units | % | Magnitude |\n| :--- | :---: | :---: | :--- |\n"
-        
-        # Define layer icons for the table
-        layer_icons = {
-            "Frontend": "🎨",
-            "Backend": "⚙️",
-            "QA": "🧪",
-            "DevOps": "🚀",
-            "📦 Miscellaneous": "📦"
-        }
-
-        for k, v in sorted(metrics.items(), key=lambda x: x[1], reverse=True):
-            pct = (v / total_files * 100) if total_files > 0 else 0
-            icon = layer_icons.get(k, "📄")
-            
-            # Progress bar using high-fidelity symbols
-            filled_count = min(round(pct / 10), 10)
-            bar = '▰' * filled_count + '▱' * (10 - filled_count)
-            
-            stats_table += f"| {icon} {k} | {v} | {pct:.1f}% | `{bar}` |\n"
-            
-        final_summary = f"{processed_body}\n{stats_table}"
+        final_summary = processed_body
     else:
-        final_summary = f"{intel_str}\n---\n{details_str}"
+        final_summary = f"{intel_str}\n---\n*Manual review required: No PR template found.*"
+
+    # --- 3. Change Magnitude Dashboard ---
+    total_files = sum(metrics.values())
+    stats_table = "\n### 📊 Change Magnitude & Distribution\n"
+    stats_table += "| Layer | Units | % | Magnitude |\n| :--- | :---: | :---: | :--- |\n"
+    layer_icons = {"Frontend": "🎨", "Backend": "⚙️", "QA": "🧪", "DevOps": "🚀", "📦 Miscellaneous": "📦"}
+
+    for k, v in sorted(metrics.items(), key=lambda x: x[1], reverse=True):
+        pct = (v / total_files * 100) if total_files > 0 else 0
+        icon = layer_icons.get(k, "📄")
+        filled_count = min(round(pct / 10), 10)
+        bar = '▰' * filled_count + '▱' * (10 - filled_count)
+        stats_table += f"| {icon} {k} | {v} | {pct:.1f}% | `{bar}` |\n"
+    
+    final_summary = f"{final_summary}\n{stats_table}"
 
     with open('final_pr_body.md', 'w', encoding='utf-8') as f: f.write(final_summary)
     if pr_number:
