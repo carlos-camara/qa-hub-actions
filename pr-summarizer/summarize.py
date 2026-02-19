@@ -244,37 +244,32 @@ def main():
     elif score >= 2: risk_lvl, risk_color = "🟡 Medium Risk", "IMPORTANT"
     else: risk_lvl, risk_color = "🟢 Low Risk", "NOTE"
 
-    # --- 1. Premium Intelligence Card (Executive Summary) ---
-    effort = "⚡ Quick" if total_files < 5 else "⚖️ Balanced" if total_files < 15 else "🏋️ Heavy"
-    complexity = "💥 High" if tech_insights.get("Breaking") else "🧩 Modular"
+    # --- 1. Strategic Dashboard (Executive Summary) ---
+    effort_icon = "⚡" if total_files < 5 else "⚖️" if total_files < 15 else "🏋️"
+    complexity_icon = "🧩" if not tech_insights.get("Breaking") else "💥"
     
-    # Base summary sentence
-    base_summary = f"Architectural analysis confirms modifications across **{', '.join(metrics.keys())}** layers. Primary impact identified as **{', '.join([c.split(' ')[1].replace('**', '') for c in change_types if '**' in c] or ['General Maintenance'])}** refinement."
+    # High-impact summary sentence
+    summary_msg = f"This PR executes a **{', '.join([c.split(' ')[1].replace('**', '') for c in change_types if '**' in c] or ['Core'])}** update across **{len(metrics)}** architectural layers."
 
     intel_str = f"> [!{risk_color}]\n"
-    intel_str += f"> # 🌟 EXECUTIVE SUMMARY\n"
-    intel_str += f"> > **{base_summary}**\n"
+    intel_str += f"> # 🌟 STRATEGIC OVERVIEW\n"
+    intel_str += f"> > {summary_msg}\n"
     intel_str += f"> \n"
-    intel_str += f"> | 🚩 **RISK LEVEL** | ⏱️ **EFFORT** | 🧩 **STRUCTURE** |\n"
+    intel_str += f"> | IMPACT | TIMELINE | STRUCTURAL |\n"
     intel_str += f"> | :--- | :--- | :--- |\n"
-    intel_str += f"> | {risk_lvl} | **{effort}** | **{complexity}** |\n"
+    intel_str += f"> | {risk_lvl.replace('Risk', '').strip()} | **{effort_icon} {effort}** | **{complexity_icon} {complexity}** |\n"
     intel_str += f"> \n"
-    intel_str += f"> --- \n"
-    intel_str += f"> \n"
-    intel_str += f"> ### 🔍 INTELLIGENCE DOSSIER\n"
     
     if flags or suggestions:
-        if flags:
-            for f in flags: 
-                # Style flags as critical points
-                f_clean = f.replace("⚠️ ", "").replace("🚨 ", "")
-                intel_str += f"> - `[CRITICAL]` {f_clean}\n"
-        if suggestions:
-            for s in suggestions:
-                s_clean = s.replace("📖 ", "").replace("🛡️ ", "")
-                intel_str += f"> - `[ADVISORY]` {s_clean}\n"
-    else:
-        intel_str += f"> - `[PASS]` No architectural regressions or critical risks identified.\n"
+        intel_str += f"> --- \n"
+        intel_str += f"> \n"
+        intel_str += f"> ### 🚩 KEY FINDINGS\n"
+        for f in flags: 
+            f_clean = f.replace("⚠️ ", "").replace("🚨 ", "")
+            intel_str += f"> - `[CRITICAL]` {f_clean}\n"
+        for s in suggestions:
+            s_clean = s.replace("📖 ", "").replace("🛡️ ", "")
+            intel_str += f"> - `[ADVISORY]` {s_clean}\n"
     
     intel_str += "\n"
 
@@ -345,11 +340,11 @@ def main():
         # 2.3 Intelligence Delivery (Executive Summary)
         summary_anchor = "# 🌟 Executive Summary"
         if summary_anchor in processed_body:
-            # Replace the anchor and its placeholder blockquote with the premium card
+            # Replace the anchor and its placeholder blockquote with the minimalist card
             pattern = rf"({re.escape(summary_anchor)}\n(?:<!--.*?-->\n)?)>[ \t]*.*?\n"
-            processed_body = re.sub(pattern, rf"\1\n{intel_str}----- \n", processed_body, flags=re.DOTALL)
+            processed_body = re.sub(pattern, rf"\1\n{intel_str}", processed_body, flags=re.DOTALL)
         else:
-            processed_body = f"{intel_str}\n---\n{processed_body}"
+            processed_body = f"{intel_str}\n{processed_body}"
 
         processed_body = re.sub(r'<!--.*?-->', '', processed_body, flags=re.DOTALL)
         processed_body = processed_body.replace("_[Drop screenshot/video here]_", "*(Automated: No attachments detected)*")
