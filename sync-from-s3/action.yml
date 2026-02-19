@@ -4,7 +4,7 @@ description: 'Downloads files from AWS S3 and commits them to the repository.'
 
 inputs:
   project-name:
-    description: 'Project identifier for S3 prefix (e.g., "dashboard", "api-tests")'
+    description: 'Project identifier or comma-separated list for S3 prefix (e.g., "dashboard,api-tests")'
     required: true
   s3-bucket:
     description: 'AWS S3 bucket name'
@@ -50,7 +50,6 @@ runs:
       run: |
         echo "🔄 Syncing from S3..."
         
-        PROJECT="${{ inputs.project-name }}"
         BUCKET="${{ inputs.s3-bucket }}"
         S3_PATH="${{ inputs.s3-path }}"
         LOCAL_PATH="${{ inputs.target-path }}"
@@ -67,11 +66,18 @@ runs:
             EXCLUDES="${EXCLUDES} --exclude \"${dir_name}/*\""
           done
         fi
-        
-        # Sync from S3 (removed --delete to ensure local history is preserved)
-        aws s3 sync s3://${BUCKET}/${PROJECT}/${S3_PATH} ${LOCAL_PATH} \
-          ${EXCLUDES} \
-          --exclude "*.gitkeep" || echo "No files to sync"
+
+        IFS=',' read -ra PROJECTS <<< "${{ inputs.project-name }}"
+        for PROJECT in "${PROJECTS[@]}"; do
+          # Trim whitespace
+          PROJECT=$(echo "$PROJECT" | xargs)
+          echo "🔄 Syncing project: ${PROJECT}..."
+          
+          # Sync from S3 (removed --delete to ensure local history is preserved)
+          aws s3 sync s3://${BUCKET}/${PROJECT}/${S3_PATH} ${LOCAL_PATH} \
+            ${EXCLUDES} \
+            --exclude "*.gitkeep" || echo "No files to sync for ${PROJECT}"
+        done
         
         echo "✅ S3 sync complete!"
 
