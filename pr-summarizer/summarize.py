@@ -245,6 +245,8 @@ def main():
     else: risk_lvl, risk_color = "🟢 Low Risk", "NOTE"
 
     # --- 1. Strategic Dashboard (Executive Summary) ---
+    effort = "Quick" if total_files < 5 else "Balanced" if total_files < 15 else "Heavy"
+    complexity = "Modular" if not tech_insights.get("Breaking") else "High"
     effort_icon = "⚡" if total_files < 5 else "⚖️" if total_files < 15 else "🏋️"
     complexity_icon = "🧩" if not tech_insights.get("Breaking") else "💥"
     
