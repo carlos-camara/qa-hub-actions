@@ -69,35 +69,31 @@ runs:
 
     - name: 🧪 Run API Tests
       if: inputs.test-command-api != ''
-      shell: pwsh
+      shell: bash
       run: |
-        $enableCoverage = "${{ inputs.enable-coverage }}" -eq "true"
-        $coverageModule = "${{ inputs.coverage-module }}"
+        ENABLE_COVERAGE="${{ inputs.enable-coverage }}"
+        COVERAGE_MODULE="${{ inputs.coverage-module }}"
         
-        if ($enableCoverage -and $coverageModule) {
-          echo "::notice::Running API tests with coverage for module: $coverageModule"
-          pytest --cov=$coverageModule tests/ --cov-report=xml
-        } else {
+        if [ "$ENABLE_COVERAGE" = "true" ] && [ -n "$COVERAGE_MODULE" ]; then
+          echo "::notice::Running API tests with coverage for module: $COVERAGE_MODULE"
+          pytest --cov="$COVERAGE_MODULE" tests/ --cov-report=xml
+        else
           echo "::notice::Running standard API tests"
-          $cmd = "${{ inputs.test-command-api }} --project ${{ inputs.project-name }}"
-          Invoke-Expression $cmd
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-        }
+          ${{ inputs.test-command-api }} --project ${{ inputs.project-name }}
+        fi
 
     - name: 🧪 Run Performance Tests
       if: inputs.test-command-performance != ''
-      shell: pwsh
+      shell: bash
       run: |
         echo "::notice::Executing Performance Stability Audit"
         ${{ inputs.test-command-performance }}
 
     - name: 🧪 Run GUI Tests
       if: inputs.test-command-gui != ''
-      shell: pwsh
+      shell: bash
       run: |
         echo "::notice::Executing GUI Verification Suite"
-        $cmd = "${{ inputs.test-command-gui }} --project ${{ inputs.project-name }}"
-        Invoke-Expression $cmd
-        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+        ${{ inputs.test-command-gui }} --project ${{ inputs.project-name }}
       env:
         HEADLESS: ${{ inputs.headless }}
