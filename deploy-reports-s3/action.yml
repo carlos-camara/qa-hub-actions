@@ -45,7 +45,7 @@ runs:
     - name: 📥 Download Test Artifacts
       uses: actions/download-artifact@v4
       with:
-        pattern: '*-reports*'
+        pattern: '*'
         path: temp_s3
         github-token: ${{ inputs.github-token }}
         run-id: ${{ inputs.run-id }}
