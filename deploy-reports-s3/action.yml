@@ -67,6 +67,7 @@ runs:
         echo "🚀 Uploading reports to S3..."
         PROJECT="${{ inputs.project-name }}"
         BUCKET="${{ inputs.s3-bucket }}"
+        echo "DEBUG: Target Bucket is [${BUCKET}]"
         
         # Helper to sync without deletion
         sync_to_s3() {
