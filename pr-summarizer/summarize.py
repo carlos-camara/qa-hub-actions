@@ -298,16 +298,7 @@ def main():
     # Final Intel Assembly
     intel_str = f"{intel_str}{inventory_str}{focus_str}"
 
-    # --- 2. Template Integration ---
-    details_str = ""
-    for category, items in tech_insights.items():
-        if items and category != "Breaking":
-            details_str += f"\n**{category} Updates**\n"
-            for item in list(set(items))[:5]: details_str += f"- {item}\n"
-
-    if template_content:
-        # --- 2. Change Classification Mapping ---
-        # Map Conventional Commits from title to Taxonomy
+        # Apply high-fidelity classification highlighting
         title_map = {
             "feat": "🚀", "fix": "🐛", "refactor": "♻️", 
             "style": "💄", "docs": "📚", "chore": "🔧", "perf": "⚡"
@@ -318,23 +309,21 @@ def main():
             detected_icon = title_map.get(pr_type_match.group(1))
             if detected_icon: change_types.add(detected_icon)
         
-        if risk_lvl == "🔴 High Risk": change_types.add("💥") # Suggest Breaking Change if very high risk
+        if risk_lvl == "🔴 High Risk": change_types.add("💥")
 
         processed_body = template_content
         processed_body = processed_body.replace("[Brief Title]", pr_title)
         
-        # Apply automated classification
         for ct in change_types:
-            # Match the [ ] next to the specific emoji/icon
-            pattern = rf"\| \[ \] {re.escape(ct)} (.*?) \|"
-            processed_body = re.sub(pattern, rf"| [X] {ct} \1 |", processed_body)
+            # Highlight the status column with a high-fidelity checkmark
+            pattern = rf"\| \[ \] \| {re.escape(ct)}"
+            processed_body = re.sub(pattern, f"| ✅ | {ct}", processed_body)
 
         summary_anchor = "# 🌟 Executive Summary"
         if summary_anchor in processed_body:
-            auto_summary = f"This PR introduce changes across **{', '.join(metrics.keys())}** modules. Targeted efforts focused on **{', '.join([ct.split('**')[1] for ct in change_types if '**' in ct])}**."
-            # Replace the placeholder blockquote with the auto-summary
+            auto_summary = f"Architectural analysis confirms changes across **{', '.join(metrics.keys())}** layers. Primary focus identified as **{', '.join([ct.replace('**', '') for ct in change_types if '**' in ct])}** refinement."
             pattern = rf"({re.escape(summary_anchor)}\n(?:<!--.*?-->\n)?)>[ \t]*.*?\n"
-            processed_body = re.sub(pattern, rf"\1> {auto_summary}\n\n{intel_str}---\n", processed_body, flags=re.DOTALL)
+            processed_body = re.sub(pattern, rf"\1> {auto_summary}\n\n{intel_str}----- \n", processed_body, flags=re.DOTALL)
 
         processed_body = re.sub(r'<!--.*?-->', '', processed_body, flags=re.DOTALL)
         processed_body = processed_body.replace("_[Drop screenshot/video here]_", "*(Automated: No attachments detected)*")
