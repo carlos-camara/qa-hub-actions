@@ -254,7 +254,6 @@ def main():
     summary_msg = f"This PR executes a **{', '.join([c.split(' ')[1].replace('**', '') for c in change_types if '**' in c] or ['Core'])}** update across **{len(metrics)}** architectural layers."
 
     intel_str = f"> [!{risk_color}]\n"
-    intel_str += f"> # 🌟 STRATEGIC OVERVIEW\n"
     intel_str += f"> > {summary_msg}\n"
     intel_str += f"> \n"
     intel_str += f"> | IMPACT | TIMELINE | STRUCTURAL |\n"
