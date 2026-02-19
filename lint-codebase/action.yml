@@ -44,6 +44,8 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: 📥 Checkout Repository
+      uses: actions/checkout@v4
     - name: 🔍 Super-Linter
       uses: github/super-linter@v6
       env:
