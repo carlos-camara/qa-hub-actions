@@ -42,13 +42,10 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: 📥 Download All Artifacts
+    - name: 📥 Download Test Artifacts
       uses: actions/download-artifact@v4
       with:
-        pattern: |
-          test-reports
-          gui-screenshots
-          performance-reports
+        pattern: '*-reports*'
         path: temp_s3
         github-token: ${{ inputs.github-token }}
         run-id: ${{ inputs.run-id }}
@@ -65,29 +62,33 @@ runs:
       shell: bash
       run: |
         echo "🚀 Uploading reports to S3..."
-        
         PROJECT="${{ inputs.project-name }}"
         BUCKET="${{ inputs.s3-bucket }}"
         
-        if [ "${{ inputs.upload-reports }}" == "true" ] && [ -d "temp_s3/test-reports" ]; then
-          echo "📦 Uploading test reports..."
-          aws s3 sync temp_s3/test-reports/ s3://${BUCKET}/${PROJECT}/reports/test_run/ \
-            --delete \
-            --exclude "*.gitkeep" || echo "No reports to upload"
+        # Helper to sync without deletion
+        sync_to_s3() {
+          local src=$1
+          local dest=$2
+          local label=$3
+          if [ -d "$src" ]; then
+            echo "📦 Uploading ${label}..."
+            aws s3 sync "$src" "s3://${BUCKET}/${PROJECT}/${dest}/" \
+              --exclude "*.gitkeep" || echo "⚠️ Failed to upload ${label}"
+          else
+            echo "⏭️ Skipping ${label}: Directory not found ($src)"
+          fi
+        }
+
+        if [ "${{ inputs.upload-reports }}" == "true" ]; then
+          sync_to_s3 "temp_s3/test-reports" "reports/test_run" "Test Reports"
         fi
         
-        if [ "${{ inputs.upload-screenshots }}" == "true" ] && [ -d "temp_s3/gui-screenshots" ]; then
-          echo "📸 Uploading screenshots..."
-          aws s3 sync temp_s3/gui-screenshots/ s3://${BUCKET}/${PROJECT}/reports/screenshots/ \
-            --delete \
-            --exclude "*.gitkeep" || echo "No screenshots to upload"
+        if [ "${{ inputs.upload-screenshots }}" == "true" ]; then
+          sync_to_s3 "temp_s3/gui-screenshots" "reports/screenshots" "GUI Screenshots"
         fi
         
-        if [ "${{ inputs.upload-perf }}" == "true" ] && [ -d "temp_s3/performance-reports" ]; then
-          echo "⚡ Uploading performance reports..."
-          aws s3 sync temp_s3/performance-reports/ s3://${BUCKET}/${PROJECT}/reports/performance_run/ \
-            --delete \
-            --exclude "*.gitkeep" || echo "No performance reports to upload"
+        if [ "${{ inputs.upload-perf }}" == "true" ]; then
+          sync_to_s3 "temp_s3/performance-reports" "reports/performance_run" "Performance Reports"
         fi
         
-        echo "✅ S3 upload complete!"
+        echo "✅ S3 upload sequence complete!"
