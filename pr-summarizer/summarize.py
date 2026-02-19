@@ -310,6 +310,7 @@ def main():
     intel_str = f"{intel_str}{inventory_str}{focus_str}"
 
     # --- 2. Template Integration ---
+    # --- 2. Template Integration ---
     if template_content:
         # 2.1 Change Classification Auto-Detection
         title_map = {
@@ -334,26 +335,18 @@ def main():
         
         # 2.2 Dashboard Highlighting
         for cls in change_types:
-            # Match the [ ] next to the specific class name
             pattern = rf"\| \[ \] \| {re.escape(cls)}"
             processed_body = re.sub(pattern, f"| ✅ | {cls}", processed_body)
 
         # 2.3 Intelligence Delivery (Executive Summary)
         summary_anchor = "# 🌟 Executive Summary"
         if summary_anchor in processed_body:
-            # Replace the anchor and its placeholder blockquote with the minimalist card
             pattern = rf"({re.escape(summary_anchor)}\n(?:<!--.*?-->\n)?)>[ \t]*.*?\n"
             processed_body = re.sub(pattern, rf"\1\n{intel_str}", processed_body, flags=re.DOTALL)
         else:
             processed_body = f"{intel_str}\n{processed_body}"
 
-        processed_body = re.sub(r'<!--.*?-->', '', processed_body, flags=re.DOTALL)
-        processed_body = processed_body.replace("_[Drop screenshot/video here]_", "*(Automated: No attachments detected)*")
-        final_summary = processed_body
-    else:
-        final_summary = f"{intel_str}\n---\n*Manual review required: No PR template found.*"
-
-        # 2.4 Evidence Delivery (Relocating Magnitude Stats)
+        # 2.4 Evidence Delivery (Change Magnitude Stats)
         evidence_anchor = "## ✅ Verification Evidence"
         total_files = sum(metrics.values())
         stats_table = "\n### 📊 Change Magnitude & Distribution\n"
@@ -368,7 +361,6 @@ def main():
             stats_table += f"| {icon} {k} | {v} | {pct:.1f}% | `{bar}` |\n"
 
         if evidence_anchor in processed_body:
-            # Inject stats table into the Verification Evidence section
             pattern = rf"({re.escape(evidence_anchor)}\n(?:<!--.*?-->\n)?)"
             processed_body = re.sub(pattern, rf"\1{stats_table}\n", processed_body, flags=re.DOTALL)
         else:
@@ -378,7 +370,6 @@ def main():
         processed_body = processed_body.replace("_[Drop screenshot/video here]_", "*(Automated: No attachments detected)*")
         final_summary = processed_body
     else:
-        # Fallback for missing template
         final_summary = f"{intel_str}\n---\n*Manual review required: No PR template found.*"
 
     with open('final_pr_body.md', 'w', encoding='utf-8') as f: f.write(final_summary)
