@@ -1,0 +1,63 @@
+---
+name: 'Gate Check: Open PR'
+description: '🛑 Checks if an open Pull Request exists for the current branch. Useful for conditional workflow execution.'
+branding:
+  icon: 'git-pull-request'
+  color: 'orange'
+
+inputs:
+  github-token:
+    description: 'GitHub Token to authenticate with CLI'
+    required: true
+  head-branch:
+    description: 'Head branch to check for (e.g., feature/foo)'
+    required: true
+  base-branch:
+    description: 'Base branch the PR would target'
+    required: false
+    default: 'main'
+  fail-on-missing:
+    description: 'Fail the step if no PR is found'
+    required: false
+    default: 'false'
+
+outputs:
+  pr-exists:
+    description: '"true" if an open PR exists, "false" otherwise'
+    value: ${{ steps.check_pr.outputs.exists }}
+  pr-number:
+    description: 'The number of the found PR (if any)'
+    value: ${{ steps.check_pr.outputs.number }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: 🔍 Check for Open PR
+      id: check_pr
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+      run: |
+        HEAD="${{ inputs.head-branch }}"
+        BASE="${{ inputs.base-branch }}"
+        
+        echo "🔍 Checking for open PR from '${HEAD}' to '${BASE}'..."
+        
+        # Initial check for PR count
+        PR_COUNT=$(gh pr list --head "${HEAD}" --base "${BASE}" --state open --json number --jq 'length')
+        
+        if [ "$PR_COUNT" -gt 0 ]; then
+          PR_NUM=$(gh pr list --head "${HEAD}" --base "${BASE}" --state open --json number --jq '.[0].number')
+          echo "✅ Found open PR #${PR_NUM}"
+          echo "exists=true" >> "$GITHUB_OUTPUT"
+          echo "number=${PR_NUM}" >> "$GITHUB_OUTPUT"
+        else
+          echo "ℹ️ No open PR found."
+          echo "exists=false" >> "$GITHUB_OUTPUT"
+          echo "number=" >> "$GITHUB_OUTPUT"
+          
+          if [ "${{ inputs.fail-on-missing }}" == "true" ]; then
+            echo "❌ Fail on missing enabled. Exiting with error."
+            exit 1
+          fi
+        fi
