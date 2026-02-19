@@ -1,0 +1,48 @@
+---
+name: 'PR Intelligence'
+description: '🤖 Automated PR Hygiene, Size Labeling, and Risk Analysis.'
+branding:
+  icon: 'brain'
+  color: 'blue'
+
+inputs:
+  github-token:
+    description: 'GitHub token with PR and labels write permissions'
+    required: true
+  critical-patterns:
+    description: 'Comma-separated patterns to trigger high-risk alert'
+    required: false
+    default: 'environment.py,config.yaml,.github/workflows/'
+  validate-hygiene:
+    description: 'Validate Conventional Commits and description length'
+    required: false
+    default: 'true'
+  label-size:
+    description: 'Apply size/S, M, L labels based on LOC changed'
+    required: false
+    default: 'true'
+  analyze-risk:
+    description: 'Flag critical file modifications'
+    required: false
+    default: 'true'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: 🧠 Run Intelligence Engine
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        CRITICAL_PATTERNS: ${{ inputs.critical-patterns }}
+        VALIDATE_HYGIENE: ${{ inputs.validate-hygiene }}
+        LABEL_SIZE: ${{ inputs.label-size }}
+        ANALYZE_RISK: ${{ inputs.analyze-risk }}
+        EVENT_PATH: ${{ github.event_path }}
+        REPO_FULL_NAME: ${{ github.repository }}
+      run: |
+        python ${{ github.action_path }}/intelligence.py

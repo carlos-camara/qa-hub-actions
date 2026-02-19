@@ -1,0 +1,48 @@
+---
+name: 'PR Churn Analyzer'
+description: '📉 Detect Test Debt by comparing Logic vs Test changes.'
+branding:
+  icon: 'trending-down'
+  color: 'red'
+
+inputs:
+  github-token:
+    description: 'GitHub token'
+    required: true
+  logic-path:
+    description: 'Path pattern for logic files (e.g., features/steps/)'
+    required: false
+    default: 'features/steps/'
+  test-path:
+    description: 'Path pattern for test files (e.g., features/*.feature)'
+    required: false
+    default: '.feature'
+  debt-threshold-logic:
+    description: 'Logic LOC added to trigger debt check'
+    required: false
+    default: '50'
+  debt-threshold-tests:
+    description: 'Minimum test LOC required for large logic changes'
+    required: false
+    default: '5'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: 📈 Analyze Churn Ratio
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        LOGIC_PATH: ${{ inputs.logic-path }}
+        TEST_PATH: ${{ inputs.test-path }}
+        DEBT_LOGIC: ${{ inputs.debt-threshold-logic }}
+        DEBT_TESTS: ${{ inputs.debt-threshold-tests }}
+        EVENT_PATH: ${{ github.event_path }}
+        REPO_FULL_NAME: ${{ github.repository }}
+      run: |
+        python ${{ github.action_path }}/analyzer.py
