@@ -61,6 +61,9 @@ runs:
     - name: 📤 Upload to S3
       shell: bash
       run: |
+        echo "🔍 Debugging S3 Connectivity..."
+        aws s3 ls || echo "⚠️ Cannot list buckets (Permission/Auth Issue)"
+        
         echo "🚀 Uploading reports to S3..."
         PROJECT="${{ inputs.project-name }}"
         BUCKET="${{ inputs.s3-bucket }}"
