@@ -60,10 +60,24 @@ def get_jira_key_from_name(test_name):
      In Behave XML reports from xUnit, the tags aren't always easily accessible, so we depend on either
      searching Jira or having the key injected into the scenario name. For this implementation, we will search Jira by summary."""
      
-     # Simple fallback to search Jira for an issue with this exact name
+     # 1. Try to extract tag directly from the test name
+     # Behave sometimes prefixes the scenario with tags like: "@CC-123 @tag2 Scenario Name"
+     match = re.search(fr"@{PROJECT_KEY}-(\d+)", test_name)
+     if match:
+         return f"{PROJECT_KEY}-{match.group(1)}"
+         
+     # 2. Extract clean scenario name (remove tags if they are at the beginning but regex missed)
+     clean_name = test_name
+     if "@" in clean_name:
+         # Behave JUnit reporter usually outputs "filename:line_number" in the classname,
+         # but the name attribute might be just the scenario name.
+         # Let's clean out any known tags just in case
+         clean_name = re.sub(r'@[^\s]+\s+', '', clean_name).strip()
+     
+     # 3. Simple fallback: search Jira for an issue with this exact name
      url = f"{JIRA_URL}/rest/api/3/search"
-     # Escape quotes in test_name for JQL
-     escaped_name = test_name.replace('"', '\\"')
+     # Escape quotes in clean_name for JQL
+     escaped_name = clean_name.replace('"', '\\"')
      jql = f'project = "{PROJECT_KEY}" AND issuetype = "Tarea" AND summary ~ "\\"{escaped_name}\\""'
      
      payload = json.dumps({"jql": jql, "maxResults": 1})
