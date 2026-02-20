@@ -24,6 +24,32 @@ headers = {
     "Content-Type": "application/json"
 }
 
+def link_to_parent_plan(issue_key, parent_plan_key):
+    """Fallback: Links the task to the parent test plan issue via Issue Links if parent field is rejected."""
+    print(f"  🔗 Fallback: Linking '{issue_key}' to parent plan '{parent_plan_key}' via IssueLink (Relates)...")
+    url = f"{JIRA_URL}/rest/api/3/issueLink"
+    
+    payload = json.dumps({
+        "type": {
+            "name": "Relates"
+        },
+        "inwardIssue": {
+            "key": parent_plan_key
+        },
+        "outwardIssue": {
+            "key": issue_key
+        }
+    })
+    
+    try:
+        response = requests.post(url, data=payload, headers=headers, auth=auth)
+        if response.status_code == 201:
+            print(f"  ✅ Successfully linked to {parent_plan_key} via IssueLink")
+        else:
+            print(f"  ⚠️ Failed issue link to {parent_plan_key}. Status: {response.status_code}")
+    except Exception as e:
+        print(f"  ⚠️ Error linking to parent plan: {e}")
+
 def _build_jira_description(tags, steps):
     """Helper to build Atlassian Document Format description."""
     description_content = [
@@ -79,17 +105,27 @@ def update_jira_task(issue_key, summary, tags, steps):
         }
     }
     
-    # Set parent/Epic if configured
+    # Try setting parent directly
     if JIRA_PARENT_PLAN:
         payload_dict["fields"]["parent"] = {"key": JIRA_PARENT_PLAN}
         
-    payload = json.dumps(payload_dict)
-    
     try:
-        response = requests.put(url, data=payload, headers=headers, auth=auth)
+        response = requests.put(url, json=payload_dict, headers=headers, auth=auth)
         if response.status_code == 204:
             print(f"  ✅ Updated Jira Task: {issue_key}")
             return True
+        elif response.status_code == 400 and JIRA_PARENT_PLAN:
+            print(f"  ⚠️ Jira rejected native parent Epic link for {issue_key}. Retrying without parent field...")
+            # Retry without parent
+            del payload_dict["fields"]["parent"]
+            retry_res = requests.put(url, json=payload_dict, headers=headers, auth=auth)
+            if retry_res.status_code == 204:
+                print(f"  ✅ Updated Jira Task: {issue_key}")
+                link_to_parent_plan(issue_key, JIRA_PARENT_PLAN)
+                return True
+            else:
+                print(f"  ⚠️ Failed to update Jira task {issue_key}. Status: {retry_res.status_code}, Response: {retry_res.text}")
+                return False
         else:
             print(f"  ⚠️ Failed to update Jira task {issue_key}. Status: {response.status_code}, Response: {response.text}")
             return False
@@ -115,18 +151,29 @@ def create_jira_task(summary, tags, steps):
         }
     }
     
-    # Set parent/Epic if configured
     if JIRA_PARENT_PLAN:
         payload_dict["fields"]["parent"] = {"key": JIRA_PARENT_PLAN}
         
-    payload = json.dumps(payload_dict)
-    
     try:
-        response = requests.post(url, data=payload, headers=headers, auth=auth)
+        response = requests.post(url, json=payload_dict, headers=headers, auth=auth)
         if response.status_code == 201:
             issue_key = response.json()["key"]
             print(f"  ✅ Created Jira Task: {issue_key}")
             return issue_key
+        elif response.status_code == 400 and JIRA_PARENT_PLAN:
+            print(f"  ⚠️ Jira rejected native parent Epic link during creation. Retrying without parent field...")
+            # Retry without parent
+            del payload_dict["fields"]["parent"]
+            retry_res = requests.post(url, json=payload_dict, headers=headers, auth=auth)
+            if retry_res.status_code == 201:
+                issue_key = retry_res.json()["key"]
+                print(f"  ✅ Created Jira Task: {issue_key}")
+                # Fallback to IssueLink
+                link_to_parent_plan(issue_key, JIRA_PARENT_PLAN)
+                return issue_key
+            else:
+                print(f"  ❌ Failed to create Jira task. Status: {retry_res.status_code}, Response: {retry_res.text}")
+                return None
         else:
             print(f"  ❌ Failed to create Jira task. Status: {response.status_code}, Response: {response.text}")
             return None
@@ -151,6 +198,7 @@ def process_feature_file(file_path):
         
         if stripped_line.startswith('Scenario:') or stripped_line.startswith('Scenario Outline:'):
             existing_jira_key = None
+            existing_jira_key_index = -1
             first_tag_index = -1
             collected_tags = []
             
@@ -167,6 +215,7 @@ def process_feature_file(file_path):
                     match = re.search(fr'@{PROJECT_KEY}-(\d+)', prev_line)
                     if match:
                         existing_jira_key = f"{PROJECT_KEY}-{match.group(1)}"
+                        existing_jira_key_index = j
                     
                     tags_in_line = [t.strip() for t in prev_line.split() if t.startswith('@')]
                     collected_tags = tags_in_line + collected_tags
@@ -208,8 +257,8 @@ def process_feature_file(file_path):
                         new_key = create_jira_task(scenario_name, tags_for_jira, collected_steps)
                         if new_key:
                             # Replace the broken tag with the new one in the file
-                            existing_tag_line = updated_lines[first_tag_index]
-                            updated_lines[first_tag_index] = re.sub(fr'@{existing_jira_key}', f'@{new_key}', existing_tag_line)
+                            existing_tag_line = updated_lines[existing_jira_key_index]
+                            updated_lines[existing_jira_key_index] = re.sub(fr'@{existing_jira_key}', f'@{new_key}', existing_tag_line)
                             file_modified = True
                 else:
                     # Creating a brand new task

@@ -65,7 +65,34 @@ def add_test_result(issue_key, test_name, status, error_log=None, custom_field_i
         except Exception as e:
              print(f"  ❌ Error updating custom field on {issue_key}: {e}")
              
-    # 2. Add comment
+    # 2. Transition Issue Status (if the user added PASSED/FAILED as actual workflow statuses)
+    print(f"  ➜ Attempting to transition status for {issue_key} to '{status}'")
+    url_transitions = f"{JIRA_URL}/rest/api/3/issue/{issue_key}/transitions"
+    try:
+        # Get available transitions for this issue
+        resp = requests.get(url_transitions, headers=headers, auth=auth)
+        if resp.status_code == 200:
+            transitions = resp.json().get("transitions", [])
+            target_transition = next((t for t in transitions if t.get("name", "").upper() == status), None)
+            
+            if target_transition:
+                transition_id = target_transition["id"]
+                payload_trans = json.dumps({
+                    "transition": {"id": transition_id}
+                })
+                post_resp = requests.post(url_transitions, data=payload_trans, headers=headers, auth=auth)
+                if post_resp.status_code == 204:
+                    print(f"  ✅ Status of {issue_key} successfully transitioned to '{status}'")
+                else:
+                    print(f"  ❌ Failed to transition status. Response: {post_resp.text}")
+            else:
+                print(f"  ⚠️ No transition named '{status}' available for {issue_key}. Available: {[t.get('name') for t in transitions]}")
+        else:
+            print(f"  ❌ Failed to get transitions for {issue_key}. Status: {resp.status_code}")
+    except Exception as e:
+        print(f"  ❌ Error transitioning issue {issue_key}: {e}")
+             
+    # 3. Add comment
     # If using custom fields, we only add a comment if there is an error log to attach
     if custom_field_id and not error_log:
          return # Skip comment if it passed and we already updated the field
