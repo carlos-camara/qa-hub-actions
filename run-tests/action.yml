@@ -99,7 +99,12 @@ runs:
         git config --global user.name "QA Hub Bot"
         git config --global user.email "bot@qahub.com"
         git add features/**/*.feature
-        git diff --quiet && git diff --staged --quiet || (git commit -m "chore(qa): auto-tag new test scenarios [skip ci]" && git push)
+        if ! git diff --staged --quiet; then
+          git commit -m "chore(qa): auto-tag new test scenarios [skip ci]"
+          git push
+        else
+          echo "No new test scenarios to auto-tag."
+        fi
         echo "::endgroup::"
       env:
         JIRA_URL: ${{ inputs.jira-url }}
