@@ -87,39 +87,6 @@ runs:
       run: |
         npx wait-on ${{ inputs.health-check-urls }} --timeout 60000 || (cat backend.log 2>/dev/null || true && cat frontend.log 2>/dev/null || true && exit 1)
 
-    - name: 🏷️ Auto-Tag Gherkin Scenarios with Jira IDs
-      if: inputs.jira-sync == 'true'
-      shell: bash
-      run: |
-        echo "::group::Jira Auto-Tagging"
-        pip install requests || true
-        python ${{ github.action_path }}/scripts/auto_tagger.py
-        
-        # Commit and Push if changes were made
-        git config user.name "QA Hub Bot"
-        git config user.email "bot@qahub.com"
-        
-        # Check if there are modified feature files
-        if git status --porcelain | grep "^ M features/.*\.feature$"; then
-          git add features/**/*.feature
-          git commit -m "chore(qa): auto-tag new test scenarios [skip ci]"
-          
-          # Detect the correct branch to push to (handles pull requests and detached HEADs)
-          BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
-          git pull --rebase --autostash origin "$BRANCH_NAME"
-          git push origin HEAD:"$BRANCH_NAME"
-        else
-          echo "No new test scenarios to auto-tag."
-        fi
-        echo "::endgroup::"
-      env:
-        JIRA_URL: ${{ inputs.jira-url }}
-        JIRA_USER: ${{ inputs.jira-user }}
-        JIRA_API_TOKEN: ${{ inputs.jira-token }}
-        JIRA_PROJECT_KEY: ${{ inputs.jira-project-key }}
-        # We assume tests are in features/ directory inside the repo running the action
-        FEATURES_DIR: "features"
-
     - name: 🧪 Run API Tests
       if: inputs.test-command-api != ''
       shell: bash

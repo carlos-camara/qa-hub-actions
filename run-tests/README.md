@@ -10,7 +10,7 @@ The unified core engine for test orchestration, featuring industrial-grade repor
 - **📊 Intelligent Reporting**: Automatically organizes JUnit XML results into timestamped, project-specific directories.
 - **🔄 Surgical Isolation**: Injects dynamic report paths into test engines to prevent cross-run collisions.
 - **🩺 Health Integration**: Built-in support for starting background services and performing pre-flight health checks.
-- **🤝 Jira Bidirectional Sync**: Automatically tags new `.feature` scenarios with Jira IDs and reports test results directly into Jira Tasks.
+- **🤝 Jira Test Reporting**: Automatically reports test execution results directly into Jira Tasks (use alongside `jira-auto-tagger` for end-to-end sync).
 
 ---
 
@@ -47,9 +47,17 @@ The unified core engine for test orchestration, featuring industrial-grade repor
     test-command-gui: "pytest tests/gui"
 ```
 
-### Advanced Usage with Jira Auto-Tagging & Reporting
+### Advanced Usage with Jira End-to-End Sync
 ```yaml
-- name: 🧪 Run Quality Suites with Jira Sync
+- name: 🏷️ Auto-Tag Gherkin Scenarios with Jira IDs
+  uses: carlos-camara/qa-hub-actions/jira-auto-tagger@main
+  with:
+    jira-url: ${{ secrets.JIRA_URL }}
+    jira-user: ${{ secrets.JIRA_USER }}
+    jira-token: ${{ secrets.JIRA_API_TOKEN }}
+    jira-project-key: "CC"
+
+- name: 🧪 Run Quality Suites & Report to Jira
   uses: carlos-camara/qa-hub-actions/run-tests@main
   with:
     project-name: "dashboard"
@@ -58,7 +66,7 @@ The unified core engine for test orchestration, featuring industrial-grade repor
     jira-url: ${{ secrets.JIRA_URL }}
     jira-user: ${{ secrets.JIRA_USER }}
     jira-token: ${{ secrets.JIRA_API_TOKEN }}
-    jira-project-key: "DAS"
+    jira-project-key: "CC"
 ```
 
 ---
