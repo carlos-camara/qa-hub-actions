@@ -73,7 +73,15 @@ def add_test_result(issue_key, test_name, status, error_log=None, custom_field_i
         resp = requests.get(url_transitions, headers=headers, auth=auth)
         if resp.status_code == 200:
             transitions = resp.json().get("transitions", [])
-            target_transition = next((t for t in transitions if t.get("name", "").upper() == status), None)
+            target_transition = None
+            for t in transitions:
+                t_name = t.get("name", "").upper()
+                to_status_name = t.get("to", {}).get("name", "").upper()
+                
+                # Check if either the transition name itself or the target status name matches PASSED/FAILED
+                if t_name == status or to_status_name == status:
+                    target_transition = t
+                    break
             
             if target_transition:
                 transition_id = target_transition["id"]
@@ -82,11 +90,12 @@ def add_test_result(issue_key, test_name, status, error_log=None, custom_field_i
                 })
                 post_resp = requests.post(url_transitions, data=payload_trans, headers=headers, auth=auth)
                 if post_resp.status_code == 204:
-                    print(f"  ✅ Status of {issue_key} successfully transitioned to '{status}'")
+                    print(f"  ✅ Status of {issue_key} successfully transitioned to '{status}' (via transition '{target_transition.get('name')}')")
                 else:
                     print(f"  ❌ Failed to transition status. Response: {post_resp.text}")
             else:
-                print(f"  ⚠️ No transition named '{status}' available for {issue_key}. Available: {[t.get('name') for t in transitions]}")
+                available_transitions = [f"{t.get('name')} -> {t.get('to', {}).get('name')}" for t in transitions]
+                print(f"  ⚠️ No transition to '{status}' available for {issue_key}. Available: {available_transitions}")
         else:
             print(f"  ❌ Failed to get transitions for {issue_key}. Status: {resp.status_code}")
     except Exception as e:
