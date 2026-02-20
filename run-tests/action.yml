@@ -103,7 +103,10 @@ runs:
         if git status --porcelain | grep "^ M features/.*\.feature$"; then
           git add features/**/*.feature
           git commit -m "chore(qa): auto-tag new test scenarios [skip ci]"
-          git push
+          
+          # Detect the correct branch to push to (handles pull requests and detached HEADs)
+          BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+          git push origin HEAD:$BRANCH_NAME
         else
           echo "No new test scenarios to auto-tag."
         fi
