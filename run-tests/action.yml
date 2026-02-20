@@ -41,6 +41,26 @@ inputs:
     description: 'Name of the project (e.g., dashboard, ciber). Used for report folder naming.'
     required: false
     default: 'dashboard'
+  jira-sync:
+    description: 'Enable auto-tagging of scenarios and reporting results to Jira'
+    required: false
+    default: 'false'
+  jira-url:
+    description: 'Jira URL (e.g., https://ccgmanjon.atlassian.net)'
+    required: false
+    default: ''
+  jira-user:
+    description: 'Jira User Email'
+    required: false
+    default: ''
+  jira-token:
+    description: 'Jira API Token'
+    required: false
+    default: ''
+  jira-project-key:
+    description: 'Jira Project Key (e.g., DAS)'
+    required: false
+    default: 'DAS'
 
 runs:
   using: 'composite'
@@ -66,6 +86,28 @@ runs:
       shell: bash
       run: |
         npx wait-on ${{ inputs.health-check-urls }} --timeout 60000 || (cat backend.log 2>/dev/null || true && cat frontend.log 2>/dev/null || true && exit 1)
+
+    - name: 🏷️ Auto-Tag Gherkin Scenarios with Jira IDs
+      if: inputs.jira-sync == 'true'
+      shell: bash
+      run: |
+        echo "::group::Jira Auto-Tagging"
+        pip install requests || true
+        python ${{ github.action_path }}/scripts/auto_tagger.py
+        
+        # Commit and Push if changes were made
+        git config --global user.name "QA Hub Bot"
+        git config --global user.email "bot@qahub.com"
+        git add features/**/*.feature
+        git diff --quiet && git diff --staged --quiet || (git commit -m "chore(qa): auto-tag new test scenarios [skip ci]" && git push)
+        echo "::endgroup::"
+      env:
+        JIRA_URL: ${{ inputs.jira-url }}
+        JIRA_USER: ${{ inputs.jira-user }}
+        JIRA_API_TOKEN: ${{ inputs.jira-token }}
+        JIRA_PROJECT_KEY: ${{ inputs.jira-project-key }}
+        # We assume tests are in features/ directory inside the repo running the action
+        FEATURES_DIR: "features"
 
     - name: 🧪 Run API Tests
       if: inputs.test-command-api != ''
@@ -97,3 +139,18 @@ runs:
         ${{ inputs.test-command-gui }} --project ${{ inputs.project-name }}
       env:
         HEADLESS: ${{ inputs.headless }}
+
+    - name: 📊 Upload Test Results to Jira
+      if: always() && inputs.jira-sync == 'true'
+      shell: bash
+      run: |
+        echo "::group::Jira Test Reporting"
+        pip install requests || true
+        python ${{ github.action_path }}/scripts/jira_reporter.py
+        echo "::endgroup::"
+      env:
+        JIRA_URL: ${{ inputs.jira-url }}
+        JIRA_USER: ${{ inputs.jira-user }}
+        JIRA_API_TOKEN: ${{ inputs.jira-token }}
+        JIRA_PROJECT_KEY: ${{ inputs.jira-project-key }}
+        REPORTS_DIR: "reports/test_run"
