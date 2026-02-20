@@ -24,32 +24,6 @@ headers = {
     "Content-Type": "application/json"
 }
 
-def link_to_parent_plan(issue_key, parent_plan_key):
-    """Links the newly created task to a parent test plan issue."""
-    print(f"  🔗 Linking '{issue_key}' to parent plan '{parent_plan_key}'...")
-    url = f"{JIRA_URL}/rest/api/3/issueLink"
-    
-    payload = json.dumps({
-        "type": {
-            "name": "Relates"  # Using standard 'Relates' link type
-        },
-        "inwardIssue": {
-            "key": parent_plan_key
-        },
-        "outwardIssue": {
-            "key": issue_key
-        }
-    })
-    
-    try:
-        response = requests.post(url, data=payload, headers=headers, auth=auth)
-        if response.status_code == 201:
-            print(f"  ✅ Successfully linked to {parent_plan_key}")
-        else:
-            print(f"  ⚠️ Failed to link to {parent_plan_key}. Status: {response.status_code}")
-    except Exception as e:
-        print(f"  ⚠️ Error linking to parent plan: {e}")
-
 def _build_jira_description(tags, steps):
     """Helper to build Atlassian Document Format description."""
     description_content = [
@@ -94,7 +68,7 @@ def update_jira_task(issue_key, summary, tags, steps):
     print(f"  ➜ Updating existing Jira Task: '{issue_key}'")
     url = f"{JIRA_URL}/rest/api/3/issue/{issue_key}"
     
-    payload = json.dumps({
+    payload_dict = {
         "fields": {
             "summary": summary,
             "description": {
@@ -103,7 +77,13 @@ def update_jira_task(issue_key, summary, tags, steps):
                 "content": _build_jira_description(tags, steps)
             }
         }
-    })
+    }
+    
+    # Set parent/Epic if configured
+    if JIRA_PARENT_PLAN:
+        payload_dict["fields"]["parent"] = {"key": JIRA_PARENT_PLAN}
+        
+    payload = json.dumps(payload_dict)
     
     try:
         response = requests.put(url, data=payload, headers=headers, auth=auth)
@@ -111,7 +91,7 @@ def update_jira_task(issue_key, summary, tags, steps):
             print(f"  ✅ Updated Jira Task: {issue_key}")
             return True
         else:
-            print(f"  ⚠️ Failed to update Jira task {issue_key}. Status: {response.status_code}")
+            print(f"  ⚠️ Failed to update Jira task {issue_key}. Status: {response.status_code}, Response: {response.text}")
             return False
     except Exception as e:
         print(f"  ⚠️ Error updating Jira task {issue_key}: {e}")
@@ -122,7 +102,7 @@ def create_jira_task(summary, tags, steps):
     print(f"  ➜ Creating Jira Task for: '{summary}'")
     url = f"{JIRA_URL}/rest/api/3/issue"
     
-    payload = json.dumps({
+    payload_dict = {
         "fields": {
             "project": {"key": PROJECT_KEY},
             "summary": summary,
@@ -133,20 +113,22 @@ def create_jira_task(summary, tags, steps):
             },
             "issuetype": {"name": "Tarea"}
         }
-    })
+    }
+    
+    # Set parent/Epic if configured
+    if JIRA_PARENT_PLAN:
+        payload_dict["fields"]["parent"] = {"key": JIRA_PARENT_PLAN}
+        
+    payload = json.dumps(payload_dict)
     
     try:
         response = requests.post(url, data=payload, headers=headers, auth=auth)
         if response.status_code == 201:
             issue_key = response.json()["key"]
             print(f"  ✅ Created Jira Task: {issue_key}")
-            
-            if JIRA_PARENT_PLAN:
-                link_to_parent_plan(issue_key, JIRA_PARENT_PLAN)
-                
             return issue_key
         else:
-            print(f"  ❌ Failed to create Jira task. Status: {response.status_code}")
+            print(f"  ❌ Failed to create Jira task. Status: {response.status_code}, Response: {response.text}")
             return None
     except Exception as e:
         print(f"  ❌ Error communicating with Jira: {e}")
