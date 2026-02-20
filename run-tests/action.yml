@@ -96,10 +96,17 @@ runs:
         python ${{ github.action_path }}/scripts/auto_tagger.py
         
         # Commit and Push if changes were made
-        git config --global user.name "QA Hub Bot"
-        git config --global user.email "bot@qahub.com"
-        git add features/**/*.feature
-        git diff --quiet && git diff --staged --quiet || (git commit -m "chore(qa): auto-tag new test scenarios [skip ci]" && git push)
+        git config user.name "QA Hub Bot"
+        git config user.email "bot@qahub.com"
+        
+        # Check if there are modified feature files
+        if git status --porcelain | grep "^ M features/.*\.feature$"; then
+          git add features/**/*.feature
+          git commit -m "chore(qa): auto-tag new test scenarios [skip ci]"
+          git push
+        else
+          echo "No new test scenarios to auto-tag."
+        fi
         echo "::endgroup::"
       env:
         JIRA_URL: ${{ inputs.jira-url }}
