@@ -11,6 +11,7 @@ JIRA_USER = os.environ.get("JIRA_USER")
 JIRA_API_TOKEN = os.environ.get("JIRA_API_TOKEN")
 PROJECT_KEY = os.environ.get("JIRA_PROJECT_KEY", "DAS")
 FEATURES_DIR = os.environ.get("FEATURES_DIR", "features")
+JIRA_PARENT_PLAN = os.environ.get("JIRA_PARENT_PLAN")
 
 if not all([JIRA_URL, JIRA_USER, JIRA_API_TOKEN]):
     print("⚠️ Missing Jira credentials. Skipping auto-tagging.")
@@ -22,6 +23,32 @@ headers = {
     "Accept": "application/json",
     "Content-Type": "application/json"
 }
+
+def link_to_parent_plan(issue_key, parent_plan_key):
+    """Links the newly created task to a parent test plan issue."""
+    print(f"  🔗 Linking '{issue_key}' to parent plan '{parent_plan_key}'...")
+    url = f"{JIRA_URL}/rest/api/3/issueLink"
+    
+    payload = json.dumps({
+        "type": {
+            "name": "Relates"  # Using standard 'Relates' link type
+        },
+        "inwardIssue": {
+            "key": parent_plan_key
+        },
+        "outwardIssue": {
+            "key": issue_key
+        }
+    })
+    
+    try:
+        response = requests.post(url, data=payload, headers=headers, auth=auth)
+        if response.status_code == 201:
+            print(f"  ✅ Successfully linked to {parent_plan_key}")
+        else:
+            print(f"  ⚠️ Failed to link to {parent_plan_key}. Status: {response.status_code}")
+    except Exception as e:
+        print(f"  ⚠️ Error linking to parent plan: {e}")
 
 def create_jira_task(summary, tags, steps):
     """Creates a new Task in Jira and returns its Key."""
@@ -76,6 +103,11 @@ def create_jira_task(summary, tags, steps):
         if response.status_code == 201:
             issue_key = response.json()["key"]
             print(f"  ✅ Created Jira Task: {issue_key}")
+            
+            # Link to parent plan if configured
+            if JIRA_PARENT_PLAN:
+                link_to_parent_plan(issue_key, JIRA_PARENT_PLAN)
+                
             return issue_key
         else:
             print(f"  ❌ Failed to create Jira task. Status: {response.status_code}, Response: {response.text}")

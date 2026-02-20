@@ -14,6 +14,10 @@ inputs:
   jira-project-key:
     description: 'Jira Project Key (e.g., SCRUM, CC)'
     required: true
+  jira-parent-plan:
+    description: 'Optional Jira Issue Key of a Parent Test Plan to link to (e.g., CC-10)'
+    required: false
+    default: ''
   features-dir:
     description: 'Directory containing the .feature files'
     required: false
@@ -33,6 +37,7 @@ runs:
         JIRA_USER: ${{ inputs.jira-user }}
         JIRA_API_TOKEN: ${{ inputs.jira-token }}
         JIRA_PROJECT_KEY: ${{ inputs.jira-project-key }}
+        JIRA_PARENT_PLAN: ${{ inputs.jira-parent-plan }}
         FEATURES_DIR: ${{ inputs.features-dir }}
       run: |
         echo "::group::Jira Auto-Tagging Execution"

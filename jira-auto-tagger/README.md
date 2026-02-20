@@ -37,6 +37,7 @@ Designed for **maximum reliability**, it works safely even in detached HEAD envi
 | `jira-user` | Jira account email/username used for API authentication | **Yes** | - |
 | `jira-token` | Atlassian API Token | **Yes** | - |
 | `jira-project-key` | Key of the Jira project to create tasks in (*e.g., SCRUM, CC*) | **Yes** | - |
+| `jira-parent-plan` | Optional Issue Key of a parent Test Plan to link scenarios to (*e.g., CC-10*) | No | - |
 | `features-dir` | Target directory to scan for `.feature` files | No | `features` |
 
 ---
