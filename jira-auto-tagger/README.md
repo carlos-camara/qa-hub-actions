@@ -1,10 +1,10 @@
-<div align="center">
-
 # 🏷️ Jira Auto-Tagger Action
 
-[![GitHub Action](https://img.shields.io/badge/GitHub-Action-2088FF?logo=github-actions&logoColor=white)](#)
-[![Jira](https://img.shields.io/badge/Jira-Integration-0052CC?logo=jira&logoColor=white)](#)
-[![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)](#)
+<div align="center">
+
+[![GitHub Action](https://img.shields.io/badge/GitHub-Action-2088FF?logo=github-actions&logoColor=white)](https://github.com/carlos-camara/qa-hub-actions)
+[![Jira](https://img.shields.io/badge/Jira-Integration-0052CC?logo=jira&logoColor=white)](https://github.com/carlos-camara/qa-hub-actions)
+[![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)](https://github.com/carlos-camara/qa-hub-actions)
 
 *Seamlessly synchronize your QA test scenarios with Jira project management.*
 
@@ -14,7 +14,7 @@
 
 ## 📖 Overview
 
-The **Jira Auto-Tagger** action intelligently scans your repository for Gherkin `.feature` files. If it finds any scenarios without a Jira tracking ID, it automatically connects to your Jira instance, creates a new `Tarea` (Task) for that scenario, and securely commits the tag (e.g., `@CC-123`) back to your codebase. 
+The **Jira Auto-Tagger** action intelligently scans your repository for Gherkin `.feature` files. If it finds any scenarios without a Jira tracking ID, it automatically connects to your Jira instance, creates a new `Tarea` (Task) for that scenario, and securely commits the tag (e.g., `@CC-123`) back to your codebase.
 
 Designed for **maximum reliability**, it works safely even in detached HEAD environments (like PR builds) using an `autostash` rebase push logic, ensuring your codebase always accurately reflects your Jira board.
 
@@ -33,7 +33,7 @@ Designed for **maximum reliability**, it works safely even in detached HEAD envi
 
 | Input | Description | Required | Default |
 | :--- | :--- | :---: | :--- |
-| `jira-url` | Base URL of your Jira instance (*e.g., https://yourdomain.atlassian.net*) | **Yes** | - |
+| `jira-url` | Base URL of your Jira instance (*e.g., `https://yourdomain.atlassian.net`*) | **Yes** | - |
 | `jira-user` | Jira account email/username used for API authentication | **Yes** | - |
 | `jira-token` | Atlassian API Token | **Yes** | - |
 | `jira-project-key` | Key of the Jira project to create tasks in (*e.g., SCRUM, CC*) | **Yes** | - |
