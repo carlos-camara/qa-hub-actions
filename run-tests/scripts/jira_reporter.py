@@ -123,9 +123,17 @@ def process_junit_xml(file_path):
                      status = "FAILED"
                      error_log = error.text or error.get("message", "Unknown error")
                      
-                 # For our auto_tagger flow, we expect the Jira Task to already exist.
-                 # Let's search for it.
-                 jira_key = get_jira_key_from_name(test_name)
+                 # 1. First, try to extract Jira tag from <system-out> CDATA provided by Behave
+                 jira_key = None
+                 system_out = testcase.find("system-out")
+                 if system_out is not None and system_out.text:
+                     match = re.search(fr"@{PROJECT_KEY}-(\d+)", system_out.text)
+                     if match:
+                         jira_key = f"{PROJECT_KEY}-{match.group(1)}"
+                 
+                 # 2. If not found in system-out, rely on the old logic (name parsing or Jira search)
+                 if not jira_key:
+                     jira_key = get_jira_key_from_name(test_name)
                  
                  if jira_key:
                      add_test_result(jira_key, test_name, status, error_log)
