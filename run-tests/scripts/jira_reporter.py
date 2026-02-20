@@ -12,6 +12,7 @@ JIRA_USER = os.environ.get("JIRA_USER")
 JIRA_API_TOKEN = os.environ.get("JIRA_API_TOKEN")
 PROJECT_KEY = os.environ.get("JIRA_PROJECT_KEY", "DAS")
 REPORTS_DIR = os.environ.get("REPORTS_DIR", "reports")
+MAX_HISTORY_ROWS = 10
 JIRA_TEST_STATUS_FIELD_NAME = os.environ.get("JIRA_TEST_STATUS_FIELD")
 
 if not all([JIRA_URL, JIRA_USER, JIRA_API_TOKEN]):
@@ -43,6 +44,113 @@ def get_custom_field_id(field_name):
         print(f"  ⚠️ Error finding custom field '{field_name}': {e}")
     return None
 
+def update_description_history_table(issue_key, status, error_log=None):
+    """Fetches the Jira issue, updates its description to include a history table, and saves it."""
+    url = f"{JIRA_URL}/rest/api/3/issue/{issue_key}"
+    
+    print(f"  ➜ Attempting to update Execution History Table in description for {issue_key}")
+    try:
+        # Fetch current issue to get the description
+        resp_get = requests.get(url, headers=headers, auth=auth)
+        if resp_get.status_code != 200:
+            print(f"  ❌ Failed to fetch issue {issue_key} for description update. Status: {resp_get.status_code}")
+            return False
+            
+        issue_data = resp_get.json()
+        description = issue_data.get("fields", {}).get("description")
+        
+        # We need to manipulate the Atlassian Document Format (ADF) description
+        if not description or not isinstance(description, dict) or "content" not in description:
+            # Initialize empty ADF if it doesn't exist
+            description = {
+                "type": "doc",
+                "version": 1,
+                "content": []
+            }
+            
+        content = description.get("content", [])
+        
+        from datetime import datetime
+        import traceback
+        run_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        status_emoji = "✅ PASSED" if status == "PASSED" else "❌ FAILED"
+        
+        # We'll use a simplified text approach for the history rather than building complex ADF tables
+        # because ADF tables are extremely verbose and hard to manipulate safely here without a library.
+        # Instead, we will append a "panel" or a "codeBlock" containing a simple ASCII table, 
+        # or just a list of the last executions.
+        
+        # Find if our History section already exists
+        history_header_idx = -1
+        history_list_idx = -1
+        
+        for i, block in enumerate(content):
+            if block.get("type") == "heading" and block.get("attrs", {}).get("level") == 2:
+                for text_node in block.get("content", []):
+                    if text_node.get("type") == "text" and "Historial de Ejecuciones" in text_node.get("text", ""):
+                        history_header_idx = i
+                        break
+            if history_header_idx != -1 and i == history_header_idx + 1 and block.get("type") == "bulletList":
+                 history_list_idx = i
+                 break
+                 
+        # Create execution entry
+        entry_text = f"[{run_date}] - Status: {status_emoji}"
+        new_item = {
+            "type": "listItem",
+            "content": [
+                {
+                    "type": "paragraph",
+                    "content": [{"type": "text", "text": entry_text}]
+                }
+            ]
+        }
+        
+        if history_header_idx == -1:
+            # Add header and new list
+            content.append({
+                "type": "heading",
+                "attrs": {"level": 2},
+                "content": [{"type": "text", "text": "⏱️ Historial de Ejecuciones"}]
+            })
+            content.append({
+                "type": "bulletList",
+                "content": [new_item]
+            })
+        else:
+            if history_list_idx != -1:
+                # Append to existing list and keep only last MAX_HISTORY_ROWS
+                list_items = content[history_list_idx].get("content", [])
+                list_items.insert(0, new_item) # Insert at beginning
+                if len(list_items) > MAX_HISTORY_ROWS:
+                    list_items = list_items[:MAX_HISTORY_ROWS]
+                content[history_list_idx]["content"] = list_items
+            else:
+                 # Header exists but no list right after, inject it
+                 content.insert(history_header_idx + 1, {
+                    "type": "bulletList",
+                    "content": [new_item]
+                 })
+                 
+        # Save back the description
+        payload = json.dumps({
+            "fields": {
+                "description": description
+            }
+        })
+        
+        resp_put = requests.put(url, data=payload, headers=headers, auth=auth)
+        if resp_put.status_code in [200, 204]:
+            print(f"  ✅ Execution history updated in description for {issue_key}")
+            return True
+        else:
+            print(f"  ❌ Failed to update description for {issue_key}. Status: {resp_put.status_code}")
+            return False
+            
+    except Exception as e:
+        print(f"  ❌ Error updating description history for {issue_key}: {e}")
+        return False
+        
 def add_test_result(issue_key, test_name, status, error_log=None, custom_field_id=None):
     """Adds a comment or updates a custom field on the Jira issue with the test result."""
     print(f"  ➜ Reporting result for {issue_key}: {status}")
@@ -101,39 +209,33 @@ def add_test_result(issue_key, test_name, status, error_log=None, custom_field_i
     except Exception as e:
         print(f"  ❌ Error transitioning issue {issue_key}: {e}")
              
-    # 3. Add comment
-    # If using custom fields, we only add a comment if there is an error log to attach
-    if custom_field_id and not error_log:
-         return # Skip comment if it passed and we already updated the field
-         
-    url_comment = f"{JIRA_URL}/rest/api/3/issue/{issue_key}/comment"
+    # 3. Update description with history table
+    update_description_history_table(issue_key, status, error_log)
     
-    if status == "PASSED":
-        text_content = f"✅ Automated Test Execution: The test **PASSED**."
-    else:
-        text_content = f"❌ Automated Test Execution: The test **FAILED**."
-        if error_log:
-             text_content += f"\n\nError Log:\n{{code}}\n{error_log}\n{{code}}"
-             
-    payload = json.dumps({
-        "body": {
-            "type": "doc",
-            "version": 1,
-            "content": [{
-                "type": "paragraph",
-                "content": [{"type": "text", "text": text_content}]
-            }]
-        }
-    })
-    
-    try:
-        response = requests.post(url_comment, data=payload, headers=headers, auth=auth)
-        if response.status_code == 201:
-            print(f"  ✅ Comment added to {issue_key}")
-        else:
-            print(f"  ❌ Failed to add comment. Status: {response.status_code}, Response: {response.text}")
-    except Exception as e:
-        print(f"  ❌ Error communicating with Jira: {e}")
+    # 4. Add comment (only if it failed to provide the full stacktrace, preventing comment pollution on success)
+    if status == "FAILED" and error_log:
+        url_comment = f"{JIRA_URL}/rest/api/3/issue/{issue_key}/comment"
+        text_content = f"❌ Automated Test Execution: The test **FAILED**.\n\nError Log:\n{{code}}\n{error_log}\n{{code}}"
+        
+        payload_comment = json.dumps({
+            "body": {
+                "type": "doc",
+                "version": 1,
+                "content": [{
+                    "type": "paragraph",
+                    "content": [{"type": "text", "text": text_content}]
+                }]
+            }
+        })
+        
+        try:
+            response = requests.post(url_comment, data=payload_comment, headers=headers, auth=auth)
+            if response.status_code == 201:
+                print(f"  ✅ Comment with error log added to {issue_key}")
+            else:
+                print(f"  ❌ Failed to add error comment. Status: {response.status_code}, Response: {response.text}")
+        except Exception as e:
+            print(f"  ❌ Error communicating with Jira for comments: {e}")
 
 def get_jira_key_from_name(test_name):
      """Extracts the Jira key from the test name if it was injected by behaving tools or parses it if provided.
