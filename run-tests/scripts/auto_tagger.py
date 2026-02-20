@@ -75,6 +75,7 @@ def process_feature_file(file_path):
         # Check if the line is a Scenario or Scenario Outline
         if stripped_line.startswith('Scenario:') or stripped_line.startswith('Scenario Outline:'):
             has_jira_tag = False
+            first_tag_index = -1
             
             # Look backwards through updated_lines for contiguous tags
             j = len(updated_lines) - 1
@@ -86,6 +87,7 @@ def process_feature_file(file_path):
                     continue
                 elif prev_line.startswith('@'):
                     # It's a tag line, check if it contains the Jira tag
+                    first_tag_index = j  # Keep tracking the earliest tag line in this block
                     if f'@{PROJECT_KEY}-' in prev_line:
                         has_jira_tag = True
                         break
@@ -104,9 +106,16 @@ def process_feature_file(file_path):
                     jira_key = create_jira_task(scenario_name)
                     
                     if jira_key:
-                        # Add the tag right before the Scenario line
-                        indent = line[:len(line) - len(line.lstrip())]
-                        updated_lines.append(f"{indent}@{jira_key}\n")
+                        if first_tag_index != -1:
+                            # Prepend to the first existing tag line
+                            existing_tag_line = updated_lines[first_tag_index]
+                            indent = existing_tag_line[:len(existing_tag_line) - len(existing_tag_line.lstrip())]
+                            content = existing_tag_line.lstrip()
+                            updated_lines[first_tag_index] = f"{indent}@{jira_key} {content}"
+                        else:
+                            # Add the tag right before the Scenario line
+                            indent = line[:len(line) - len(line.lstrip())]
+                            updated_lines.append(f"{indent}@{jira_key}\n")
                         file_modified = True
         
         updated_lines.append(line)
