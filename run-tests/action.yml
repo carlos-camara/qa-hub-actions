@@ -106,7 +106,7 @@ runs:
           
           # Detect the correct branch to push to (handles pull requests and detached HEADs)
           BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
-          git pull --rebase origin "$BRANCH_NAME"
+          git pull --rebase --autostash origin "$BRANCH_NAME"
           git push origin HEAD:"$BRANCH_NAME"
         else
           echo "No new test scenarios to auto-tag."
