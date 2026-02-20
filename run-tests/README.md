@@ -25,7 +25,7 @@ The unified core engine for test orchestration, featuring industrial-grade repor
 | `headless` | No | `true` | Run GUI tests in headless mode. |
 | `enable-coverage` | No | `false` | Whether to collect and report code coverage. |
 | `jira-sync` | No | `false` | Enable auto-tagging of scenarios and reporting results to Jira. |
-| `jira-url` | No | - | Your Jira domain (e.g., `https://ccgmanjon.atlassian.net`). |
+| `jira-url` | No | - | Your Jira domain. |
 | `jira-user` | No | - | Email address used for Jira authentication. |
 | `jira-token` | No | - | Jira API Token for authentication. |
 | `jira-project-key` | No | `DAS` | The Jira Project Key where UI tests should be managed. |
