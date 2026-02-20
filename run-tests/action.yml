@@ -61,6 +61,10 @@ inputs:
     description: 'Jira Project Key (e.g., DAS)'
     required: false
     default: 'DAS'
+  jira-test-status-field:
+    description: 'Name of the Custom Field in Jira to update the test status (e.g., Test Status). If empty, falls back to reporting via comments.'
+    required: false
+    default: ''
 
 runs:
   using: 'composite'
@@ -131,4 +135,5 @@ runs:
         JIRA_USER: ${{ inputs.jira-user }}
         JIRA_API_TOKEN: ${{ inputs.jira-token }}
         JIRA_PROJECT_KEY: ${{ inputs.jira-project-key }}
+        JIRA_TEST_STATUS_FIELD: ${{ inputs.jira-test-status-field }}
         REPORTS_DIR: "reports/test_run"

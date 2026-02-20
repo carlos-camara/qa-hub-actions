@@ -12,6 +12,7 @@ JIRA_USER = os.environ.get("JIRA_USER")
 JIRA_API_TOKEN = os.environ.get("JIRA_API_TOKEN")
 PROJECT_KEY = os.environ.get("JIRA_PROJECT_KEY", "DAS")
 REPORTS_DIR = os.environ.get("REPORTS_DIR", "reports")
+JIRA_TEST_STATUS_FIELD_NAME = os.environ.get("JIRA_TEST_STATUS_FIELD")
 
 if not all([JIRA_URL, JIRA_USER, JIRA_API_TOKEN]):
     print("⚠️ Missing Jira credentials. Skipping test reporting.")
@@ -23,10 +24,53 @@ headers = {
     "Content-Type": "application/json"
 }
 
-def add_test_result(issue_key, test_name, status, error_log=None):
-    """Adds a comment to the Jira issue with the test result."""
+def get_custom_field_id(field_name):
+    """Fetches the Jira field ID by its human-readable name."""
+    if not field_name:
+        return None
+        
+    print(f"  ➜ Looking up ID for custom field: '{field_name}'")
+    url = f"{JIRA_URL}/rest/api/3/field"
+    try:
+        response = requests.get(url, headers=headers, auth=auth)
+        if response.status_code == 200:
+            for field in response.json():
+                if field.get("name") == field_name:
+                    return field["id"]
+        else:
+             print(f"  ⚠️ Failed to get fields. Response: {response.text}")
+    except Exception as e:
+        print(f"  ⚠️ Error finding custom field '{field_name}': {e}")
+    return None
+
+def add_test_result(issue_key, test_name, status, error_log=None, custom_field_id=None):
+    """Adds a comment or updates a custom field on the Jira issue with the test result."""
     print(f"  ➜ Reporting result for {issue_key}: {status}")
-    url = f"{JIRA_URL}/rest/api/3/issue/{issue_key}/comment"
+    
+    # 1. Update Custom Field if configured
+    if custom_field_id:
+        url = f"{JIRA_URL}/rest/api/3/issue/{issue_key}"
+        # Jira Custom Field Dropdowns need the value inside an object {"value": "PASSED"}
+        payload = json.dumps({
+            "fields": {
+                custom_field_id: {"value": status}
+            }
+        })
+        try:
+            response = requests.put(url, data=payload, headers=headers, auth=auth)
+            if response.status_code in [200, 204]:
+                print(f"  ✅ Custom field updated to {status} for {issue_key}")
+            else:
+                print(f"  ❌ Failed to update custom field. Status: {response.status_code}, Response: {response.text}")
+        except Exception as e:
+             print(f"  ❌ Error updating custom field on {issue_key}: {e}")
+             
+    # 2. Add comment
+    # If using custom fields, we only add a comment if there is an error log to attach
+    if custom_field_id and not error_log:
+         return # Skip comment if it passed and we already updated the field
+         
+    url_comment = f"{JIRA_URL}/rest/api/3/issue/{issue_key}/comment"
     
     if status == "PASSED":
         text_content = f"✅ Automated Test Execution: The test **PASSED**."
@@ -47,9 +91,9 @@ def add_test_result(issue_key, test_name, status, error_log=None):
     })
     
     try:
-        response = requests.post(url, data=payload, headers=headers, auth=auth)
+        response = requests.post(url_comment, data=payload, headers=headers, auth=auth)
         if response.status_code == 201:
-            print(f"  ✅ Result added to {issue_key}")
+            print(f"  ✅ Comment added to {issue_key}")
         else:
             print(f"  ❌ Failed to add comment. Status: {response.status_code}, Response: {response.text}")
     except Exception as e:
@@ -93,7 +137,7 @@ def get_jira_key_from_name(test_name):
          
      return None
 
-def process_junit_xml(file_path):
+def process_junit_xml(file_path, custom_field_id=None):
     """Parses a JUnit XML report and sends results to Jira."""
     print(f"\n📄 Parsing Report: {file_path}")
     try:
@@ -136,7 +180,7 @@ def process_junit_xml(file_path):
                      jira_key = get_jira_key_from_name(test_name)
                  
                  if jira_key:
-                     add_test_result(jira_key, test_name, status, error_log)
+                     add_test_result(jira_key, test_name, status, error_log, custom_field_id)
                  else:
                      print(f"  ⚠️ Could not find Jira ticket for scenario: '{test_name}'. Ensure auto_tagger ran first.")
 
@@ -164,7 +208,16 @@ if __name__ == "__main__":
     if not xml_files:
         print(f"⚠️ No XML report files found in '{REPORTS_DIR}'.")
     else:
+        custom_field_id = get_custom_field_id(JIRA_TEST_STATUS_FIELD_NAME)
+        if custom_field_id:
+            print(f"  🔹 Using Custom Field: '{JIRA_TEST_STATUS_FIELD_NAME}' (ID: {custom_field_id})")
+        else:
+            if JIRA_TEST_STATUS_FIELD_NAME:
+                print(f"  ⚠️ Custom Field '{JIRA_TEST_STATUS_FIELD_NAME}' not found. Falling back to comments.")
+            else:
+                print(f"  🔹 No Custom Field configured for test status updating. Using comments.")
+                
         for file in xml_files:
-            process_junit_xml(file)
+            process_junit_xml(file, custom_field_id)
             
     print("\n🏁 Jira Reporting complete.")
