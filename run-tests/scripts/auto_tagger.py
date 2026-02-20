@@ -74,12 +74,25 @@ def process_feature_file(file_path):
         
         # Check if the line is a Scenario or Scenario Outline
         if stripped_line.startswith('Scenario:') or stripped_line.startswith('Scenario Outline:'):
-            # Check if the previous line has a Jira tag (@PROJECT_KEY-)
             has_jira_tag = False
-            if i > 0:
-                prev_line = updated_lines[-1].strip()
-                if prev_line.startswith('@') and f'@{PROJECT_KEY}-' in prev_line:
-                    has_jira_tag = True
+            
+            # Look backwards through updated_lines for contiguous tags
+            j = len(updated_lines) - 1
+            while j >= 0:
+                prev_line = updated_lines[j].strip()
+                if not prev_line or prev_line.startswith('#'):
+                    # Skip empty lines or comments
+                    j -= 1
+                    continue
+                elif prev_line.startswith('@'):
+                    # It's a tag line, check if it contains the Jira tag
+                    if f'@{PROJECT_KEY}-' in prev_line:
+                        has_jira_tag = True
+                        break
+                    j -= 1
+                else:
+                    # We hit a non-tag, non-empty, non-comment line, stop searching backwards
+                    break
             
             if not has_jira_tag:
                 # Extract scenario name
