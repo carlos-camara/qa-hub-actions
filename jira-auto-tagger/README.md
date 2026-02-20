@@ -1,0 +1,77 @@
+<div align="center">
+
+# 🏷️ Jira Auto-Tagger Action
+
+[![GitHub Action](https://img.shields.io/badge/GitHub-Action-2088FF?logo=github-actions&logoColor=white)](#)
+[![Jira](https://img.shields.io/badge/Jira-Integration-0052CC?logo=jira&logoColor=white)](#)
+[![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)](#)
+
+*Seamlessly synchronize your QA test scenarios with Jira project management.*
+
+</div>
+
+---
+
+## 📖 Overview
+
+The **Jira Auto-Tagger** action intelligently scans your repository for Gherkin `.feature` files. If it finds any scenarios without a Jira tracking ID, it automatically connects to your Jira instance, creates a new `Tarea` (Task) for that scenario, and securely commits the tag (e.g., `@CC-123`) back to your codebase. 
+
+Designed for **maximum reliability**, it works safely even in detached HEAD environments (like PR builds) using an `autostash` rebase push logic, ensuring your codebase always accurately reflects your Jira board.
+
+---
+
+## ✨ Features
+
+- **🧠 Intelligent Tag Parsing**: Detects existing Jira tags spread across multiple lines to avoid duplicate ticket creation.
+- **🪄 Inline Injection**: Keeps your Gherkin clean by prepending new Jira tags on the exact same line as your existing tags.
+- **🔄 Bidirectional Sync**: Creates the ticket in Jira and immediately documents the ID in GitHub.
+- **🛡️ Bulletproof Commits**: Safely handles unstaged changes in CI runners (like `package-lock.json` modifications) before pushing.
+
+---
+
+## ⚙️ Inputs
+
+| Input | Description | Required | Default |
+| :--- | :--- | :---: | :--- |
+| `jira-url` | Base URL of your Jira instance (*e.g., https://yourdomain.atlassian.net*) | **Yes** | - |
+| `jira-user` | Jira account email/username used for API authentication | **Yes** | - |
+| `jira-token` | Atlassian API Token | **Yes** | - |
+| `jira-project-key` | Key of the Jira project to create tasks in (*e.g., SCRUM, CC*) | **Yes** | - |
+| `features-dir` | Target directory to scan for `.feature` files | No | `features` |
+
+---
+
+## 🚀 Usage
+
+Integrate the Auto-Tagger into your pipeline **before** your test execution step. This guarantees that your test runner processes the newly tagged feature files and can report their execution status back to Jira.
+
+```yaml
+jobs:
+  test-and-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+        
+      # ... environment setup ...
+
+      - name: 🏷️ Auto-Tag Gherkin Scenarios with Jira IDs
+        uses: carlos-camara/qa-hub-actions/jira-auto-tagger@main
+        with:
+          jira-url: ${{ secrets.JIRA_URL }}
+          jira-user: ${{ secrets.JIRA_USER }}
+          jira-token: ${{ secrets.JIRA_API_TOKEN }}
+          jira-project-key: "CC"
+
+      - name: 🧪 Execute Tests
+        uses: carlos-camara/qa-hub-actions/run-tests@main
+        with:
+          test-command-api: "qa-hub run --env staging --tags api"
+          # ... rest of your testing logic ...
+```
+
+---
+
+<div align="center">
+  <i>Part of the QA Hub Actions Core Framework</i>
+</div>

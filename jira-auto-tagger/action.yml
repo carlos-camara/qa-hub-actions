@@ -1,0 +1,57 @@
+name: 'Jira Auto-Tagger'
+description: 'Automatically synchronizes Gherkin scenario features with Jira Tasks (creates tickets and auto-tags files).'
+
+inputs:
+  jira-url:
+    description: 'Jira Instance URL (e.g., https://yourdomain.atlassian.net)'
+    required: true
+  jira-user:
+    description: 'Jira username or email'
+    required: true
+  jira-token:
+    description: 'Jira API Token'
+    required: true
+  jira-project-key:
+    description: 'Jira Project Key (e.g., SCRUM, CC)'
+    required: true
+  features-dir:
+    description: 'Directory containing the .feature files'
+    required: false
+    default: 'features'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Dependencies
+      shell: bash
+      run: pip install requests || true
+
+    - name: Run Jira Auto-Tagger
+      shell: bash
+      env:
+        JIRA_URL: ${{ inputs.jira-url }}
+        JIRA_USER: ${{ inputs.jira-user }}
+        JIRA_API_TOKEN: ${{ inputs.jira-token }}
+        JIRA_PROJECT_KEY: ${{ inputs.jira-project-key }}
+        FEATURES_DIR: ${{ inputs.features-dir }}
+      run: |
+        echo "::group::Jira Auto-Tagging Execution"
+        python ${{ github.action_path }}/scripts/auto_tagger.py
+        
+        # Commit and Push if changes were made
+        git config user.name "QA Hub Bot"
+        git config user.email "bot@qahub.com"
+        
+        # Check if there are modified feature files
+        if git status --porcelain | grep "\.feature$"; then
+          git add "${FEATURES_DIR}/**/*.feature"
+          git commit -m "chore(qa): auto-tag new test scenarios [skip ci]"
+          
+          # Detect the correct branch to push to (handles pull requests and detached HEADs)
+          BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+          git pull --rebase --autostash origin "$BRANCH_NAME"
+          git push origin HEAD:"$BRANCH_NAME"
+        else
+          echo "No new test scenarios to auto-tag."
+        fi
+        echo "::endgroup::"
