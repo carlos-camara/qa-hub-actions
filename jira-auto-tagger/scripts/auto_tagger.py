@@ -50,19 +50,14 @@ def link_to_parent_plan(issue_key, parent_plan_key):
     except Exception as e:
         print(f"  ⚠️ Error linking to parent plan: {e}")
 
-def create_jira_task(summary, tags, steps):
-    """Creates a new Task in Jira and returns its Key."""
-    print(f"  ➜ Creating Jira Task for: '{summary}'")
-    url = f"{JIRA_URL}/rest/api/3/issue"
-    
-    # Format tags and steps for Jira description (Atlassian Document Format)
+def _build_jira_description(tags, steps):
+    """Helper to build Atlassian Document Format description."""
     description_content = [
         {
             "type": "paragraph",
             "content": [{"type": "text", "text": "🚀 Automated test scenario generated from GitHub Actions.\n\n"}]
         }
     ]
-    
     if tags:
         description_content.append({
             "type": "paragraph",
@@ -73,7 +68,6 @@ def create_jira_task(summary, tags, steps):
             "attrs": {"language": "gherkin"},
             "content": [{"type": "text", "text": " ".join(tags)}]
         })
-        
     if steps:
         description_content.append({
             "type": "paragraph",
@@ -84,6 +78,49 @@ def create_jira_task(summary, tags, steps):
             "attrs": {"language": "gherkin"},
             "content": [{"type": "text", "text": "\n".join(steps)}]
         })
+    return description_content
+
+def check_jira_task_exists(issue_key):
+    """Checks if a task exists in Jira."""
+    url = f"{JIRA_URL}/rest/api/3/issue/{issue_key}?fields=summary"
+    try:
+        response = requests.get(url, headers=headers, auth=auth)
+        return response.status_code == 200
+    except Exception:
+        return False
+
+def update_jira_task(issue_key, summary, tags, steps):
+    """Updates an existing Jira Task."""
+    print(f"  ➜ Updating existing Jira Task: '{issue_key}'")
+    url = f"{JIRA_URL}/rest/api/3/issue/{issue_key}"
+    
+    payload = json.dumps({
+        "fields": {
+            "summary": summary,
+            "description": {
+                "type": "doc",
+                "version": 1,
+                "content": _build_jira_description(tags, steps)
+            }
+        }
+    })
+    
+    try:
+        response = requests.put(url, data=payload, headers=headers, auth=auth)
+        if response.status_code == 204:
+            print(f"  ✅ Updated Jira Task: {issue_key}")
+            return True
+        else:
+            print(f"  ⚠️ Failed to update Jira task {issue_key}. Status: {response.status_code}")
+            return False
+    except Exception as e:
+        print(f"  ⚠️ Error updating Jira task {issue_key}: {e}")
+        return False
+
+def create_jira_task(summary, tags, steps):
+    """Creates a new Task in Jira and returns its Key."""
+    print(f"  ➜ Creating Jira Task for: '{summary}'")
+    url = f"{JIRA_URL}/rest/api/3/issue"
     
     payload = json.dumps({
         "fields": {
@@ -92,7 +129,7 @@ def create_jira_task(summary, tags, steps):
             "description": {
                 "type": "doc",
                 "version": 1,
-                "content": description_content
+                "content": _build_jira_description(tags, steps)
             },
             "issuetype": {"name": "Tarea"}
         }
@@ -104,20 +141,19 @@ def create_jira_task(summary, tags, steps):
             issue_key = response.json()["key"]
             print(f"  ✅ Created Jira Task: {issue_key}")
             
-            # Link to parent plan if configured
             if JIRA_PARENT_PLAN:
                 link_to_parent_plan(issue_key, JIRA_PARENT_PLAN)
                 
             return issue_key
         else:
-            print(f"  ❌ Failed to create Jira task. Status: {response.status_code}, Response: {response.text}")
+            print(f"  ❌ Failed to create Jira task. Status: {response.status_code}")
             return None
     except Exception as e:
         print(f"  ❌ Error communicating with Jira: {e}")
         return None
 
 def process_feature_file(file_path):
-    """Reads a feature file, finds untagged scenarios, creates Jira tasks, and updates the file."""
+    """Reads a feature file, checks scenarios, creates or updates Jira tasks, and updates the file."""
     print(f"\n📄 Processing: {file_path}")
     
     with open(file_path, 'r', encoding='utf-8') as f:
@@ -131,78 +167,82 @@ def process_feature_file(file_path):
         line = lines[i]
         stripped_line = line.strip()
         
-        # Check if the line is a Scenario or Scenario Outline
         if stripped_line.startswith('Scenario:') or stripped_line.startswith('Scenario Outline:'):
-            has_jira_tag = False
+            existing_jira_key = None
             first_tag_index = -1
             collected_tags = []
             
-            # Look backwards through updated_lines for contiguous tags
+            # Look backwards for contiguous tags
             j = len(updated_lines) - 1
             while j >= 0:
                 prev_line = updated_lines[j].strip()
                 if not prev_line or prev_line.startswith('#'):
-                    # Skip empty lines or comments
                     j -= 1
                     continue
                 elif prev_line.startswith('@'):
-                    # It's a tag line, check if it contains the Jira tag
-                    first_tag_index = j  # Keep tracking the earliest tag line in this block
-                    if f'@{PROJECT_KEY}-' in prev_line:
-                        has_jira_tag = True
-                        break
+                    first_tag_index = j
+                    # Look for @PROJECT_KEY-123
+                    match = re.search(fr'@{PROJECT_KEY}-(\d+)', prev_line)
+                    if match:
+                        existing_jira_key = f"{PROJECT_KEY}-{match.group(1)}"
                     
-                    # Collect existing tags for description
                     tags_in_line = [t.strip() for t in prev_line.split() if t.startswith('@')]
-                    # Prepend since we are iterating backwards
                     collected_tags = tags_in_line + collected_tags
                     j -= 1
                 else:
-                    # We hit a non-tag, non-empty, non-comment line, stop searching backwards
                     break
             
-            if not has_jira_tag:
-                # Extract scenario name
-                parts = stripped_line.split(':', 1)
-                if len(parts) > 1:
-                    scenario_name = parts[1].strip()
+            parts = stripped_line.split(':', 1)
+            if len(parts) > 1:
+                scenario_name = parts[1].strip()
+                
+                # Collect scenario steps
+                collected_steps = []
+                k = i + 1
+                while k < len(lines):
+                    next_line = lines[k].rstrip()
+                    next_line_stripped = next_line.strip()
                     
-                    # Collect scenario steps by looking ahead
-                    collected_steps = []
-                    k = i + 1
-                    while k < len(lines):
-                        next_line = lines[k].rstrip()
-                        next_line_stripped = next_line.strip()
+                    if next_line_stripped.startswith('Scenario:') or \
+                       next_line_stripped.startswith('Scenario Outline:') or \
+                       next_line_stripped.startswith('@') or \
+                       next_line_stripped.startswith('Feature:'):
+                        break
                         
-                        # Stop if we hit the next Scenario, a new tag block, or Feature
-                        if next_line_stripped.startswith('Scenario:') or \
-                           next_line_stripped.startswith('Scenario Outline:') or \
-                           next_line_stripped.startswith('@') or \
-                           next_line_stripped.startswith('Feature:'):
-                            break
-                            
-                        # If it's a step (Given, When, Then, And, But, *, or table row |)
-                        if next_line_stripped and not next_line_stripped.startswith('#'):
-                             # Keep original indentation relative to the scenario
-                             collected_steps.append(next_line.lstrip('\n\r'))
-                        k += 1
-                        
-                    # Create Jira Task with tags and steps
-                    jira_key = create_jira_task(scenario_name, collected_tags, collected_steps)
-                    
-                    if jira_key:
+                    if next_line_stripped and not next_line_stripped.startswith('#'):
+                         collected_steps.append(next_line.lstrip('\n\r'))
+                    k += 1
+
+                # Clean Jira tag from collected tags for the description payload to avoid redundancy
+                tags_for_jira = [t for t in collected_tags if not t.startswith(f"@{PROJECT_KEY}-")]
+
+                if existing_jira_key:
+                    # Check if it actually exists in Jira
+                    exists_in_jira = check_jira_task_exists(existing_jira_key)
+                    if exists_in_jira:
+                        update_jira_task(existing_jira_key, scenario_name, tags_for_jira, collected_steps)
+                    else:
+                        print(f"  ⚠️ Tag @{existing_jira_key} found in code but deleted in Jira. Recreating...")
+                        new_key = create_jira_task(scenario_name, tags_for_jira, collected_steps)
+                        if new_key:
+                            # Replace the broken tag with the new one in the file
+                            existing_tag_line = updated_lines[first_tag_index]
+                            updated_lines[first_tag_index] = re.sub(fr'@{existing_jira_key}', f'@{new_key}', existing_tag_line)
+                            file_modified = True
+                else:
+                    # Creating a brand new task
+                    new_key = create_jira_task(scenario_name, tags_for_jira, collected_steps)
+                    if new_key:
                         if first_tag_index != -1:
-                            # Prepend to the first existing tag line
                             existing_tag_line = updated_lines[first_tag_index]
                             indent = existing_tag_line[:len(existing_tag_line) - len(existing_tag_line.lstrip())]
                             content = existing_tag_line.lstrip()
-                            updated_lines[first_tag_index] = f"{indent}@{jira_key} {content}"
+                            updated_lines[first_tag_index] = f"{indent}@{new_key} {content}"
                         else:
-                            # Add the tag right before the Scenario line
                             indent = line[:len(line) - len(line.lstrip())]
-                            updated_lines.append(f"{indent}@{jira_key}\n")
+                            updated_lines.append(f"{indent}@{new_key}\n")
                         file_modified = True
-        
+                        
         updated_lines.append(line)
         i += 1
         
@@ -211,7 +251,7 @@ def process_feature_file(file_path):
         with open(file_path, 'w', encoding='utf-8') as f:
             f.writelines(updated_lines)
     else:
-        print("  ✓ No untagged scenarios found.")
+        print("  ✓ Checked scenarios. No file updates necessary.")
 
 def find_feature_files(directory):
     """Recursively finds all .feature files in a directory."""
