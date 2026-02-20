@@ -40,7 +40,7 @@ def create_jira_task(summary):
                     "content": [{"type": "text", "text": "Automated test scenario generated from GitHub Actions."}]
                 }]
             },
-            "issuetype": {"name": "Task"}
+            "issuetype": {"name": "Tarea"}
         }
     })
     

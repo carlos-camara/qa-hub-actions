@@ -64,7 +64,7 @@ def get_jira_key_from_name(test_name):
      url = f"{JIRA_URL}/rest/api/3/search"
      # Escape quotes in test_name for JQL
      escaped_name = test_name.replace('"', '\\"')
-     jql = f'project = "{PROJECT_KEY}" AND issuetype = "Task" AND summary ~ "\\"{escaped_name}\\""'
+     jql = f'project = "{PROJECT_KEY}" AND issuetype = "Tarea" AND summary ~ "\\"{escaped_name}\\""'
      
      payload = json.dumps({"jql": jql, "maxResults": 1})
      
