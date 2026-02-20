@@ -23,10 +23,40 @@ headers = {
     "Content-Type": "application/json"
 }
 
-def create_jira_task(summary):
+def create_jira_task(summary, tags, steps):
     """Creates a new Task in Jira and returns its Key."""
     print(f"  ➜ Creating Jira Task for: '{summary}'")
     url = f"{JIRA_URL}/rest/api/3/issue"
+    
+    # Format tags and steps for Jira description (Atlassian Document Format)
+    description_content = [
+        {
+            "type": "paragraph",
+            "content": [{"type": "text", "text": "🚀 Automated test scenario generated from GitHub Actions.\n\n"}]
+        }
+    ]
+    
+    if tags:
+        description_content.append({
+            "type": "paragraph",
+            "content": [{"type": "text", "text": "🏷️ Original Tags:", "marks": [{"type": "strong"}]}]
+        })
+        description_content.append({
+            "type": "codeBlock",
+            "attrs": {"language": "gherkin"},
+            "content": [{"type": "text", "text": " ".join(tags)}]
+        })
+        
+    if steps:
+        description_content.append({
+            "type": "paragraph",
+            "content": [{"type": "text", "text": "📝 Scenario Steps:", "marks": [{"type": "strong"}]}]
+        })
+        description_content.append({
+            "type": "codeBlock",
+            "attrs": {"language": "gherkin"},
+            "content": [{"type": "text", "text": "\n".join(steps)}]
+        })
     
     payload = json.dumps({
         "fields": {
@@ -35,10 +65,7 @@ def create_jira_task(summary):
             "description": {
                 "type": "doc",
                 "version": 1,
-                "content": [{
-                    "type": "paragraph",
-                    "content": [{"type": "text", "text": "Automated test scenario generated from GitHub Actions."}]
-                }]
+                "content": description_content
             },
             "issuetype": {"name": "Tarea"}
         }
@@ -76,6 +103,7 @@ def process_feature_file(file_path):
         if stripped_line.startswith('Scenario:') or stripped_line.startswith('Scenario Outline:'):
             has_jira_tag = False
             first_tag_index = -1
+            collected_tags = []
             
             # Look backwards through updated_lines for contiguous tags
             j = len(updated_lines) - 1
@@ -91,6 +119,11 @@ def process_feature_file(file_path):
                     if f'@{PROJECT_KEY}-' in prev_line:
                         has_jira_tag = True
                         break
+                    
+                    # Collect existing tags for description
+                    tags_in_line = [t.strip() for t in prev_line.split() if t.startswith('@')]
+                    # Prepend since we are iterating backwards
+                    collected_tags = tags_in_line + collected_tags
                     j -= 1
                 else:
                     # We hit a non-tag, non-empty, non-comment line, stop searching backwards
@@ -102,8 +135,28 @@ def process_feature_file(file_path):
                 if len(parts) > 1:
                     scenario_name = parts[1].strip()
                     
-                    # Create Jira Task
-                    jira_key = create_jira_task(scenario_name)
+                    # Collect scenario steps by looking ahead
+                    collected_steps = []
+                    k = i + 1
+                    while k < len(lines):
+                        next_line = lines[k].rstrip()
+                        next_line_stripped = next_line.strip()
+                        
+                        # Stop if we hit the next Scenario, a new tag block, or Feature
+                        if next_line_stripped.startswith('Scenario:') or \
+                           next_line_stripped.startswith('Scenario Outline:') or \
+                           next_line_stripped.startswith('@') or \
+                           next_line_stripped.startswith('Feature:'):
+                            break
+                            
+                        # If it's a step (Given, When, Then, And, But, *, or table row |)
+                        if next_line_stripped and not next_line_stripped.startswith('#'):
+                             # Keep original indentation relative to the scenario
+                             collected_steps.append(next_line.lstrip('\n\r'))
+                        k += 1
+                        
+                    # Create Jira Task with tags and steps
+                    jira_key = create_jira_task(scenario_name, collected_tags, collected_steps)
                     
                     if jira_key:
                         if first_tag_index != -1:
