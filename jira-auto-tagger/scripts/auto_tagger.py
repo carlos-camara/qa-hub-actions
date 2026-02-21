@@ -89,7 +89,7 @@ def check_jira_task_exists(issue_key):
     except Exception:
         return False
 
-def update_jira_task(issue_key, summary, tags, steps):
+def update_jira_task(issue_key, summary, tags, steps, parent_key=None):
     """Updates an existing Jira Task, preserving execution history if present."""
     print(f"  ➜ Updating existing Jira Task: '{issue_key}'")
     
@@ -149,22 +149,22 @@ def update_jira_task(issue_key, summary, tags, steps):
     }
     
     # Try setting parent directly
-    if JIRA_PARENT_PLAN:
-        payload_dict["fields"]["parent"] = {"key": JIRA_PARENT_PLAN}
+    if parent_key:
+        payload_dict["fields"]["parent"] = {"key": parent_key}
         
     try:
         response = requests.put(url, json=payload_dict, headers=headers, auth=auth)
         if response.status_code == 204:
             print(f"  ✅ Updated Jira Task: {issue_key}")
             return True
-        elif response.status_code == 400 and JIRA_PARENT_PLAN:
-            print(f"  ⚠️ Jira rejected native parent Epic link for {issue_key}. Retrying without parent field...")
+        elif response.status_code == 400 and parent_key:
+            print(f"  ⚠️ Jira rejected native parent link for {issue_key}. Retrying without parent field...")
             # Retry without parent
             del payload_dict["fields"]["parent"]
             retry_res = requests.put(url, json=payload_dict, headers=headers, auth=auth)
             if retry_res.status_code == 204:
                 print(f"  ✅ Updated Jira Task: {issue_key}")
-                link_to_parent_plan(issue_key, JIRA_PARENT_PLAN)
+                link_to_parent_plan(issue_key, parent_key)
                 return True
             else:
                 print(f"  ⚠️ Failed to update Jira task {issue_key}. Status: {retry_res.status_code}, Response: {retry_res.text}")
@@ -176,9 +176,9 @@ def update_jira_task(issue_key, summary, tags, steps):
         print(f"  ⚠️ Error updating Jira task {issue_key}: {e}")
         return False
 
-def create_jira_task(summary, tags, steps):
+def create_jira_task(summary, tags, steps, issuetype="Tarea", parent_key=None):
     """Creates a new Task in Jira and returns its Key."""
-    print(f"  ➜ Creating Jira Task for: '{summary}'")
+    print(f"  ➜ Creating Jira {issuetype} for: '{summary}'")
     url = f"{JIRA_URL}/rest/api/3/issue"
     
     payload_dict = {
@@ -190,29 +190,29 @@ def create_jira_task(summary, tags, steps):
                 "version": 1,
                 "content": _build_jira_description(tags, steps)
             },
-            "issuetype": {"name": "Tarea"}
+            "issuetype": {"name": issuetype}
         }
     }
     
-    if JIRA_PARENT_PLAN:
-        payload_dict["fields"]["parent"] = {"key": JIRA_PARENT_PLAN}
+    if parent_key:
+        payload_dict["fields"]["parent"] = {"key": parent_key}
         
     try:
         response = requests.post(url, json=payload_dict, headers=headers, auth=auth)
         if response.status_code == 201:
             issue_key = response.json()["key"]
-            print(f"  ✅ Created Jira Task: {issue_key}")
+            print(f"  ✅ Created Jira {issuetype}: {issue_key}")
             return issue_key
-        elif response.status_code == 400 and JIRA_PARENT_PLAN:
-            print(f"  ⚠️ Jira rejected native parent Epic link during creation. Retrying without parent field...")
+        elif response.status_code == 400 and parent_key:
+            print(f"  ⚠️ Jira rejected native parent link during creation. Retrying without parent field...")
             # Retry without parent
             del payload_dict["fields"]["parent"]
             retry_res = requests.post(url, json=payload_dict, headers=headers, auth=auth)
             if retry_res.status_code == 201:
                 issue_key = retry_res.json()["key"]
-                print(f"  ✅ Created Jira Task: {issue_key}")
+                print(f"  ✅ Created Jira {issuetype}: {issue_key}")
                 # Fallback to IssueLink
-                link_to_parent_plan(issue_key, JIRA_PARENT_PLAN)
+                link_to_parent_plan(issue_key, parent_key)
                 return issue_key
             else:
                 print(f"  ❌ Failed to create Jira task. Status: {retry_res.status_code}, Response: {retry_res.text}")
@@ -236,14 +236,78 @@ def process_feature_file(file_path):
     
     i = 0
     current_feature_name = "Feature"
+    current_feature_jira_key = None
     while i < len(lines):
         line = lines[i]
         stripped_line = line.strip()
         
         if stripped_line.startswith('Feature:'):
-             current_feature_name = stripped_line.split(':', 1)[1].strip()
+            existing_jira_key = None
+            existing_jira_key_index = -1
+            first_tag_index = -1
+            collected_tags = []
+            
+            j = len(updated_lines) - 1
+            while j >= 0:
+                prev_line = updated_lines[j].strip()
+                if not prev_line or prev_line.startswith('#'):
+                    j -= 1
+                    continue
+                elif prev_line.startswith('@'):
+                    first_tag_index = j
+                    match = re.search(fr'@{PROJECT_KEY}-(\d+)', prev_line)
+                    if match:
+                        existing_jira_key = f"{PROJECT_KEY}-{match.group(1)}"
+                        existing_jira_key_index = j
+                    tags_in_line = [t.strip() for t in prev_line.split() if t.startswith('@')]
+                    collected_tags = tags_in_line + collected_tags
+                    j -= 1
+                else:
+                    break
+            
+            current_feature_name = stripped_line.split(':', 1)[1].strip()
+            
+            collected_desc = []
+            k = i + 1
+            while k < len(lines):
+                next_line = lines[k].rstrip()
+                next_line_stripped = next_line.strip()
+                if next_line_stripped.startswith('Scenario') or next_line_stripped.startswith('Background:') or next_line_stripped.startswith('@'):
+                    break
+                if next_line_stripped and not next_line_stripped.startswith('#'):
+                    collected_desc.append(next_line.lstrip('\n\r'))
+                k += 1
+            
+            tags_for_jira = [t for t in collected_tags if not t.startswith(f"@{PROJECT_KEY}-")]
+            
+            if existing_jira_key:
+                exists_in_jira = check_jira_task_exists(existing_jira_key)
+                if exists_in_jira:
+                    update_jira_task(existing_jira_key, current_feature_name, tags_for_jira, collected_desc, parent_key=JIRA_PARENT_PLAN)
+                    current_feature_jira_key = existing_jira_key
+                else:
+                    print(f"  ⚠️ Tag @{existing_jira_key} found in code but deleted in Jira. Recreating Feature Task...")
+                    new_key = create_jira_task(current_feature_name, tags_for_jira, collected_desc, issuetype="Tarea", parent_key=JIRA_PARENT_PLAN)
+                    if new_key:
+                        existing_tag_line = updated_lines[existing_jira_key_index]
+                        updated_lines[existing_jira_key_index] = re.sub(fr'@{existing_jira_key}', f'@{new_key}', existing_tag_line)
+                        file_modified = True
+                        current_feature_jira_key = new_key
+            else:
+                new_key = create_jira_task(current_feature_name, tags_for_jira, collected_desc, issuetype="Tarea", parent_key=JIRA_PARENT_PLAN)
+                if new_key:
+                    if first_tag_index != -1:
+                        existing_tag_line = updated_lines[first_tag_index]
+                        indent = existing_tag_line[:len(existing_tag_line) - len(existing_tag_line.lstrip())]
+                        content = existing_tag_line.lstrip()
+                        updated_lines[first_tag_index] = f"{indent}@{new_key} {content}"
+                    else:
+                        indent = line[:len(line) - len(line.lstrip())]
+                        updated_lines.append(f"{indent}@{new_key}\n")
+                    file_modified = True
+                    current_feature_jira_key = new_key
         
-        if stripped_line.startswith('Scenario:') or stripped_line.startswith('Scenario Outline:'):
+        elif stripped_line.startswith('Scenario:') or stripped_line.startswith('Scenario Outline:'):
             existing_jira_key = None
             existing_jira_key_index = -1
             first_tag_index = -1
@@ -299,10 +363,10 @@ def process_feature_file(file_path):
                     # Check if it actually exists in Jira
                     exists_in_jira = check_jira_task_exists(existing_jira_key)
                     if exists_in_jira:
-                        update_jira_task(existing_jira_key, summary, tags_for_jira, collected_steps)
+                        update_jira_task(existing_jira_key, summary, tags_for_jira, collected_steps, parent_key=current_feature_jira_key)
                     else:
                         print(f"  ⚠️ Tag @{existing_jira_key} found in code but deleted in Jira. Recreating...")
-                        new_key = create_jira_task(summary, tags_for_jira, collected_steps)
+                        new_key = create_jira_task(summary, tags_for_jira, collected_steps, issuetype="Subtarea", parent_key=current_feature_jira_key)
                         if new_key:
                             # Replace the broken tag with the new one in the file
                             existing_tag_line = updated_lines[existing_jira_key_index]
@@ -310,7 +374,7 @@ def process_feature_file(file_path):
                             file_modified = True
                 else:
                     # Creating a brand new task
-                    new_key = create_jira_task(summary, tags_for_jira, collected_steps)
+                    new_key = create_jira_task(summary, tags_for_jira, collected_steps, issuetype="Subtarea", parent_key=current_feature_jira_key)
                     if new_key:
                         if first_tag_index != -1:
                             existing_tag_line = updated_lines[first_tag_index]

@@ -54,10 +54,11 @@ def update_issue_description(issue_key, status, error_log=None, system_out=None)
         resp_get = requests.get(url, headers=headers, auth=auth)
         if resp_get.status_code != 200:
             print(f"  ❌ Failed to fetch issue {issue_key} for description update. Status: {resp_get.status_code}")
-            return False
+            return False, None
             
         issue_data = resp_get.json()
         description = issue_data.get("fields", {}).get("description")
+        parent_key = issue_data.get("fields", {}).get("parent", {}).get("key")
         
         # We need to manipulate the Atlassian Document Format (ADF) description
         if not description or not isinstance(description, dict) or "content" not in description:
@@ -175,14 +176,14 @@ def update_issue_description(issue_key, status, error_log=None, system_out=None)
         resp_put = requests.put(url, data=payload, headers=headers, auth=auth)
         if resp_put.status_code in [200, 204]:
             print(f"  ✅ Execution history updated in description for {issue_key}")
-            return True
+            return True, parent_key
         else:
             print(f"  ❌ Failed to update description for {issue_key}. Status: {resp_put.status_code}")
-            return False
+            return False, parent_key
             
     except Exception as e:
         print(f"  ❌ Error updating description history for {issue_key}: {e}")
-        return False
+        return False, None
         
 def add_test_result(issue_key, test_name, status, error_log=None, custom_field_id=None, **kwargs):
     """Adds a comment or updates a custom field on the Jira issue with the test result."""
@@ -243,7 +244,7 @@ def add_test_result(issue_key, test_name, status, error_log=None, custom_field_i
         print(f"  ❌ Error transitioning issue {issue_key}: {e}")
              
     # 3. Update description with history table and execution steps logs
-    update_issue_description(issue_key, status, error_log, kwargs.get('system_out'))
+    _, parent_key = update_issue_description(issue_key, status, error_log, kwargs.get('system_out'))
     
     # 4. Add comment (only if it failed to provide the full stacktrace, preventing comment pollution on success)
     if status == "FAILED" and error_log:
@@ -269,6 +270,8 @@ def add_test_result(issue_key, test_name, status, error_log=None, custom_field_i
                 print(f"  ❌ Failed to add error comment. Status: {response.status_code}, Response: {response.text}")
         except Exception as e:
             print(f"  ❌ Error communicating with Jira for comments: {e}")
+            
+    return parent_key
 
 def get_jira_key_from_name(test_name):
      """Extracts the Jira key from the test name if it was injected by behaving tools or parses it if provided.
@@ -311,6 +314,7 @@ def get_jira_key_from_name(test_name):
 def process_junit_xml(file_path, custom_field_id=None):
     """Parses a JUnit XML report and sends results to Jira."""
     print(f"\n📄 Parsing Report: {file_path}")
+    affected_features = set()
     try:
         tree = ET.parse(file_path)
         root = tree.getroot()
@@ -361,12 +365,16 @@ def process_junit_xml(file_path, custom_field_id=None):
                      jira_key = get_jira_key_from_name(full_test_name)
                  
                  if jira_key:
-                     add_test_result(jira_key, full_test_name, status, error_log, custom_field_id, system_out=system_out_text)
+                     parent_key = add_test_result(jira_key, full_test_name, status, error_log, custom_field_id, system_out=system_out_text)
+                     if parent_key:
+                         affected_features.add(parent_key)
                  else:
                      print(f"  ⚠️ Could not find Jira ticket for scenario: '{test_name}'. Ensure auto_tagger ran first.")
 
     except Exception as e:
         print(f"❌ Error processing XML {file_path}: {e}")
+        
+    return affected_features
 
 def find_xml_reports(directory):
     """Recursively finds all .xml files in a directory."""
@@ -376,6 +384,63 @@ def find_xml_reports(directory):
             if file.endswith(".xml"):
                 xml_files.append(os.path.join(root, file))
     return xml_files
+
+def evaluate_feature_rollup(feature_key):
+    """Evaluates the status of all subtasks of a feature and transitions the feature accordingly."""
+    print(f"\n🔄 Evaluating status rollup for Feature Task {feature_key}...")
+    jql = f'parent = "{feature_key}"'
+    url = f"{JIRA_URL}/rest/api/3/search"
+    payload = json.dumps({"jql": jql, "fields": ["status"]})
+    
+    try:
+        response = requests.post(url, data=payload, headers=headers, auth=auth)
+        if response.status_code == 200:
+            issues = response.json().get("issues", [])
+            if not issues:
+                print(f"  ⚠️ No subtasks found for {feature_key}.")
+                return
+            
+            all_passed = True
+            any_failed = False
+            
+            for issue in issues:
+                status_name = issue.get("fields", {}).get("status", {}).get("name", "").upper()
+                if "FAIL" in status_name:
+                    any_failed = True
+                    all_passed = False
+                elif "PASS" not in status_name:
+                    all_passed = False 
+                    
+            target_status = None
+            if any_failed:
+                target_status = "FAILED"
+            elif all_passed:
+                target_status = "PASSED"
+                
+            if target_status:
+                print(f"  ➜ Attempting to transition Feature {feature_key} to '{target_status}'")
+                url_transitions = f"{JIRA_URL}/rest/api/3/issue/{feature_key}/transitions"
+                resp = requests.get(url_transitions, headers=headers, auth=auth)
+                if resp.status_code == 200:
+                    transitions = resp.json().get("transitions", [])
+                    target_transition = None
+                    for t in transitions:
+                        if t.get("name", "").upper() == target_status or t.get("to", {}).get("name", "").upper() == target_status:
+                            target_transition = t
+                            break
+                    if target_transition:
+                        payload_trans = json.dumps({"transition": {"id": target_transition["id"]}})
+                        post_resp = requests.post(url_transitions, data=payload_trans, headers=headers, auth=auth)
+                        if post_resp.status_code == 204:
+                            print(f"  ✅ Feature {feature_key} successfully transitioned to '{target_status}'")
+                        else:
+                            print(f"  ❌ Failed to transition Feature. Response: {post_resp.text}")
+                    else:
+                         print(f"  ⚠️ No transition to '{target_status}' available for Feature {feature_key}.")
+        else:
+            print(f"  ❌ Failed to search subtasks for {feature_key}. Status: {response.status_code}")
+    except Exception as e:
+        print(f"  ❌ Error evaluating rollup for {feature_key}: {e}")
 
 if __name__ == "__main__":
     print(f"🚀 Starting Jira Reporter. Looking for reports in '{REPORTS_DIR}'")
@@ -398,7 +463,13 @@ if __name__ == "__main__":
             else:
                 print(f"  🔹 No Custom Field configured for test status updating. Using comments.")
                 
+        all_affected_features = set()
         for file in xml_files:
-            process_junit_xml(file, custom_field_id)
+            features = process_junit_xml(file, custom_field_id)
+            all_affected_features.update(features)
+            
+        if all_affected_features:
+            for feature_key in all_affected_features:
+                evaluate_feature_rollup(feature_key)
             
     print("\n🏁 Jira Reporting complete.")

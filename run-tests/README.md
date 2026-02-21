@@ -10,7 +10,7 @@ The unified core engine for test orchestration, featuring industrial-grade repor
 - **📊 Intelligent Reporting**: Automatically organizes JUnit XML results into timestamped, project-specific directories.
 - **🔄 Surgical Isolation**: Injects dynamic report paths into test engines to prevent cross-run collisions.
 - **🩺 Health Integration**: Built-in support for starting background services and performing pre-flight health checks.
-- **🤝 Jira Test Reporting**: Automatically reports test execution results into Jira Tasks, transitioning their status and updating an ongoing Markdown History Table inside the Jira issue's description (use alongside `jira-auto-tagger` for end-to-end sync).
+- **🤝 Jira Test Reporting & Rollups**: Automatically reports test execution results into Jira Sub-tasks. Features an intelligent Status Rollup: if all Scenario Sub-tasks PASS, the parent Feature Task transitions to PASSED. If any FAIL, the Feature transitions to FAILED. Maintains an ongoing Markdown History Table.
 - **📝 Execution Logs Injection**: Automatically extracts `<system-out>` execution logs (the exact steps run by Behave/Pytest) and injects them directly into the Jira issue description for instant debugging visibility.
 
 ---
