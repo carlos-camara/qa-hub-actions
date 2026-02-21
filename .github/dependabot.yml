@@ -1,0 +1,29 @@
+# Basic dependabot.yml file to configure Dependabot for QA Hub Actions
+
+version: 2
+updates:
+  # Maintain dependencies for GitHub Actions (e.g., uses: actions/checkout@v4)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "DevOps"
+      - "dependencies"
+
+  # Maintain dependencies for Node.js (package.json inside actions like PR Summarizer)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+
+  # Maintain Python dependencies (requirements.txt scripts, e.g., Jira Auto-Tagger)
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "Logic: Python"
+      - "dependencies"
