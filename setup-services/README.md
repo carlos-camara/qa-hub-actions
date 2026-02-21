@@ -1,6 +1,9 @@
-# 🚀 Action: Setup Services
+# <div align="center">🚀 Action: Setup Services</div>
 
-Orchestrate background services and perform automated health checks to ensure infrastructure readiness before any test execution.
+<div align="center">
+  <p><i>Orchestrate background services and perform automated health checks to ensure infrastructure readiness before any test execution.</i></p>
+</div>
+
 
 ---
 

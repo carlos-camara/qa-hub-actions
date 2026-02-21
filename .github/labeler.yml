@@ -1,0 +1,36 @@
+---
+DevOps:
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".github/**/*"
+          - "*.json"
+          - ".gitignore"
+
+Documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/*.md"
+          - "**/README*"
+          - "LICENSE"
+
+"Actions: Definition":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/action.yml"
+
+"Logic: Python":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/*.py"
+          - "requirements.txt"
+
+"Logic: Bash":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/*.sh"
+
+"Logic: JS/TS":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/*.js"
+          - "**/*.ts"

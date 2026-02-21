@@ -1,6 +1,9 @@
-# 🏷️ Action: PR Labeler
+# <div align="center">🏷️ Action: PR Labeler</div>
 
-Automatically categorize Pull Requests based on modified file paths to maintain repository hygiene and streamline code reviews.
+<div align="center">
+  <p><i>Automatically categorize Pull Requests based on modified file paths to maintain repository hygiene and streamline code reviews.</i></p>
+</div>
+
 
 ---
 

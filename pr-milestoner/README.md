@@ -1,6 +1,9 @@
-# 🎯 Action: PR Milestoner
+# <div align="center">🎯 Action: PR Milestoner</div>
 
-Surgically assign the latest open milestones to your Pull Requests to ensure automated project tracking and roadmap alignment.
+<div align="center">
+  <p><i>Surgically assign the latest open milestones to your Pull Requests to ensure automated project tracking and roadmap alignment.</i></p>
+</div>
+
 
 ---
 

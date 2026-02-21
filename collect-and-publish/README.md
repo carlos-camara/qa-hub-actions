@@ -1,6 +1,9 @@
-# 📊 Action: Collect & Publish
+# <div align="center">📊 Action: Collect & Publish</div>
 
-Aggregate multi-engine test results, screenshots, and performance data into a high-fidelity visual summary directly in your Pull Requests.
+<div align="center">
+  <p><i>Aggregate multi-engine test results, screenshots, and performance data into a high-fidelity visual summary directly in your Pull Requests.</i></p>
+</div>
+
 
 ---
 

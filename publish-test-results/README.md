@@ -1,6 +1,9 @@
-# 📢 Action: Publish Test Results
+# <div align="center">📢 Action: Publish Test Results</div>
 
-Parse JUnit XML results and post professional, high-fidelity summaries directly into your Pull Request description or comments for immediate team visibility.
+<div align="center">
+  <p><i>Parse JUnit XML results and post professional, high-fidelity summaries directly into your Pull Request description or comments for immediate team visibility.</i></p>
+</div>
+
 
 ---
 

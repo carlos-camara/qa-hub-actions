@@ -1,6 +1,9 @@
-# 🤖 Action: PR Summarizer
+# <div align="center">🤖 Action: PR Summarizer</div>
 
-AI-powered deep technical analysis and high-fidelity visual summaries for Pull Requests, providing surgical visibility into code impact.
+<div align="center">
+  <p><i>AI-powered deep technical analysis and high-fidelity visual summaries for Pull Requests, providing surgical visibility into code impact.</i></p>
+</div>
+
 
 ---
 

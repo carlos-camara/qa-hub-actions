@@ -1,6 +1,9 @@
-# 📸 Action: Visual Regression Mgr
+# <div align="center">📸 Action: Visual Regression Mgr</div>
 
-Automate the lifecycle of your visual baselines by promoting latest screenshots to gold-standards upon manual approval or specific triggers.
+<div align="center">
+  <p><i>Automate the lifecycle of your visual baselines by promoting latest screenshots to gold-standards upon manual approval or specific triggers.</i></p>
+</div>
+
 
 ---
 

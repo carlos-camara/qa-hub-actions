@@ -1,6 +1,9 @@
-# 🛡️ Action: Security Audit
+# <div align="center">🛡️ Action: Security Audit</div>
 
-Surgical protection for your codebase by scanning dependencies for vulnerabilities and performing static security analysis on Python code.
+<div align="center">
+  <p><i>Surgical protection for your codebase by scanning dependencies for vulnerabilities and performing static security analysis on Python code.</i></p>
+</div>
+
 
 ---
 

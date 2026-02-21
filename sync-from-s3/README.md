@@ -1,6 +1,9 @@
-# 🔄 Action: Sync from S3
+# <div align="center">🔄 Action: Sync from S3</div>
 
-Generic cloud-to-local synchronization for downloading files from AWS S3 and automatically committing them to your repository.
+<div align="center">
+  <p><i>Generic cloud-to-local synchronization for downloading files from AWS S3 and automatically committing them to your repository.</i></p>
+</div>
+
 
 ---
 

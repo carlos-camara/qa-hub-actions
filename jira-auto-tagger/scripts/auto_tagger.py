@@ -90,8 +90,51 @@ def check_jira_task_exists(issue_key):
         return False
 
 def update_jira_task(issue_key, summary, tags, steps):
-    """Updates an existing Jira Task."""
+    """Updates an existing Jira Task, preserving execution history if present."""
     print(f"  ➜ Updating existing Jira Task: '{issue_key}'")
+    
+    # 1. Fetch existing description to preserve history
+    existing_description = None
+    get_url = f"{JIRA_URL}/rest/api/3/issue/{issue_key}?fields=description"
+    try:
+        resp = requests.get(get_url, headers=headers, auth=auth)
+        if resp.status_code == 200:
+            existing_description = resp.json().get('fields', {}).get('description')
+    except Exception as e:
+        print(f"  ⚠️ Could not fetch existing description for {issue_key}: {e}")
+
+    # Extract history blocks
+    history_blocks = []
+    if existing_description and isinstance(existing_description, dict) and "content" in existing_description:
+        content = existing_description["content"]
+        history_header_idx = -1
+        history_list_idx = -1
+        
+        for i, block in enumerate(content):
+            if block.get("type") == "heading" and block.get("attrs", {}).get("level") == 2:
+                for text_node in block.get("content", []):
+                    if text_node.get("type") == "text" and "Historial de Ejecuciones" in text_node.get("text", ""):
+                        history_header_idx = i
+                        break
+            if history_header_idx != -1 and i > history_header_idx:
+                if block.get("type") == "bulletList":
+                    history_list_idx = i
+                    break
+                elif block.get("type") == "heading":
+                    break
+                    
+        if history_header_idx != -1:
+            history_blocks.append(content[history_header_idx])
+            if history_list_idx != -1:
+                history_blocks.append(content[history_list_idx])
+
+    # Build new description
+    new_doc_content = _build_jira_description(tags, steps)
+    
+    # Append preserved history blocks if any
+    if history_blocks:
+        new_doc_content.extend(history_blocks)
+        
     url = f"{JIRA_URL}/rest/api/3/issue/{issue_key}"
     
     payload_dict = {
@@ -100,7 +143,7 @@ def update_jira_task(issue_key, summary, tags, steps):
             "description": {
                 "type": "doc",
                 "version": 1,
-                "content": _build_jira_description(tags, steps)
+                "content": new_doc_content
             }
         }
     }

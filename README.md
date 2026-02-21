@@ -88,6 +88,7 @@ Explore our curated collection of professional CI/CD utilities.
 | [**🏷️ PR Labeler**](./pr-labeler) | Surgical path-based labeling for complex, multi-layer repositories. | `Stable` |
 | [**📝 Release Notes**](./qa-release-notes) | Automated generation of quality-focused release dossiers and changelogs. | `Stable` |
 | [**📸 Visual Mgr**](./visual-regression-manager) | Advanced visual regression baseline and delta management utilities. | `Stable` |
+| [**🔗 Jira Auto-Tagger**](./jira-auto-tagger) | Bi-directional 100% traceability between your codebase and Jira Agile Boards. | `Hot` |
 
 ---
 

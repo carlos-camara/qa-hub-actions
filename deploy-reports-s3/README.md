@@ -1,6 +1,9 @@
-# ☁️ Action: Deploy Reports to S3
+# <div align="center">☁️ Action: Deploy Reports to S3</div>
 
-Securely archive and organize industrial-grade QA reports in AWS S3 with project-based isolation and long-term retention.
+<div align="center">
+  <p><i>Securely archive and organize industrial-grade QA reports in AWS S3 with project-based isolation and long-term retention.</i></p>
+</div>
+
 
 ---
 
