@@ -235,9 +235,13 @@ def process_feature_file(file_path):
     file_modified = False
     
     i = 0
+    current_feature_name = "Feature"
     while i < len(lines):
         line = lines[i]
         stripped_line = line.strip()
+        
+        if stripped_line.startswith('Feature:'):
+             current_feature_name = stripped_line.split(':', 1)[1].strip()
         
         if stripped_line.startswith('Scenario:') or stripped_line.startswith('Scenario Outline:'):
             existing_jira_key = None
@@ -269,6 +273,7 @@ def process_feature_file(file_path):
             parts = stripped_line.split(':', 1)
             if len(parts) > 1:
                 scenario_name = parts[1].strip()
+                summary = f"{current_feature_name} - {scenario_name}"
                 
                 # Collect scenario steps
                 collected_steps = []
@@ -294,10 +299,10 @@ def process_feature_file(file_path):
                     # Check if it actually exists in Jira
                     exists_in_jira = check_jira_task_exists(existing_jira_key)
                     if exists_in_jira:
-                        update_jira_task(existing_jira_key, scenario_name, tags_for_jira, collected_steps)
+                        update_jira_task(existing_jira_key, summary, tags_for_jira, collected_steps)
                     else:
                         print(f"  ⚠️ Tag @{existing_jira_key} found in code but deleted in Jira. Recreating...")
-                        new_key = create_jira_task(scenario_name, tags_for_jira, collected_steps)
+                        new_key = create_jira_task(summary, tags_for_jira, collected_steps)
                         if new_key:
                             # Replace the broken tag with the new one in the file
                             existing_tag_line = updated_lines[existing_jira_key_index]
@@ -305,7 +310,7 @@ def process_feature_file(file_path):
                             file_modified = True
                 else:
                     # Creating a brand new task
-                    new_key = create_jira_task(scenario_name, tags_for_jira, collected_steps)
+                    new_key = create_jira_task(summary, tags_for_jira, collected_steps)
                     if new_key:
                         if first_tag_index != -1:
                             existing_tag_line = updated_lines[first_tag_index]
