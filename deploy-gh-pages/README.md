@@ -1,6 +1,9 @@
-# 📂 Action: Deploy to GitHub Pages
+# <div align="center">📂 Action: Deploy to GitHub Pages</div>
 
-Effortlessly host your QA dashboards, documentation wikis, and static reports on GitHub Pages with automated builds and SPAs support.
+<div align="center">
+  <p><i>Effortlessly host your QA dashboards, documentation wikis, and static reports on GitHub Pages with automated builds and SPAs support.</i></p>
+</div>
+
 
 ---
 

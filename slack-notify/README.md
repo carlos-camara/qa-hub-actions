@@ -1,6 +1,9 @@
-# 📢 Action: Slack Notification
+# <div align="center">📢 Action: Slack Notification</div>
 
-Send beautifully formatted test summaries, environment status, and high-fidelity alerts to your team's Slack channels.
+<div align="center">
+  <p><i>Send beautifully formatted test summaries, environment status, and high-fidelity alerts to your team's Slack channels.</i></p>
+</div>
+
 
 ---
 

@@ -1,6 +1,9 @@
-# 📉 Action: Performance Baseline
+# <div align="center">📉 Action: Performance Baseline</div>
 
-Protect your user experience by automatically detecting latency regressions and generating high-fidelity visual trend charts.
+<div align="center">
+  <p><i>Protect your user experience by automatically detecting latency regressions and generating high-fidelity visual trend charts.</i></p>
+</div>
+
 
 ---
 

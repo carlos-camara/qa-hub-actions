@@ -1,6 +1,9 @@
-# 📝 Action: QA Release Notes
+# <div align="center">📝 Action: QA Release Notes</div>
 
-Bridge the gap between technical automation and stakeholder visibility by generating high-fidelity, human-readable testing dossiers from your BDD feature files.
+<div align="center">
+  <p><i>Bridge the gap between technical automation and stakeholder visibility by generating high-fidelity, human-readable testing dossiers from your BDD feature files.</i></p>
+</div>
+
 
 ---
 

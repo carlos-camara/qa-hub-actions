@@ -1,6 +1,9 @@
-# 🧶 Action: Lint Codebase
+# <div align="center">🧶 Action: Lint Codebase</div>
 
-Enforce consistent code quality standards across Python, YAML, Markdown, and TypeScript with surgical precision.
+<div align="center">
+  <p><i>Enforce consistent code quality standards across Python, YAML, Markdown, and TypeScript with surgical precision.</i></p>
+</div>
+
 
 ---
 
