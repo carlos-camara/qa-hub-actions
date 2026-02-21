@@ -11,6 +11,7 @@ The unified core engine for test orchestration, featuring industrial-grade repor
 - **🔄 Surgical Isolation**: Injects dynamic report paths into test engines to prevent cross-run collisions.
 - **🩺 Health Integration**: Built-in support for starting background services and performing pre-flight health checks.
 - **🤝 Jira Test Reporting**: Automatically reports test execution results into Jira Tasks, transitioning their status and updating an ongoing Markdown History Table inside the Jira issue's description (use alongside `jira-auto-tagger` for end-to-end sync).
+- **📝 Execution Logs Injection**: Automatically extracts `<system-out>` execution logs (the exact steps run by Behave/Pytest) and injects them directly into the Jira issue description for instant debugging visibility.
 
 ---
 
@@ -32,7 +33,7 @@ The unified core engine for test orchestration, featuring industrial-grade repor
 | `jira-test-status-field` | No | - | Name of a Custom Jira Field for status (optional, defaults to History Table). |
 
 > [!IMPORTANT]
-> **Dynamic Pathing & Tracking**: This action automatically appends `--junit-dir` to your test commands to ensure results are archived. With Jira Sync enabled, it parses the XML and injects an **ADF Execution Table** into your Agile boards.
+> **Dynamic Pathing & Tracking**: This action automatically appends `--junit-dir` to your test commands to ensure results are archived. With Jira Sync enabled, it parses the XML and injects an **ADF Execution Table** and **Execution Logs** into your Agile boards.
 
 ---
 

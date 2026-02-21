@@ -44,8 +44,8 @@ def get_custom_field_id(field_name):
         print(f"  ⚠️ Error finding custom field '{field_name}': {e}")
     return None
 
-def update_description_history_table(issue_key, status, error_log=None):
-    """Fetches the Jira issue, updates its description to include a history table, and saves it."""
+def update_issue_description(issue_key, status, error_log=None, system_out=None):
+    """Fetches the Jira issue, updates its description to include a history table and the latest execution logs."""
     url = f"{JIRA_URL}/rest/api/3/issue/{issue_key}"
     
     print(f"  ➜ Attempting to update Execution History Table in description for {issue_key}")
@@ -80,7 +80,34 @@ def update_description_history_table(issue_key, status, error_log=None):
         # Instead, we will append a "panel" or a "codeBlock" containing a simple ASCII table, 
         # or just a list of the last executions.
         
-        # Find if our History section already exists
+        # 1. Update the "📝 Scenario Steps" block with system_out logs if provided
+        if system_out:
+            steps_header_idx = -1
+            for i, block in enumerate(content):
+                 if block.get("type") == "paragraph":
+                     for text_node in block.get("content", []):
+                         if text_node.get("type") == "text" and "📝 Scenario Steps" in text_node.get("text", ""):
+                             steps_header_idx = i
+                             break
+            
+            if steps_header_idx != -1 and steps_header_idx + 1 < len(content):
+                # The next block should be the codeBlock with the steps
+                next_block = content[steps_header_idx + 1]
+                if next_block.get("type") == "codeBlock":
+                    next_block["content"] = [{"type": "text", "text": system_out}]
+            else:
+                 # If it doesn't exist, append it
+                 content.append({
+                     "type": "paragraph",
+                     "content": [{"type": "text", "text": "📝 Scenario Steps:", "marks": [{"type": "strong"}]}]
+                 })
+                 content.append({
+                     "type": "codeBlock",
+                     "attrs": {"language": "gherkin"},
+                     "content": [{"type": "text", "text": system_out}]
+                 })
+
+        # 2. Find if our History section already exists
         history_header_idx = -1
         history_list_idx = -1
         
@@ -157,7 +184,7 @@ def update_description_history_table(issue_key, status, error_log=None):
         print(f"  ❌ Error updating description history for {issue_key}: {e}")
         return False
         
-def add_test_result(issue_key, test_name, status, error_log=None, custom_field_id=None):
+def add_test_result(issue_key, test_name, status, error_log=None, custom_field_id=None, **kwargs):
     """Adds a comment or updates a custom field on the Jira issue with the test result."""
     print(f"  ➜ Reporting result for {issue_key}: {status}")
     
@@ -215,8 +242,8 @@ def add_test_result(issue_key, test_name, status, error_log=None, custom_field_i
     except Exception as e:
         print(f"  ❌ Error transitioning issue {issue_key}: {e}")
              
-    # 3. Update description with history table
-    update_description_history_table(issue_key, status, error_log)
+    # 3. Update description with history table and execution steps logs
+    update_issue_description(issue_key, status, error_log, kwargs.get('system_out'))
     
     # 4. Add comment (only if it failed to provide the full stacktrace, preventing comment pollution on success)
     if status == "FAILED" and error_log:
@@ -313,18 +340,28 @@ def process_junit_xml(file_path, custom_field_id=None):
                      
                  # 1. First, try to extract Jira tag from <system-out> CDATA provided by Behave
                  jira_key = None
+                 system_out_text = None
                  system_out = testcase.find("system-out")
                  if system_out is not None and system_out.text:
-                     match = re.search(fr"@{PROJECT_KEY}-(\d+)", system_out.text)
+                     system_out_text = system_out.text.strip()
+                     match = re.search(fr"@{PROJECT_KEY}-(\d+)", system_out_text)
                      if match:
                          jira_key = f"{PROJECT_KEY}-{match.group(1)}"
                  
+                 # Feature name extraction from classname
+                 # e.g., "dashboard.api.api_endpoints.System Endpoints Discovery" -> "System Endpoints Discovery"
+                 classname = testcase.get("classname", "")
+                 feature_name = classname.split('.')[-1] if '.' in classname else classname
+                 
+                 # We build the summary name to search if it wasn't injected
+                 full_test_name = f"{feature_name} - {test_name}" if feature_name else test_name
+                 
                  # 2. If not found in system-out, rely on the old logic (name parsing or Jira search)
                  if not jira_key:
-                     jira_key = get_jira_key_from_name(test_name)
+                     jira_key = get_jira_key_from_name(full_test_name)
                  
                  if jira_key:
-                     add_test_result(jira_key, test_name, status, error_log, custom_field_id)
+                     add_test_result(jira_key, full_test_name, status, error_log, custom_field_id, system_out=system_out_text)
                  else:
                      print(f"  ⚠️ Could not find Jira ticket for scenario: '{test_name}'. Ensure auto_tagger ran first.")
 

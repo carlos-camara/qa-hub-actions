@@ -14,7 +14,7 @@
 
 ## 📖 Overview
 
-The **Jira Auto-Tagger** action intelligently scans your repository for Gherkin `.feature` files. If it finds any scenarios without a Jira tracking ID, it automatically connects to your Jira instance, creates a new `Tarea` (Task) for that scenario, and securely commits the tag (e.g., `@CC-123`) back to your codebase.
+The **Jira Auto-Tagger** action intelligently scans your repository for Gherkin `.feature` files. If it finds any scenarios without a Jira tracking ID, it automatically connects to your Jira instance, creates a new `Tarea` (Task) with the strict naming convention `Feature Name - Scenario Name`, and securely commits the tag (e.g., `@CC-123`) back to your codebase.
 
 Designed for **maximum reliability**, it works safely even in detached HEAD environments (like PR builds) using an `autostash` rebase push logic, ensuring your codebase always accurately reflects your Jira board.
 
