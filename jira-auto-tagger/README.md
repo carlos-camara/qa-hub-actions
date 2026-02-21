@@ -14,7 +14,7 @@
 
 ## 📖 Overview
 
-The **Jira Auto-Tagger** action intelligently scans your repository for Gherkin `.feature` files. If it finds any scenarios without a Jira tracking ID, it automatically connects to your Jira instance, creates a new `Tarea` (Task) with the strict naming convention `Feature Name - Scenario Name`, and securely commits the tag (e.g., `@CC-123`) back to your codebase.
+The **Jira Auto-Tagger** action intelligently scans your repository for Gherkin `.feature` files. If it finds any features or scenarios without a Jira tracking ID, it automatically connects to your Jira instance to build a pristine BDD Agile Board. It creates a new `Tarea` (Task) for the Feature itself (extracting its description), and creates `Subtarea` (Sub-tasks) for each Scenario, securely committing the tags (e.g., `@CC-123`) back to your codebase.
 
 Designed for **maximum reliability**, it works safely even in detached HEAD environments (like PR builds) using an `autostash` rebase push logic, ensuring your codebase always accurately reflects your Jira board.
 
@@ -22,6 +22,8 @@ Designed for **maximum reliability**, it works safely even in detached HEAD envi
 
 ## ✨ Features
 
+- **🏢 Native Jira Hierarchy**: Automatically structures your Agile Board using the BDD standard: Epic (Test Plan) > Task (Feature) > Sub-task (Scenario).
+- **📋 Context Extraction**: Automatically parses the massive descriptive text blocks under your `Feature:` keyword in Gherkin and injects them as the Jira Task description.
 - **🧠 Intelligent Tag Parsing**: Detects existing Jira tags spread across multiple lines to avoid duplicate ticket creation.
 - **🪄 Inline Injection**: Keeps your Gherkin clean by prepending new Jira tags on the exact same line as your existing tags.
 - **🔄 Bidirectional Sync**: Creates the ticket in Jira and immediately documents the ID in GitHub.
