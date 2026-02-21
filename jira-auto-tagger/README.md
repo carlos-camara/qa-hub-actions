@@ -14,8 +14,8 @@
 
 ## 📖 Overview
 
-The **Jira Auto-Tagger** action intelligently scans your repository for Gherkin `.feature` files. 
-If it finds any features or scenarios without a Jira tracking ID, it automatically connects to your Jira instance to build a pristine BDD Agile Board. 
+The **Jira Auto-Tagger** action intelligently scans your repository for Gherkin `.feature` files.
+If it finds any features or scenarios without a Jira tracking ID, it automatically connects to your Jira instance to build a pristine BDD Agile Board.
 It creates a new `Tarea` (Task) for the Feature itself (extracting its description), and creates `Subtarea` (Sub-tasks) for each Scenario, securely committing the tags (e.g., `@CC-123`) back to your codebase.
 
 Designed for **maximum reliability**, it works safely even in detached HEAD environments (like PR builds) using an `autostash` rebase push logic, ensuring your codebase always accurately reflects your Jira board.
