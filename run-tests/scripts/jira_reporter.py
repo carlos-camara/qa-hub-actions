@@ -90,9 +90,15 @@ def update_description_history_table(issue_key, status, error_log=None):
                     if text_node.get("type") == "text" and "Historial de Ejecuciones" in text_node.get("text", ""):
                         history_header_idx = i
                         break
-            if history_header_idx != -1 and i == history_header_idx + 1 and block.get("type") == "bulletList":
-                 history_list_idx = i
-                 break
+            
+            # Find the first bullet list *after* the header
+            if history_header_idx != -1 and i > history_header_idx:
+                 if block.get("type") == "bulletList":
+                     history_list_idx = i
+                     break
+                 elif block.get("type") == "heading":
+                     # Stop searching if we hit another section
+                     break
                  
         # Create execution entry
         entry_text = f"[{run_date}] - Status: {status_emoji}"
