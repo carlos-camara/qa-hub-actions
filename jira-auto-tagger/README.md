@@ -24,7 +24,7 @@ Designed for **maximum reliability**, it works safely even in detached HEAD envi
 
 ## ✨ Features
 
-- **🏢 Native Jira Hierarchy**: Automatically structures your Agile Board using the BDD standard: Epic (Test Plan) > Task (Feature) > Sub-task (Scenario).
+- **🏢 Native Jira Hierarchy**: Automatically structures your Agile Board using the BDD standard: Test Plan > Feature (Task) > Scenario (Sub-task).
 - **📋 Context Extraction**: Automatically parses the massive descriptive text blocks under your `Feature:` keyword in Gherkin and injects them as the Jira Task description.
 - **🧠 Intelligent Tag Parsing**: Detects existing Jira tags spread across multiple lines to avoid duplicate ticket creation.
 - **🪄 Inline Injection**: Keeps your Gherkin clean by prepending new Jira tags on the exact same line as your existing tags.
