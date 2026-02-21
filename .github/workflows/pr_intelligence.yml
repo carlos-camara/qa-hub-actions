@@ -195,7 +195,7 @@ jobs:
 
       - name: 🎯 Auto Milestone PR
         if: github.actor != 'dependabot[bot]'
-        uses: carlos-camara/qa-hub-actions/pr-milestoner@v1.1.1
+        uses: carlos-camara/qa-hub-actions/pr-milestoner@v1.2.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           strategy: "latest_created"
