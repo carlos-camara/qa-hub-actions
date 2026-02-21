@@ -10,7 +10,7 @@ The unified core engine for test orchestration, featuring industrial-grade repor
 - **📊 Intelligent Reporting**: Automatically organizes JUnit XML results into timestamped, project-specific directories.
 - **🔄 Surgical Isolation**: Injects dynamic report paths into test engines to prevent cross-run collisions.
 - **🩺 Health Integration**: Built-in support for starting background services and performing pre-flight health checks.
-- **🤝 Jira Test Reporting**: Automatically reports test execution results directly into Jira Tasks (use alongside `jira-auto-tagger` for end-to-end sync).
+- **🤝 Jira Test Reporting**: Automatically reports test execution results into Jira Tasks, transitioning their status and updating an ongoing Markdown History Table inside the Jira issue's description (use alongside `jira-auto-tagger` for end-to-end sync).
 
 ---
 
@@ -29,9 +29,10 @@ The unified core engine for test orchestration, featuring industrial-grade repor
 | `jira-user` | No | - | Email address used for Jira authentication. |
 | `jira-token` | No | - | Jira API Token for authentication. |
 | `jira-project-key` | No | `DAS` | The Jira Project Key where UI tests should be managed. |
+| `jira-test-status-field` | No | - | Name of a Custom Jira Field for status (optional, defaults to History Table). |
 
 > [!IMPORTANT]
-> **Dynamic Pathing**: This action automatically appends `--junit-dir` to your test commands to ensure results are archived in unique, project-isolated folders located in `reports/test_run/`.
+> **Dynamic Pathing & Tracking**: This action automatically appends `--junit-dir` to your test commands to ensure results are archived. With Jira Sync enabled, it parses the XML and injects an **ADF Execution Table** into your Agile boards.
 
 ---
 

@@ -26,6 +26,8 @@ Designed for **maximum reliability**, it works safely even in detached HEAD envi
 - **🪄 Inline Injection**: Keeps your Gherkin clean by prepending new Jira tags on the exact same line as your existing tags.
 - **🔄 Bidirectional Sync**: Creates the ticket in Jira and immediately documents the ID in GitHub.
 - **🛡️ Bulletproof Commits**: Safely handles unstaged changes in CI runners (like `package-lock.json` modifications) before pushing.
+- **📈 Historical Execution Tracking**: Manages a rolling maximum 10-run execution table inside the Jira Issue description, preventing comment pollution while providing instant traceability.
+- **🚥 Kanban Telemetry**: Automatically transitions Jira workflows (e.g., to PASSED/FAILED) based on the latest pipeline results.
 
 ---
 
