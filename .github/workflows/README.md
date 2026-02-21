@@ -8,7 +8,7 @@
 
 ## 🏗️ Architecture
 
-Because this repository (`qa-hub-actions`) serves as the foundational infrastructure for multiple downstream projects, its own workflows are strictly designed to "drink our own champagne". 
+Because this repository (`qa-hub-actions`) serves as the foundational infrastructure for multiple downstream projects, its own workflows are strictly designed to "drink our own champagne".
 
 We utilize our own generic actions (e.g., `lint-codebase`, `pr-summarizer`) to test and valid the GitHub Actions ecosystem itself.
 

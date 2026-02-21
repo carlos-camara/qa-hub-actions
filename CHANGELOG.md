@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-### Added
+### Added (Unreleased)
 - **`CODE_OF_CONDUCT.md`**, **`SECURITY.md`**, and **`CHANGELOG.md`** added to establish project governance and health.
 - **`.github/workflows/README.md`** added to document the CI/CD orchestrated pipelines of the registry itself.
 - **`dependabot.yml`** created to automatically manage dependencies for `github-actions`, `npm`, and `pip`.
@@ -26,6 +26,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [1.2.0] - 2026-02-14
 
-### Added
+### Added (1.2.0)
 - **`jira-reporter.py`**: Integration with Jira API v3 for dynamic test execution history and status state synchronization.
 - **Action Marketplace**: Refined the main `README.md` to highlight high-value actions like the `jira-auto-tagger`.
