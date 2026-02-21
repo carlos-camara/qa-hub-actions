@@ -24,6 +24,38 @@ headers = {
     "Content-Type": "application/json"
 }
 
+def get_project_issue_types(project_key):
+    """Fetches the available issue types for the given project, returning IDs for standard task and subtask."""
+    url = f"{JIRA_URL}/rest/api/3/project/{project_key}"
+    
+    task_id = None
+    subtask_id = None
+    
+    try:
+        response = requests.get(url, headers=headers, auth=auth)
+        if response.status_code == 200:
+            issue_types = response.json().get("issueTypes", [])
+            for it in issue_types:
+                # Find standard type (Task)
+                if not it.get("subtask") and it.get("name", "").lower() in ["tarea", "task"]:
+                    task_id = it.get("id")
+                # Find subtask type
+                elif it.get("subtask"):
+                    subtask_id = it.get("id")
+                    
+            # Fallbacks if name matching failed but we found standard types
+            if not task_id:
+                for it in issue_types:
+                    if not it.get("subtask") and it.get("name", "").lower() not in ["epic", "épica"]:
+                        task_id = it.get("id")
+                        break
+        else:
+            print(f"  ⚠️ Failed to fetch project issue types. Status: {response.status_code}")
+    except Exception as e:
+        print(f"  ⚠️ Error fetching issue types: {e}")
+        
+    return task_id, subtask_id
+
 def link_to_parent_plan(issue_key, parent_plan_key):
     """Fallback: Links the task to the parent test plan issue via Issue Links if parent field is rejected."""
     print(f"  🔗 Fallback: Linking '{issue_key}' to parent plan '{parent_plan_key}' via IssueLink (Relates)...")
@@ -50,7 +82,7 @@ def link_to_parent_plan(issue_key, parent_plan_key):
     except Exception as e:
         print(f"  ⚠️ Error linking to parent plan: {e}")
 
-def _build_jira_description(tags, steps):
+def _build_jira_description(tags, steps=None, feature_desc=None):
     """Helper to build Atlassian Document Format description."""
     description_content = [
         {
@@ -67,6 +99,15 @@ def _build_jira_description(tags, steps):
             "type": "codeBlock",
             "attrs": {"language": "gherkin"},
             "content": [{"type": "text", "text": " ".join(tags)}]
+        })
+    if feature_desc:
+        description_content.append({
+            "type": "paragraph",
+            "content": [{"type": "text", "text": "📖 Feature Description:", "marks": [{"type": "strong"}]}]
+        })
+        description_content.append({
+            "type": "paragraph",
+            "content": [{"type": "text", "text": "\n".join(feature_desc)}]
         })
     if steps:
         description_content.append({
@@ -89,7 +130,7 @@ def check_jira_task_exists(issue_key):
     except Exception:
         return False
 
-def update_jira_task(issue_key, summary, tags, steps, parent_key=None):
+def update_jira_task(issue_key, summary, tags, steps=None, parent_key=None, **kwargs):
     """Updates an existing Jira Task, preserving execution history if present."""
     print(f"  ➜ Updating existing Jira Task: '{issue_key}'")
     
@@ -129,7 +170,7 @@ def update_jira_task(issue_key, summary, tags, steps, parent_key=None):
                 history_blocks.append(content[history_list_idx])
 
     # Build new description
-    new_doc_content = _build_jira_description(tags, steps)
+    new_doc_content = _build_jira_description(tags, steps=steps, feature_desc=kwargs.get("feature_desc"))
     
     # Append preserved history blocks if any
     if history_blocks:
@@ -176,10 +217,12 @@ def update_jira_task(issue_key, summary, tags, steps, parent_key=None):
         print(f"  ⚠️ Error updating Jira task {issue_key}: {e}")
         return False
 
-def create_jira_task(summary, tags, steps, issuetype="Tarea", parent_key=None):
+def create_jira_task(summary, tags, steps=None, issuetype="Tarea", issuetype_id=None, parent_key=None, **kwargs):
     """Creates a new Task in Jira and returns its Key."""
     print(f"  ➜ Creating Jira {issuetype} for: '{summary}'")
     url = f"{JIRA_URL}/rest/api/3/issue"
+    
+    issue_type_payload = {"id": issuetype_id} if issuetype_id else {"name": issuetype}
     
     payload_dict = {
         "fields": {
@@ -188,9 +231,9 @@ def create_jira_task(summary, tags, steps, issuetype="Tarea", parent_key=None):
             "description": {
                 "type": "doc",
                 "version": 1,
-                "content": _build_jira_description(tags, steps)
+                "content": _build_jira_description(tags, steps=steps, feature_desc=kwargs.get("feature_desc"))
             },
-            "issuetype": {"name": issuetype}
+            "issuetype": issue_type_payload
         }
     }
     
@@ -224,7 +267,7 @@ def create_jira_task(summary, tags, steps, issuetype="Tarea", parent_key=None):
         print(f"  ❌ Error communicating with Jira: {e}")
         return None
 
-def process_feature_file(file_path):
+def process_feature_file(file_path, task_id=None, subtask_id=None):
     """Reads a feature file, checks scenarios, creates or updates Jira tasks, and updates the file."""
     print(f"\n📄 Processing: {file_path}")
     
@@ -283,18 +326,18 @@ def process_feature_file(file_path):
             if existing_jira_key:
                 exists_in_jira = check_jira_task_exists(existing_jira_key)
                 if exists_in_jira:
-                    update_jira_task(existing_jira_key, current_feature_name, tags_for_jira, collected_desc, parent_key=JIRA_PARENT_PLAN)
+                    update_jira_task(existing_jira_key, current_feature_name, tags_for_jira, feature_desc=collected_desc, parent_key=JIRA_PARENT_PLAN)
                     current_feature_jira_key = existing_jira_key
                 else:
                     print(f"  ⚠️ Tag @{existing_jira_key} found in code but deleted in Jira. Recreating Feature Task...")
-                    new_key = create_jira_task(current_feature_name, tags_for_jira, collected_desc, issuetype="Tarea", parent_key=JIRA_PARENT_PLAN)
+                    new_key = create_jira_task(current_feature_name, tags_for_jira, issuetype="Tarea", issuetype_id=task_id, feature_desc=collected_desc, parent_key=JIRA_PARENT_PLAN)
                     if new_key:
                         existing_tag_line = updated_lines[existing_jira_key_index]
                         updated_lines[existing_jira_key_index] = re.sub(fr'@{existing_jira_key}', f'@{new_key}', existing_tag_line)
                         file_modified = True
                         current_feature_jira_key = new_key
             else:
-                new_key = create_jira_task(current_feature_name, tags_for_jira, collected_desc, issuetype="Tarea", parent_key=JIRA_PARENT_PLAN)
+                new_key = create_jira_task(current_feature_name, tags_for_jira, issuetype="Tarea", issuetype_id=task_id, feature_desc=collected_desc, parent_key=JIRA_PARENT_PLAN)
                 if new_key:
                     if first_tag_index != -1:
                         existing_tag_line = updated_lines[first_tag_index]
@@ -363,10 +406,10 @@ def process_feature_file(file_path):
                     # Check if it actually exists in Jira
                     exists_in_jira = check_jira_task_exists(existing_jira_key)
                     if exists_in_jira:
-                        update_jira_task(existing_jira_key, summary, tags_for_jira, collected_steps, parent_key=current_feature_jira_key)
+                        update_jira_task(existing_jira_key, summary, tags_for_jira, steps=collected_steps, parent_key=current_feature_jira_key)
                     else:
                         print(f"  ⚠️ Tag @{existing_jira_key} found in code but deleted in Jira. Recreating...")
-                        new_key = create_jira_task(summary, tags_for_jira, collected_steps, issuetype="Subtarea", parent_key=current_feature_jira_key)
+                        new_key = create_jira_task(summary, tags_for_jira, steps=collected_steps, issuetype="Subtarea", issuetype_id=subtask_id, parent_key=current_feature_jira_key)
                         if new_key:
                             # Replace the broken tag with the new one in the file
                             existing_tag_line = updated_lines[existing_jira_key_index]
@@ -374,7 +417,7 @@ def process_feature_file(file_path):
                             file_modified = True
                 else:
                     # Creating a brand new task
-                    new_key = create_jira_task(summary, tags_for_jira, collected_steps, issuetype="Subtarea", parent_key=current_feature_jira_key)
+                    new_key = create_jira_task(summary, tags_for_jira, steps=collected_steps, issuetype="Subtarea", issuetype_id=subtask_id, parent_key=current_feature_jira_key)
                     if new_key:
                         if first_tag_index != -1:
                             existing_tag_line = updated_lines[first_tag_index]
@@ -412,7 +455,14 @@ if __name__ == "__main__":
     if not feature_files:
         print(f"⚠️ No .feature files found in '{FEATURES_DIR}'.")
     else:
+        # Fetch proper IDs to ensure correct creation of Epic/Task/Subtask links natively
+        task_id, subtask_id = get_project_issue_types(PROJECT_KEY)
+        if task_id:
+            print(f"  🔹 Using Task IssueType ID: {task_id}")
+        if subtask_id:
+            print(f"  🔹 Using SubTask IssueType ID: {subtask_id}")
+            
         for file in feature_files:
-            process_feature_file(file)
+            process_feature_file(file, task_id, subtask_id)
             
     print("\n🏁 Auto-Tagging complete.")
