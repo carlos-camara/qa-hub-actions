@@ -1,0 +1,23 @@
+name: 'Link Checker'
+description: '🔗 Scans files for broken links using Lychee.'
+branding:
+  icon: 'link'
+  color: 'blue'
+inputs:
+  search-path:
+    description: 'Path or pattern to scan'
+    required: false
+    default: '**/*.md'
+  fail-on-error:
+    description: 'Whether to fail the build if broken links are found'
+    required: false
+    default: 'true'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Link Checker
+      uses: lycheeverse/lychee-action@v1.9.0
+      with:
+        args: --verbose --no-progress "${{ inputs.search-path }}"
+        fail: ${{ inputs.fail-on-error }}
