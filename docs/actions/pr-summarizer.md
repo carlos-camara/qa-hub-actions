@@ -1,0 +1,56 @@
+# 🤖 Action: PR Summarizer
+
+<div align="center">
+  <p><i>AI-powered deep technical analysis and high-fidelity visual summaries for Pull Requests, providing surgical visibility into code impact.</i></p>
+</div>
+
+---
+
+> [!IMPORTANT]
+> The **PR Summarizer** leverages LLM intelligence to automatically read code diffs and inject a beautiful, executive-level summary directly into the Pull Request description.
+
+## 🚀 Key Impact
+
+- **🏗️ Structural Intelligence**: Automatically identifies new classes, functions, and deleted methods with professional badges (`[NEW]`, `[MOD]`, `[FIX]`).
+- **🌐 API Footprint**: Scans for new or modified API routes (Express/Flask) and documents the effective impact.
+- **🎯 Locator Awareness**: Highlights exactly which UI locators were updated in `.yaml` files for GUI test suites.
+- **📊 Impact Analysis**: Generates a dynamic metrics table with visual intensity bars (█) to represent the volume of changes.
+- **✨ Gherkin Insights**: Extracts new BDD scenarios and quality tags (`@smoke`, `@critical`) from changed feature files.
+
+
+## 🚀 Quick Start
+
+Drop this snippet into your PR intelligence workflow:
+
+```yaml
+steps:
+  - name: 🤖 Generate AI Summary
+    uses: carlos-camara/qa-hub-actions/pr-summarizer@main
+    with:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
+      target: "description"
+```
+
+## ⚙️ Configuration
+
+| Input | Description | Required | Default |
+| :--- | :--- | :---: | :--- |
+| `github-token` | GitHub token for PR description/comment updates. | **Yes** | N/A |
+| `target` | Where to post the summary: `description` or `comment`. | No | `description` |
+| `domain-mapping` | Optional JSON mapping of file patterns to domains. | No | `{}` |
+
+## 📊 Impact Analysis Example
+
+The action injects a premium overview into your PR:
+
+| Category | Scope | Status |
+| :--- | :---: | :--- |
+| **Backend** | 5 | █████ |
+| **Testing** | 12 | ████████████ |
+| **Docs** | 3 | ███ |
+
+---
+
+<div align="center">
+  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/pr-summarizer/)
+</div>

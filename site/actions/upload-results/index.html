@@ -15,10 +15,10 @@
         <link rel="canonical" href="https://carlos-camara.github.io/qa-hub-actions/actions/upload-results/">
       
       
-        <link rel="prev" href="../deploy-reports-s3/">
+        <link rel="prev" href="../sync-from-s3/">
       
       
-        <link rel="next" href="../security-audit/">
+        <link rel="next" href="../visual-regression-manager/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>Upload Results - QA Hub Actions</title>
+        <title>📥 Action: Upload Results - QA Hub Actions</title>
       
     
     
@@ -54,8 +54,6 @@
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
-    
-      <link rel="stylesheet" href="../../stylesheets/extra.css">
     
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -82,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#upload-results-to-repo" class="md-skip">
+        <a href="#action-upload-results" class="md-skip">
           Skip to content
         </a>
       
@@ -115,7 +113,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Upload Results
+              📥 Action: Upload Results
             
           </span>
         </div>
@@ -240,25 +238,6 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../wiki/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Action Wiki
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
       <a href="../../installation/" class="md-tabs__link">
         
   
@@ -281,27 +260,15 @@
   
     
     
-      
-  
-  
-  
-    
-  
-  
-    
-    
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../run-tests/" class="md-tabs__link">
+        <a href="../collect-and-publish/" class="md-tabs__link">
           
   
   
-  Action Library
+  Action Directory
 
         </a>
       </li>
-    
-  
-
     
   
 
@@ -391,33 +358,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../wiki/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Action Wiki
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../installation/" class="md-nav__link">
         
   
@@ -463,17 +403,17 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
     
   
-    Action Library
+    Action Directory
   
 
     
@@ -484,127 +424,16 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
   
-    Action Library
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-          
-          
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
-        
-          
-          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Core Engine
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_1">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Core Engine
+    Action Directory
   
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../run-tests/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Run QA Test Suite
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../setup-environment/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Setup Environment
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
             
               
                 
@@ -620,100 +449,7 @@
   <span class="md-ellipsis">
     
   
-    Collect & Publish
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-          
-          
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Reporting & Pages
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4_2">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Reporting & Pages
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../slack-notify/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Slack Notification
+    📊 Action: Collect & Publish
   
 
     
@@ -741,7 +477,7 @@
   <span class="md-ellipsis">
     
   
-    Deploy to GH Pages
+    📂 Action: Deploy GitHub Pages
   
 
     
@@ -769,7 +505,427 @@
   <span class="md-ellipsis">
     
   
-    Deploy to S3
+    ☁️ Deploy Reports to S3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment-health-check/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🏥 Action: Env Health & Teardown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../link-checker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔗 Link Checker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lint-codebase/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🧶 Action: Lint Codebase
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../performance-baseline-check/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📉 Action: Performance Baseline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pr-labeler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🏷️ Action: PR Labeler
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pr-milestoner/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🎯 Action: PR Milestoner
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pr-summarizer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🤖 Action: PR Summarizer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../python-auto-release/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🚀 Python Auto-Release
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qa-release-notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📝 Action: QA Release Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../run-tests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🧪 Action: Run QA Test Suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security-audit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🛡️ Action: Security Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setup-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🐍 Action: Setup Environment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setup-services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🚀 Action: Setup Services
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../slack-notify/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📢 Action: Slack Notification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sync-from-s3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔄 Action: Sync from S3
   
 
     
@@ -806,7 +962,7 @@
   <span class="md-ellipsis">
     
   
-    Upload Results
+    📥 Action: Upload Results
   
 
     
@@ -824,7 +980,7 @@
   <span class="md-ellipsis">
     
   
-    Upload Results
+    📥 Action: Upload Results
   
 
     
@@ -850,10 +1006,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#commit-flow" class="md-nav__link">
+  <a href="#key-impact" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🏗️ Commit Flow
+        🚀 Key Impact
       
     </span>
   </a>
@@ -861,10 +1017,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#inputs" class="md-nav__link">
+  <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🛠️ Inputs
+        🛠️ Configuration
       
     </span>
   </a>
@@ -872,58 +1028,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#advanced-commits" class="md-nav__link">
+  <a href="#quick-start" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🚀 Advanced Commits
+        ⚡ Quick Start
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="🚀 Advanced Commits">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#automatic-sync" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🔄 Automatic Sync
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🆘 Troubleshooting
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="🆘 Troubleshooting">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#git-conflict" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ❌ Git Conflict
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -936,69 +1047,6 @@
 
               
             
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-          
-          
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Quality & Security
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_3">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Quality & Security
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
               
                 
   
@@ -1006,14 +1054,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../security-audit/" class="md-nav__link">
+      <a href="../visual-regression-manager/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Security Audit
+    📸 Action: Visual Regression Mgr
   
 
     
@@ -1022,217 +1070,6 @@
   
 
       </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../lint-codebase/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Lint Codebase
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../link-checker/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Link Checker
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../performance-baseline-check/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Performance Baseline
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-          
-          
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Maintenance & CI
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_4">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Maintenance & CI
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pr-labeler/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    PR Labeler
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../python-auto-release/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Auto-Release
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
     </li>
   
 
@@ -1299,10 +1136,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#commit-flow" class="md-nav__link">
+  <a href="#key-impact" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🏗️ Commit Flow
+        🚀 Key Impact
       
     </span>
   </a>
@@ -1310,10 +1147,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#inputs" class="md-nav__link">
+  <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🛠️ Inputs
+        🛠️ Configuration
       
     </span>
   </a>
@@ -1321,58 +1158,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#advanced-commits" class="md-nav__link">
+  <a href="#quick-start" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🚀 Advanced Commits
+        ⚡ Quick Start
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="🚀 Advanced Commits">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#automatic-sync" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🔄 Automatic Sync
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🆘 Troubleshooting
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="🆘 Troubleshooting">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#git-conflict" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ❌ Git Conflict
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1393,62 +1185,76 @@
 
 
 
-<h1 id="upload-results-to-repo">📤 Upload Results to Repo</h1>
-<div class="admonition info">
-<p class="admonition-title">At a Glance</p>
-<ul>
-<li><strong>Category</strong>: Reporting</li>
-<li><strong>Complexity</strong>: Low</li>
-<li><strong>Recent Version</strong>: v1.0.0 (Stable)</li>
-<li><strong>Primary Tool</strong>: Git</li>
-</ul>
+<h1 id="action-upload-results"><div align="center">📥 Action: Upload Results</div></h1>
+<div align="center">
+  <p><i>Consolidate and archive surgical test reports, visual evidence, and performance metadata directly into your repository branch for persistent history.</i></p>
 </div>
-<p>Commit and push consolidated test reports directly to a dedicated branch or folder within your repository.</p>
+
 <hr />
-<h2 id="commit-flow">🏗️ Commit Flow</h2>
-<pre class="mermaid"><code>graph LR
-    A[Reports Dir] --&gt; B[Git Add]
-    B --&gt; C[Git Commit]
-    C --&gt; D[Git Push]</code></pre>
+<h2 id="key-impact">🚀 Key Impact</h2>
+<ul>
+<li><strong>📥 Artifact Consolidation</strong>: Automatically downloads and merges unified test reports and GUI screenshots from workflow runs.</li>
+<li><strong>💾 Repository Persistence</strong>: Commits and pushes the consolidated results back to a specified branch (e.g., <code>gh-pages</code> or <code>results</code>).</li>
+<li><strong>📸 Screenshot Capture</strong>: Handles visual evidence by organizing artifacts into a dedicated <code>screenshots</code> resource directory.</li>
+<li><strong>🤝 Standardized Layout</strong>: Enforces the official QA Hub directory structure for reports and assets.</li>
+</ul>
 <hr />
-<h2 id="inputs">🛠️ Inputs</h2>
+<h2 id="configuration">🛠️ Configuration</h2>
 <table>
 <thead>
 <tr>
 <th style="text-align: left;">Input</th>
-<th style="text-align: left;">Default</th>
-<th style="text-align: left;">Purpose</th>
+<th style="text-align: center;">Required</th>
+<th style="text-align: center;">Default</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align: left;"><code>run-id</code></td>
-<td style="text-align: left;"><code>REQUIRED</code></td>
-<td style="text-align: left;">Source workflow ID.</td>
+<td style="text-align: center;"><strong>Yes</strong></td>
+<td style="text-align: center;">-</td>
+<td style="text-align: left;">GitHub Run ID to pull consolidated artifacts from.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>branch</code></td>
-<td style="text-align: left;"><code>REQUIRED</code></td>
-<td style="text-align: left;">Target git branch.</td>
+<td style="text-align: center;"><strong>Yes</strong></td>
+<td style="text-align: center;">-</td>
+<td style="text-align: left;">Target branch for committing the results.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>upload-reports</code></td>
-<td style="text-align: left;"><code>true</code></td>
-<td style="text-align: left;">Process XML results.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>true</code></td>
+<td style="text-align: left;">Toggle for processing test results and screenshots.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>upload-perf</code></td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>true</code></td>
+<td style="text-align: left;">Toggle for processing performance metadata.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>commit-message</code></td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">(Table)</td>
+<td style="text-align: left;">Custom Git commit message for the updates.</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="advanced-commits">🚀 Advanced Commits</h2>
-<h3 id="automatic-sync">🔄 Automatic Sync</h3>
-<p>This action is ideal for keeping a "latest" documentation folder in sync with the actual results from the main branch.</p>
+<h2 id="quick-start">⚡ Quick Start</h2>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">📥 Upload persistent results</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">carlos-camara/qa-hub-actions/upload-results@main</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">run-id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ github.run_id }}</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nt">branch</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;gh-pages&quot;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">commit-message</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;chore:</span><span class="nv"> </span><span class="s">update</span><span class="nv"> </span><span class="s">test</span><span class="nv"> </span><span class="s">dashboard</span><span class="nv"> </span><span class="s">artifacts&quot;</span>
+</span></code></pre></div>
 <hr />
-<h2 id="troubleshooting">🆘 Troubleshooting</h2>
-<h3 id="git-conflict">❌ Git Conflict</h3>
-<p><strong>Issue</strong>: Pushes fail due to remote changes.
-<strong>Solution</strong>: This action uses a force-push strategy on designated reporting branches to ensure visibility is always current.</p>
-<hr />
-<p><a href="https://github.com/carlos-camara/qa-hub-actions/tree/main/upload-results">View Source Code</a></p>
+<div align="center">
+  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/upload-results/)
+</div>
 
 
 

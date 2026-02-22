@@ -12,13 +12,13 @@
         <meta name="author" content="Carlos Camara">
       
       
-        <link rel="canonical" href="https://carlos-camara.github.io/qa-hub-actions/actions/setup-environment/">
+        <link rel="canonical" href="https://carlos-camara.github.io/qa-hub-actions/actions/sync-from-s3/">
       
       
-        <link rel="prev" href="../security-audit/">
+        <link rel="prev" href="../slack-notify/">
       
       
-        <link rel="next" href="../setup-services/">
+        <link rel="next" href="../upload-results/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>🐍 Action: Setup Environment - QA Hub Actions</title>
+        <title>🔄 Action: Sync from S3 - QA Hub Actions</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#action-setup-environment" class="md-skip">
+        <a href="#action-sync-from-s3" class="md-skip">
           Skip to content
         </a>
       
@@ -113,7 +113,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              🐍 Action: Setup Environment
+              🔄 Action: Sync from S3
             
           </span>
         </div>
@@ -831,37 +831,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🐍 Action: Setup Environment
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../setup-environment/" class="md-nav__link">
         
   
   
@@ -877,59 +850,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#key-impact" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🚀 Key Impact
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🛠️ Configuration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quick-start" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ⚡ Quick Start
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -995,10 +915,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../sync-from-s3/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔄 Action: Sync from S3
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1014,6 +961,59 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#key-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Key Impact
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛠️ Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚡ Quick Start
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1185,22 +1185,23 @@
 
 
 
-<h1 id="action-setup-environment">🐍 Action: Setup Environment</h1>
+<h1 id="action-sync-from-s3">🔄 Action: Sync from S3</h1>
 <div align="center">
-  <p><i>High-speed, multi-runtime preparation for Python and Node.js environments featuring intelligent dependency caching and custom installation logic.</i></p>
+  <p><i>Generic cloud-to-local synchronization for downloading files from AWS S3 and automatically committing them to your repository.</i></p>
 </div>
 
 <hr />
 <blockquote>
-<p>[!IMPORTANT]
-The <strong>Setup Environment</strong> action reduces pipeline initialization overhead by up to 60%. It seamlessly prepares multiple runtimes in parallel while managing deep cache trees for <code>pip</code>, <code>npm</code>, <code>poetry</code>, and <code>pnpm</code>.</p>
+<p>[!NOTE]
+Ensure resilient test infrastructure by syncing external dependencies, large binary test data, or historical baseline reports from AWS S3 directly into your running GitHub Actions environment.</p>
 </blockquote>
 <h2 id="key-impact">🚀 Key Impact</h2>
 <ul>
-<li><strong>📦 Multi-Runtime Preparation</strong>: Configures Python and Node.js runtimes in a single, surgical step.</li>
-<li><strong>⚡ Intelligent Caching</strong>: Automatically manages <code>pip</code> and <code>npm</code> caches to reduce build times by up to 60%.</li>
-<li><strong>🛠️ Custom Installation</strong>: Override default install commands to support complex dependency trees (Poetry, Yarn, pnpm).</li>
-<li><strong>🛡️ Environment Stability</strong>: Ensures a consistent, clean environment for reliable test execution across all runners.</li>
+<li><strong>☁️ Cloud-to-Repo Sync</strong>: Efficiently downloads artifacts from S3 using optimized synchronization logic.</li>
+<li><strong>💾 Automated Commits</strong>: Automatically stages, commits, and pushes downloaded files back to your repository branch.</li>
+<li><strong>⚡ Surgical Incrementality</strong>: Automatically skips already existing local directories, reducing sync time and network overhead.</li>
+<li><strong>🛡️ History Preservation</strong>: Explicitly avoids the <code>--delete</code> flag to ensure historical data in the repo is never wiped by S3 rotation.</li>
+<li><strong>🏗️ Project Sharding</strong>: Supports project-based S3 prefixes to maintain isolation across multi-project environments.</li>
 </ul>
 <hr />
 <h2 id="configuration">🛠️ Configuration</h2>
@@ -1215,40 +1216,46 @@ The <strong>Setup Environment</strong> action reduces pipeline initialization ov
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><code>python-version</code></td>
-<td style="text-align: center;">No</td>
+<td style="text-align: left;"><code>project-name</code></td>
+<td style="text-align: center;"><strong>Yes</strong></td>
 <td style="text-align: center;">-</td>
-<td style="text-align: left;">Python version to install (e.g., <code>3.11</code>).</td>
+<td style="text-align: left;">Unique identifier for the project sharding.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>node-version</code></td>
-<td style="text-align: center;">No</td>
+<td style="text-align: left;"><code>s3-bucket</code></td>
+<td style="text-align: center;"><strong>Yes</strong></td>
 <td style="text-align: center;">-</td>
-<td style="text-align: left;">Node.js version to install (e.g., <code>20</code>).</td>
+<td style="text-align: left;">Target AWS S3 bucket name.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>python-install-command</code></td>
-<td style="text-align: center;">No</td>
-<td style="text-align: center;">(Table)</td>
-<td style="text-align: left;">Command to install Python dependencies.</td>
+<td style="text-align: left;"><code>target-path</code></td>
+<td style="text-align: center;"><strong>Yes</strong></td>
+<td style="text-align: center;">-</td>
+<td style="text-align: left;">Local directory to sync files into.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>node-install-command</code></td>
-<td style="text-align: center;">No</td>
-<td style="text-align: center;">(Table)</td>
-<td style="text-align: left;">Command to install Node.js dependencies.</td>
+<td style="text-align: left;"><code>aws-access-key-id</code></td>
+<td style="text-align: center;"><strong>Yes</strong></td>
+<td style="text-align: center;">-</td>
+<td style="text-align: left;">AWS Authentication Key.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>python-cache</code></td>
-<td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>pip</code></td>
-<td style="text-align: left;">Cache strategy for Python: <code>pip</code>, <code>poetry</code>, etc.</td>
+<td style="text-align: left;"><code>aws-secret-access-key</code></td>
+<td style="text-align: center;"><strong>Yes</strong></td>
+<td style="text-align: center;">-</td>
+<td style="text-align: left;">AWS Authentication Secret.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>node-cache</code></td>
+<td style="text-align: left;"><code>s3-path</code></td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>npm</code></td>
-<td style="text-align: left;">Cache strategy for Node: <code>npm</code>, <code>yarn</code>, <code>pnpm</code>.</td>
+<td style="text-align: center;"><code>reports/</code></td>
+<td style="text-align: left;">S3 path suffix after the project name.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>commit-message</code></td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>chore: sync</code></td>
+<td style="text-align: left;">Custom Git commit message.</td>
 </tr>
 </tbody>
 </table>
@@ -1256,16 +1263,18 @@ The <strong>Setup Environment</strong> action reduces pipeline initialization ov
 <h2 id="quick-start">⚡ Quick Start</h2>
 <p>Drop this snippet into your workflow:</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">steps</span><span class="p">:</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">🐍 Prepare Environment</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">carlos-camara/qa-hub-actions/setup-environment@main</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">🔄 Sync Reports from Cloud</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">carlos-camara/qa-hub-actions/sync-from-s3@main</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">with</span><span class="p">:</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.11&quot;</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">node-version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;20&quot;</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="nt">python-cache</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pip&quot;</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">project-name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;dashboard&quot;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">s3-bucket</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;qa-hub-storage&quot;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="nt">aws-access-key-id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AWS_KEY }}</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">      </span><span class="nt">aws-secret-access-key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AWS_SECRET }}</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">      </span><span class="nt">target-path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;docs/reports/&quot;</span>
 </span></code></pre></div>
 <hr />
 <div align="center">
-  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/setup-environment/)
+  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/sync-from-s3/)
 </div>
 
 

@@ -12,13 +12,13 @@
         <meta name="author" content="Carlos Camara">
       
       
-        <link rel="canonical" href="https://carlos-camara.github.io/qa-hub-actions/actions/setup-environment/">
+        <link rel="canonical" href="https://carlos-camara.github.io/qa-hub-actions/actions/setup-services/">
       
       
-        <link rel="prev" href="../security-audit/">
+        <link rel="prev" href="../setup-environment/">
       
       
-        <link rel="next" href="../setup-services/">
+        <link rel="next" href="../slack-notify/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>🐍 Action: Setup Environment - QA Hub Actions</title>
+        <title>🚀 Action: Setup Services - QA Hub Actions</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#action-setup-environment" class="md-skip">
+        <a href="#action-setup-services" class="md-skip">
           Skip to content
         </a>
       
@@ -113,7 +113,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              🐍 Action: Setup Environment
+              🚀 Action: Setup Services
             
           </span>
         </div>
@@ -831,6 +831,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../setup-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🐍 Action: Setup Environment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -850,7 +878,7 @@
   <span class="md-ellipsis">
     
   
-    🐍 Action: Setup Environment
+    🚀 Action: Setup Services
   
 
     
@@ -868,7 +896,7 @@
   <span class="md-ellipsis">
     
   
-    🐍 Action: Setup Environment
+    🚀 Action: Setup Services
   
 
     
@@ -930,34 +958,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../setup-services/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🚀 Action: Setup Services
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -1185,22 +1185,22 @@
 
 
 
-<h1 id="action-setup-environment">🐍 Action: Setup Environment</h1>
+<h1 id="action-setup-services">🚀 Action: Setup Services</h1>
 <div align="center">
-  <p><i>High-speed, multi-runtime preparation for Python and Node.js environments featuring intelligent dependency caching and custom installation logic.</i></p>
+  <p><i>Orchestrate background services and perform automated health checks to ensure infrastructure readiness before any test execution.</i></p>
 </div>
 
 <hr />
 <blockquote>
 <p>[!IMPORTANT]
-The <strong>Setup Environment</strong> action reduces pipeline initialization overhead by up to 60%. It seamlessly prepares multiple runtimes in parallel while managing deep cache trees for <code>pip</code>, <code>npm</code>, <code>poetry</code>, and <code>pnpm</code>.</p>
+The <strong>Setup Services</strong> action eliminates race conditions in your CI/CD by intelligently standing up backend and frontend architectures, guaranteeing that the target endpoints are fully healthy (<code>HTTP 200</code>) before yielding control back to the runner.</p>
 </blockquote>
 <h2 id="key-impact">🚀 Key Impact</h2>
 <ul>
-<li><strong>📦 Multi-Runtime Preparation</strong>: Configures Python and Node.js runtimes in a single, surgical step.</li>
-<li><strong>⚡ Intelligent Caching</strong>: Automatically manages <code>pip</code> and <code>npm</code> caches to reduce build times by up to 60%.</li>
-<li><strong>🛠️ Custom Installation</strong>: Override default install commands to support complex dependency trees (Poetry, Yarn, pnpm).</li>
-<li><strong>🛡️ Environment Stability</strong>: Ensures a consistent, clean environment for reliable test execution across all runners.</li>
+<li><strong>🏗️ Service Orchestration</strong>: Seamlessly launches backend and frontend processes in the background for integrated testing.</li>
+<li><strong>🩺 Automated Health Checks</strong>: Waits for specific endpoints to return <code>200 OK</code> before allowing the pipeline to proceed.</li>
+<li><strong>🔍 Debug Intelligence</strong>: Automatically captures and prints service logs (<code>backend.log</code>, <code>frontend.log</code>) upon startup failure.</li>
+<li><strong>⚡ Performance-Focused</strong>: Minimizes waiting time with configurable timeouts and intelligent retry logic.</li>
 </ul>
 <hr />
 <h2 id="configuration">🛠️ Configuration</h2>
@@ -1215,40 +1215,22 @@ The <strong>Setup Environment</strong> action reduces pipeline initialization ov
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><code>python-version</code></td>
-<td style="text-align: center;">No</td>
+<td style="text-align: left;"><code>start-services-command</code></td>
+<td style="text-align: center;"><strong>Yes</strong></td>
 <td style="text-align: center;">-</td>
-<td style="text-align: left;">Python version to install (e.g., <code>3.11</code>).</td>
+<td style="text-align: left;">Shell command to start background services.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>node-version</code></td>
-<td style="text-align: center;">No</td>
+<td style="text-align: left;"><code>health-check-urls</code></td>
+<td style="text-align: center;"><strong>Yes</strong></td>
 <td style="text-align: center;">-</td>
-<td style="text-align: left;">Node.js version to install (e.g., <code>20</code>).</td>
+<td style="text-align: left;">Space-separated URLs to wait for (health endpoints).</td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>python-install-command</code></td>
+<td style="text-align: left;"><code>health-check-timeout</code></td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;">(Table)</td>
-<td style="text-align: left;">Command to install Python dependencies.</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>node-install-command</code></td>
-<td style="text-align: center;">No</td>
-<td style="text-align: center;">(Table)</td>
-<td style="text-align: left;">Command to install Node.js dependencies.</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>python-cache</code></td>
-<td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>pip</code></td>
-<td style="text-align: left;">Cache strategy for Python: <code>pip</code>, <code>poetry</code>, etc.</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>node-cache</code></td>
-<td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>npm</code></td>
-<td style="text-align: left;">Cache strategy for Node: <code>npm</code>, <code>yarn</code>, <code>pnpm</code>.</td>
+<td style="text-align: center;"><code>60000</code></td>
+<td style="text-align: left;">Maximum time to wait for services in milliseconds.</td>
 </tr>
 </tbody>
 </table>
@@ -1256,16 +1238,16 @@ The <strong>Setup Environment</strong> action reduces pipeline initialization ov
 <h2 id="quick-start">⚡ Quick Start</h2>
 <p>Drop this snippet into your workflow:</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">steps</span><span class="p">:</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">🐍 Prepare Environment</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">carlos-camara/qa-hub-actions/setup-environment@main</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">🚀 Setup Application Services</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">carlos-camara/qa-hub-actions/setup-services@main</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">with</span><span class="p">:</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.11&quot;</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">node-version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;20&quot;</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="nt">python-cache</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pip&quot;</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">start-services-command</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;npm</span><span class="nv"> </span><span class="s">start</span><span class="nv"> </span><span class="s">&amp;&quot;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">health-check-urls</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://localhost:3000/health&quot;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="nt">health-check-timeout</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;45000&quot;</span>
 </span></code></pre></div>
 <hr />
 <div align="center">
-  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/setup-environment/)
+  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/setup-services/)
 </div>
 
 
