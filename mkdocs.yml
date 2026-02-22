@@ -58,15 +58,22 @@ nav:
   - Action Directory:
     - '📊 Action: Collect & Publish': actions/collect-and-publish.md
     - '📂 Action: Deploy GitHub Pages': actions/deploy-gh-pages.md
-    - '☁️ Deploy Reports to S3': actions/deploy-reports-s3.md
+    - '☁️ Action: Deploy Reports to S3': actions/deploy-reports-s3.md
     - '🏥 Action: Env Health & Teardown': actions/environment-health-check.md
-    - '🔗 Link Checker': actions/link-checker.md
+    - '🛑 Action: Gate Check (Open PR)': actions/gate-check-pr.md
+    - '🏷️ Action: Jira Auto-Tagger': actions/jira-auto-tagger.md
+    - '🔗 Action: Link Checker': actions/link-checker.md
     - '🧶 Action: Lint Codebase': actions/lint-codebase.md
     - '📉 Action: Performance Baseline': actions/performance-baseline-check.md
+    - '📉 Action: PR Churn Analyzer': actions/pr-churn-analyzer.md
+    - '📝 Action: PR Hygiene Validator': actions/pr-hygiene-validator.md
+    - '🧠 Action: PR Intelligence': actions/pr-intelligence.md
     - '🏷️ Action: PR Labeler': actions/pr-labeler.md
     - '🎯 Action: PR Milestoner': actions/pr-milestoner.md
+    - '🤖 Action: PR Risk Analyzer': actions/pr-risk-analyzer.md
+    - '📏 Action: PR Size Labeler': actions/pr-size-labeler.md
     - '🤖 Action: PR Summarizer': actions/pr-summarizer.md
-    - '🚀 Python Auto-Release': actions/python-auto-release.md
+    - '📢 Action: Publish Test Results': actions/publish-test-results.md
     - '📝 Action: QA Release Notes': actions/qa-release-notes.md
     - '🧪 Action: Run QA Test Suite': actions/run-tests.md
     - '🛡️ Action: Security Audit': actions/security-audit.md
