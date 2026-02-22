@@ -1,0 +1,50 @@
+---
+name: 'PR Hygiene Validator'
+description: '📝 Validates that PR titles follow Conventional Commits and descriptions are descriptive.'
+branding:
+  icon: 'edit'
+  color: 'blue'
+
+inputs:
+  github-token:
+    description: 'GitHub token'
+    required: true
+  min-description-length:
+    description: 'Minimum characters required in the PR body'
+    required: false
+    default: '15'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 📝 Validate PR Hygiene
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        TITLE: ${{ github.event.pull_request.title }}
+        BODY: ${{ github.event.pull_request.body }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        REPO: ${{ github.repository }}
+        MIN_LEN: ${{ inputs.min-description-length }}
+      run: |
+        echo "📝 Validating PR standards..."
+        
+        # 1. Validate Title (Conventional Commits)
+        REGEX="^(feat|fix|chore|docs|style|refactor|test|perf|ci)(\(.*\))?!?: .+$"
+        if [[ ! "$TITLE" =~ $REGEX ]]; then
+          MSG="❌ **Invalid PR Title**: Please use [Conventional Commits]"
+          MSG="$MSG (https://www.conventionalcommits.org/)."
+          echo "$MSG"
+          gh pr comment "$PR_NUMBER" --body "$MSG" --repo "$REPO"
+          exit 1
+        fi
+        
+        # 2. Validate Description
+        if [ -z "$BODY" ] || [ ${#BODY} -lt $MIN_LEN ]; then
+          MSG="❌ **Incomplete Description**: Please provide a detailed description of your changes (>$MIN_LEN characters)."
+          echo "$MSG"
+          gh pr comment "$PR_NUMBER" --body "$MSG" --repo "$REPO"
+          exit 1
+        fi
+        
+        echo "✅ PR Hygiene standards met."
