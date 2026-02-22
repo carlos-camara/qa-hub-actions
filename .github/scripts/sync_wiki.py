@@ -4,7 +4,14 @@ import os, re, shutil
 os.makedirs('docs/actions', exist_ok=True)
 
 # 1. Sync Root Files
-shutil.copy2('README.md', 'docs/index.md')
+with open('README.md', 'r', encoding='utf-8') as f:
+    readme_content = f.read()
+    
+# Rewrite relative links from ./action-name to actions/action-name.md
+readme_content = re.sub(r'\]\(\./([^/)]+)/?\)', r'](actions/\1.md)', readme_content)
+
+with open('docs/index.md', 'w', encoding='utf-8') as f:
+    f.write(readme_content)
 if os.path.exists('CONTRIBUTING.md'):
     shutil.copy2('CONTRIBUTING.md', 'docs/contributing.md')
 

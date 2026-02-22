@@ -60,39 +60,39 @@ Explore our curated collection of professional CI/CD utilities.
 ### 🏎️ Core Performance & Execution
 | Action | Description | Status |
 | :--- | :--- | :--- |
-| [**🧪 Run Tests**](./run-tests) | Multi-engine execution (API/GUI/Perf) with automated retry logic and timestamped isolation. | `Stable` |
-| [**🐍 Setup Env**](./setup-environment) | High-speed multi-runtime (Python/Node) setup with intelligent dependency caching. | `Stable` |
-| [**📊 Collect & Publish**](./collect-and-publish) | Merges multi-project results into a single, high-fidelity visual summary. | `Updated` |
-| [**🏥 Env Health**](./environment-health-check) | Validates infrastructure readiness and connectivity before test execution. | `Stable` |
+| [**🧪 Run Tests**](actions/run-tests.md) | Multi-engine execution (API/GUI/Perf) with automated retry logic and timestamped isolation. | `Stable` |
+| [**🐍 Setup Env**](actions/setup-environment.md) | High-speed multi-runtime (Python/Node) setup with intelligent dependency caching. | `Stable` |
+| [**📊 Collect & Publish**](actions/collect-and-publish.md) | Merges multi-project results into a single, high-fidelity visual summary. | `Updated` |
+| [**🏥 Env Health**](actions/environment-health-check.md) | Validates infrastructure readiness and connectivity before test execution. | `Stable` |
 
 ### 🛡️ Quality & Security Guardrails
 | Action | Description | Status |
 | :--- | :--- | :--- |
-| [**🤖 PR Summarizer**](./pr-summarizer) | AI-powered PR analysis, risk assessment, and code intelligence at a glance. | `Hot` |
-| [**🛡️ Security Audit**](./security-audit) | Surgical detection of leaked secrets and npm/pip vulnerabilities (Safety/Bandit). | `Stable` |
-| [**🧶 Lint Codebase**](./lint-codebase) | Multi-standard enforcement for consistent style (YAML, MD, JS, PY). | `Stable` |
-| [**📉 Perf Baseline**](./performance-baseline-check) | Automated regression check against historical Locust latency baselines. | `Stable` |
-| [**🔗 Link Checker**](./link-checker) | Absolute validation of all internal/external documentation links. | `Stable` |
+| [**🤖 PR Summarizer**](actions/pr-summarizer.md) | AI-powered PR analysis, risk assessment, and code intelligence at a glance. | `Hot` |
+| [**🛡️ Security Audit**](actions/security-audit.md) | Surgical detection of leaked secrets and npm/pip vulnerabilities (Safety/Bandit). | `Stable` |
+| [**🧶 Lint Codebase**](actions/lint-codebase.md) | Multi-standard enforcement for consistent style (YAML, MD, JS, PY). | `Stable` |
+| [**📉 Perf Baseline**](actions/performance-baseline-check.md) | Automated regression check against historical Locust latency baselines. | `Stable` |
+| [**🔗 Link Checker**](actions/link-checker.md) | Absolute validation of all internal/external documentation links. | `Stable` |
 
 ### 📢 Insights & Distribution
 | Action | Description | Status |
 | :--- | :--- | :--- |
-| [**📢 Slack Notify**](./slack-notify) | High-fidelity notifications with executive summaries, status badges, and deep links. | `Stable` |
-| [**📥 Upload Results**](./upload-results) | Secure archival of test artifacts and HTML reports to your repository. | `Stable` |
-| [**☁️ Deploy S3**](./deploy-reports-s3) | Cloud-native distribution of QA dashboards to AWS S3 buckets. | `Stable` |
-| [**📂 Deploy Pages**](./deploy-gh-pages) | Automated documentation deployments for internal wikis and dashboards. | `Stable` |
+| [**📢 Slack Notify**](actions/slack-notify.md) | High-fidelity notifications with executive summaries, status badges, and deep links. | `Stable` |
+| [**📥 Upload Results**](actions/upload-results.md) | Secure archival of test artifacts and HTML reports to your repository. | `Stable` |
+| [**☁️ Deploy S3**](actions/deploy-reports-s3.md) | Cloud-native distribution of QA dashboards to AWS S3 buckets. | `Stable` |
+| [**📂 Deploy Pages**](actions/deploy-gh-pages.md) | Automated documentation deployments for internal wikis and dashboards. | `Stable` |
 
 ### 🤖 Workflow Intelligence
 | Action | Description | Status |
 | :--- | :--- | :--- |
-| [**🎯 PR Milestoner**](./pr-milestoner) | Automatic assignment of the latest open milestones to incoming PRs. | `New` |
-| [**🏷️ PR Labeler**](./pr-labeler) | Surgical path-based labeling for complex, multi-layer repositories. | `Stable` |
-| [**📏 PR Size**](./pr-size-labeler) | Automatically estimates PR size (added + deleted lines) and applies standard S/M/L labels. | `Stable` |
-| [**📝 PR Hygiene**](./pr-hygiene-validator) | Validates Conventional Commits and PR description completeness. | `Stable` |
-| [**🤖 PR Risk**](./pr-risk-analyzer) | Scans for modifications in critical system files and marks high-risk PRs with visual alerts. | `Stable` |
-| [**📝 Release Notes**](./qa-release-notes) | Automated generation of quality-focused release dossiers and changelogs. | `Stable` |
-| [**📸 Visual Mgr**](./visual-regression-manager) | Advanced visual regression baseline and delta management utilities. | `Stable` |
-| [**🔗 Jira Auto-Tagger**](./jira-auto-tagger) | End-to-end BDD traceability (Test Plan > Feature > Scenario) with automated status rollups. | `Hot` |
+| [**🎯 PR Milestoner**](actions/pr-milestoner.md) | Automatic assignment of the latest open milestones to incoming PRs. | `New` |
+| [**🏷️ PR Labeler**](actions/pr-labeler.md) | Surgical path-based labeling for complex, multi-layer repositories. | `Stable` |
+| [**📏 PR Size**](actions/pr-size-labeler.md) | Automatically estimates PR size (added + deleted lines) and applies standard S/M/L labels. | `Stable` |
+| [**📝 PR Hygiene**](actions/pr-hygiene-validator.md) | Validates Conventional Commits and PR description completeness. | `Stable` |
+| [**🤖 PR Risk**](actions/pr-risk-analyzer.md) | Scans for modifications in critical system files and marks high-risk PRs with visual alerts. | `Stable` |
+| [**📝 Release Notes**](actions/qa-release-notes.md) | Automated generation of quality-focused release dossiers and changelogs. | `Stable` |
+| [**📸 Visual Mgr**](actions/visual-regression-manager.md) | Advanced visual regression baseline and delta management utilities. | `Stable` |
+| [**🔗 Jira Auto-Tagger**](actions/jira-auto-tagger.md) | End-to-end BDD traceability (Test Plan > Feature > Scenario) with automated status rollups. | `Hot` |
 
 ---
 
