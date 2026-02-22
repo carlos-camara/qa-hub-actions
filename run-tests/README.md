@@ -1,8 +1,13 @@
 # 🧪 Action: Run QA Test Suite
 
-The unified core engine for test orchestration, featuring industrial-grade report consolidation and multi-engine support for API, GUI, and Performance tests.
+<div align="center">
+  <p><i>The unified core engine for test orchestration, featuring industrial-grade report consolidation and multi-engine support for API, GUI, and Performance tests.</i></p>
+</div>
 
 ---
+
+> [!IMPORTANT]
+> This action represents the execution heart of the QA Hub framework. It provides standardized, timestamped, and collision-free environments for your tests to run, automatically managing HTML/XML report aggregation and seamless Jira synchronization for true End-to-End traceability.
 
 ## 🚀 Key Impact
 
@@ -41,34 +46,36 @@ The unified core engine for test orchestration, featuring industrial-grade repor
 
 ### Basic Usage
 ```yaml
-- name: 🧪 Run Quality Suites
-  uses: carlos-camara/qa-hub-actions/run-tests@main
-  with:
-    project-name: "core-api"
-    test-command-api: "pytest tests/api"
-    test-command-gui: "pytest tests/gui"
+steps:
+  - name: 🧪 Run Quality Suites
+    uses: carlos-camara/qa-hub-actions/run-tests@main
+    with:
+      project-name: "core-api"
+      test-command-api: "pytest tests/api"
+      test-command-gui: "pytest tests/gui"
 ```
 
 ### Advanced Usage with Jira End-to-End Sync
 ```yaml
-- name: 🏷️ Auto-Tag Gherkin Scenarios with Jira IDs
-  uses: carlos-camara/qa-hub-actions/jira-auto-tagger@main
-  with:
-    jira-url: ${{ secrets.JIRA_URL }}
-    jira-user: ${{ secrets.JIRA_USER }}
-    jira-token: ${{ secrets.JIRA_API_TOKEN }}
-    jira-project-key: "CC"
+steps:
+  - name: 🏷️ Auto-Tag Gherkin Scenarios with Jira IDs
+    uses: carlos-camara/qa-hub-actions/jira-auto-tagger@main
+    with:
+      jira-url: ${{ secrets.JIRA_URL }}
+      jira-user: ${{ secrets.JIRA_USER }}
+      jira-token: ${{ secrets.JIRA_API_TOKEN }}
+      jira-project-key: "CC"
 
-- name: 🧪 Run Quality Suites & Report to Jira
-  uses: carlos-camara/qa-hub-actions/run-tests@main
-  with:
-    project-name: "dashboard"
-    test-command-gui: "qa-hub run --tags gui"
-    jira-sync: "true"
-    jira-url: ${{ secrets.JIRA_URL }}
-    jira-user: ${{ secrets.JIRA_USER }}
-    jira-token: ${{ secrets.JIRA_API_TOKEN }}
-    jira-project-key: "CC"
+  - name: 🧪 Run Quality Suites & Report to Jira
+    uses: carlos-camara/qa-hub-actions/run-tests@main
+    with:
+      project-name: "dashboard"
+      test-command-gui: "qa-hub run --tags gui"
+      jira-sync: "true"
+      jira-url: ${{ secrets.JIRA_URL }}
+      jira-user: ${{ secrets.JIRA_USER }}
+      jira-token: ${{ secrets.JIRA_API_TOKEN }}
+      jira-project-key: "CC"
 ```
 
 ---

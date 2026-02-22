@@ -1,11 +1,13 @@
-# <div align="center">🐍 Action: Setup Environment</div>
+# 🐍 Action: Setup Environment
 
 <div align="center">
   <p><i>High-speed, multi-runtime preparation for Python and Node.js environments featuring intelligent dependency caching and custom installation logic.</i></p>
 </div>
 
-
 ---
+
+> [!IMPORTANT]
+> The **Setup Environment** action reduces pipeline initialization overhead by up to 60%. It seamlessly prepares multiple runtimes in parallel while managing deep cache trees for `pip`, `npm`, `poetry`, and `pnpm`.
 
 ## 🚀 Key Impact
 
@@ -31,13 +33,16 @@
 
 ## ⚡ Quick Start
 
+Drop this snippet into your workflow:
+
 ```yaml
-- name: 🐍 Prepare Environment
-  uses: carlos-camara/qa-hub-actions/setup-environment@v1
-  with:
-    python-version: "3.11"
-    node-version: "20"
-    python-cache: "pip"
+steps:
+  - name: 🐍 Prepare Environment
+    uses: carlos-camara/qa-hub-actions/setup-environment@main
+    with:
+      python-version: "3.11"
+      node-version: "20"
+      python-cache: "pip"
 ```
 
 ---
