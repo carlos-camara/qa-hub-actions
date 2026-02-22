@@ -1,8 +1,15 @@
-# 🤝 Contributing to QA Hub Actions
+# <div align="center">🤝 Contributing to QA Hub Actions</div>
+
+<div align="center">
+  <p><i>Building the industry standard for Enterprise Quality Orchestration.</i></p>
+</div>
+
+---
 
 Thank you for your interest in contributing to the **QA Hub Actions** ecosystem! 🚀
 
-We are building the industry standard for **Enterprise Quality Orchestration**. To maintain this high standard, we ask that all contributors follow these professional guidelines.
+> [!IMPORTANT]
+> We maintain a high standard of engineering excellence. To ensure consistency across our 19+ modules, we ask that all contributors follow these professional guidelines.
 
 ---
 
@@ -57,16 +64,18 @@ Must strictly follow the **Gold Standard Template**:
 - **Quick Start**: Clean, copy-pasteable YAML snippet.
 
 ### 3. Engineering Excellence
-- **Idempotency**: Actions must be safe to run multiple times without side effects.
-- **Performance**: Minimize initialization time; utilize caching where possible.
-- **Isolation**: Use temporary directories and clean up artifacts.
+- **Idempotency**: Actions must be safe to run multiple times without destructive side effects.
+- **Performance**: Minimize initialization time; utilize caching loops where possible.
+- **Isolation**: Use temporary directories and clean up artifacts persistently.
 
 ---
 
 ## 🧪 Verification & Testing
 
-Before submitting your contribution:
-1. **Linting**: Ensure your YAML and Markdown files comply with our linting standards.
+> [!WARNING]
+> Before submitting your contribution, ensure you have executed the following protocols:
+
+1. **Linting**: Ensure your YAML and Markdown files comply with our `super-linter` standards (`npm run lint` equivalents).
 2. **Dry Run**: Test your action in a controlled workflow to verify input/output behavior.
 3. **Icons**: Verify that the step names in your `action.yml` use the repository's standard emoji set.
 
