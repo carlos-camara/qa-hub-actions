@@ -12,31 +12,31 @@
         <meta name="author" content="Carlos Camara">
       
       
-        <link rel="canonical" href="https://carlos-camara.github.io/qa-hub-actions/actions/performance-baseline-check/">
+        <link rel="canonical" href="https://carlos-camara.github.io/qa-hub-actions/actions/deploy-reports-s3.html">
       
       
-        <link rel="prev" href="../lint-codebase/">
+        <link rel="prev" href="deploy-gh-pages.html">
       
       
-        <link rel="next" href="../pr-labeler/">
+        <link rel="next" href="environment-health-check.html">
       
       
         
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
     
     
       
-        <title>📉 Action: Performance Baseline - QA Hub Actions</title>
+        <title>☁️ Deploy Reports to S3 - QA Hub Actions</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -55,7 +55,7 @@
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#action-performance-baseline" class="md-skip">
+        <a href="#deploy-reports-to-s3" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +94,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="QA Hub Actions" class="md-header__button md-logo" aria-label="QA Hub Actions" data-md-component="logo">
+    <a href="../index.html" title="QA Hub Actions" class="md-header__button md-logo" aria-label="QA Hub Actions" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.41 4 16 6.41v.18L18.41 9H22v2h-4.41L16 9.41V12h-1a2 2 0 0 1-2-2V7.5H9.86c-.09.37-.24.72-.44 1.05L15.18 19H20a2 2 0 0 1 2 2v1H2v-1a2 2 0 0 1 2-2h6.61l-4.69-8.5a4.006 4.006 0 0 1-3.81-3A4 4 0 0 1 5 2.63c2.13-.55 4.31.73 4.86 2.87H13V3a2 2 0 0 1 2-2h1v2.59L17.59 2H22v2zM6 4.5a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              📉 Action: Performance Baseline
+              ☁️ Deploy Reports to S3
             
           </span>
         </div>
@@ -220,7 +220,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
+      <a href="../index.html" class="md-tabs__link">
         
   
   
@@ -239,7 +239,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../installation/" class="md-tabs__link">
+      <a href="../installation.html" class="md-tabs__link">
         
   
   
@@ -262,7 +262,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../collect-and-publish/" class="md-tabs__link">
+        <a href="collect-and-publish.html" class="md-tabs__link">
           
   
   
@@ -280,7 +280,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../contributing/" class="md-tabs__link">
+      <a href="../contributing.html" class="md-tabs__link">
         
   
   
@@ -315,7 +315,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="QA Hub Actions" class="md-nav__button md-logo" aria-label="QA Hub Actions" data-md-component="logo">
+    <a href="../index.html" title="QA Hub Actions" class="md-nav__button md-logo" aria-label="QA Hub Actions" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.41 4 16 6.41v.18L18.41 9H22v2h-4.41L16 9.41V12h-1a2 2 0 0 1-2-2V7.5H9.86c-.09.37-.24.72-.44 1.05L15.18 19H20a2 2 0 0 1 2 2v1H2v-1a2 2 0 0 1 2-2h6.61l-4.69-8.5a4.006 4.006 0 0 1-3.81-3A4 4 0 0 1 5 2.63c2.13-.55 4.31.73 4.86 2.87H13V3a2 2 0 0 1 2-2h1v2.59L17.59 2H22v2zM6 4.5a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
@@ -333,7 +333,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../index.html" class="md-nav__link">
         
   
   
@@ -360,7 +360,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installation/" class="md-nav__link">
+      <a href="../installation.html" class="md-nav__link">
         
   
   
@@ -444,7 +444,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../collect-and-publish/" class="md-nav__link">
+      <a href="collect-and-publish.html" class="md-nav__link">
         
   
   
@@ -472,7 +472,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../deploy-gh-pages/" class="md-nav__link">
+      <a href="deploy-gh-pages.html" class="md-nav__link">
         
   
   
@@ -480,118 +480,6 @@
     
   
     📂 Action: Deploy GitHub Pages
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../deploy-reports-s3/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ☁️ Deploy Reports to S3
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../environment-health-check/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🏥 Action: Env Health & Teardown
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../link-checker/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🔗 Link Checker
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../lint-codebase/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🧶 Action: Lint Codebase
   
 
     
@@ -628,7 +516,7 @@
   <span class="md-ellipsis">
     
   
-    📉 Action: Performance Baseline
+    ☁️ Deploy Reports to S3
   
 
     
@@ -639,14 +527,14 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <a href="./" class="md-nav__link md-nav__link--active">
+      <a href="deploy-reports-s3.html" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
     
   
-    📉 Action: Performance Baseline
+    ☁️ Deploy Reports to S3
   
 
     
@@ -672,10 +560,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#key-impact" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🚀 Key Impact
+        📖 Overview
       
     </span>
   </a>
@@ -683,10 +571,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
+  <a href="#inputs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🛠️ Configuration
+        🛠️ Inputs
       
     </span>
   </a>
@@ -694,10 +582,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#quick-start" class="md-nav__link">
+  <a href="#usage-example" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ⚡ Quick Start
+        🚀 Usage Example
       
     </span>
   </a>
@@ -720,7 +608,119 @@
   
   
     <li class="md-nav__item">
-      <a href="../pr-labeler/" class="md-nav__link">
+      <a href="environment-health-check.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🏥 Action: Env Health & Teardown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="link-checker.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔗 Link Checker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="lint-codebase.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🧶 Action: Lint Codebase
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="performance-baseline-check.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📉 Action: Performance Baseline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pr-labeler.html" class="md-nav__link">
         
   
   
@@ -748,7 +748,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../pr-milestoner/" class="md-nav__link">
+      <a href="pr-milestoner.html" class="md-nav__link">
         
   
   
@@ -776,7 +776,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../pr-summarizer/" class="md-nav__link">
+      <a href="pr-summarizer.html" class="md-nav__link">
         
   
   
@@ -804,7 +804,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../python-auto-release/" class="md-nav__link">
+      <a href="python-auto-release.html" class="md-nav__link">
         
   
   
@@ -832,7 +832,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../qa-release-notes/" class="md-nav__link">
+      <a href="qa-release-notes.html" class="md-nav__link">
         
   
   
@@ -860,7 +860,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../run-tests/" class="md-nav__link">
+      <a href="run-tests.html" class="md-nav__link">
         
   
   
@@ -888,7 +888,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../security-audit/" class="md-nav__link">
+      <a href="security-audit.html" class="md-nav__link">
         
   
   
@@ -916,7 +916,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../setup-environment/" class="md-nav__link">
+      <a href="setup-environment.html" class="md-nav__link">
         
   
   
@@ -944,7 +944,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../setup-services/" class="md-nav__link">
+      <a href="setup-services.html" class="md-nav__link">
         
   
   
@@ -972,7 +972,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../slack-notify/" class="md-nav__link">
+      <a href="slack-notify.html" class="md-nav__link">
         
   
   
@@ -1000,7 +1000,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sync-from-s3/" class="md-nav__link">
+      <a href="sync-from-s3.html" class="md-nav__link">
         
   
   
@@ -1028,7 +1028,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../upload-results/" class="md-nav__link">
+      <a href="upload-results.html" class="md-nav__link">
         
   
   
@@ -1056,7 +1056,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../visual-regression-manager/" class="md-nav__link">
+      <a href="visual-regression-manager.html" class="md-nav__link">
         
   
   
@@ -1091,7 +1091,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../contributing/" class="md-nav__link">
+      <a href="../contributing.html" class="md-nav__link">
         
   
   
@@ -1138,10 +1138,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#key-impact" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🚀 Key Impact
+        📖 Overview
       
     </span>
   </a>
@@ -1149,10 +1149,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
+  <a href="#inputs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🛠️ Configuration
+        🛠️ Inputs
       
     </span>
   </a>
@@ -1160,10 +1160,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#quick-start" class="md-nav__link">
+  <a href="#usage-example" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ⚡ Quick Start
+        🚀 Usage Example
       
     </span>
   </a>
@@ -1187,76 +1187,50 @@
 
 
 
-<h1 id="action-performance-baseline">📉 Action: Performance Baseline</h1>
-<div align="center">
-  <p><i>Protect your user experience by automatically detecting latency regressions and generating high-fidelity visual trend charts.</i></p>
-</div>
-
-<hr />
-<blockquote>
-<p>[!IMPORTANT]
-The <strong>Performance Baseline</strong> action provides structural performance guarantees. It actively compares incoming latency footprints against a gold-standard benchmark file, automatically failing PRs that exceed the calculated drift tolerance limits.</p>
-</blockquote>
-<h2 id="key-impact">🚀 Key Impact</h2>
-<ul>
-<li><strong>🩺 Regression Guardrails</strong>: Compares current performance metrics (Locust/Playwright) against a baseline JSON with configurable drift tolerance.</li>
-<li><strong>📊 Aesthetic reporting</strong>: Automatically generates Mermaid <code>xychart-beta</code> visualizations directly in your GitHub Job Summary.</li>
-<li><strong>🚫 Automated Gates</strong>: Fails the CI pipeline with custom exit codes if performance deviates beyond the allowed threshold.</li>
-<li><strong>🏗️ Zero Configuration</strong>: Works with any standard flat JSON metric object <code>{ "metric_name": value }</code>.</li>
-</ul>
-<hr />
-<h2 id="configuration">🛠️ Configuration</h2>
+<h1 id="deploy-reports-to-s3">☁️ Deploy Reports to S3</h1>
+<p>Securely store and share your test artifacts using AWS S3.</p>
+<h2 id="overview">📖 Overview</h2>
+<p>Automates the upload of test reports to an S3 bucket. It handles path structures that include timestamps and branch names for easy historical access.</p>
+<h2 id="inputs">🛠️ Inputs</h2>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">Input</th>
-<th style="text-align: center;">Required</th>
-<th style="text-align: center;">Default</th>
-<th style="text-align: left;">Description</th>
+<th>Input</th>
+<th>Description</th>
+<th>Default</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><code>current-metrics</code></td>
-<td style="text-align: center;"><strong>Yes</strong></td>
-<td style="text-align: center;">-</td>
-<td style="text-align: left;">Path to the latest performance JSON report.</td>
+<td><code>aws-access-key-id</code></td>
+<td>AWS Access Key.</td>
+<td><code>REQUIRED</code></td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>baseline-metrics</code></td>
-<td style="text-align: center;"><strong>Yes</strong></td>
-<td style="text-align: center;">-</td>
-<td style="text-align: left;">Path to the gold-standard baseline JSON.</td>
+<td><code>aws-secret-access-key</code></td>
+<td>AWS Secret Key.</td>
+<td><code>REQUIRED</code></td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>threshold</code></td>
-<td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>10</code></td>
-<td style="text-align: left;">Frequency percentage allowed for drift (e.g., <code>5</code> for 5%).</td>
+<td><code>bucket-name</code></td>
+<td>Target S3 bucket.</td>
+<td><code>REQUIRED</code></td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>failure-exit-code</code></td>
-<td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>1</code></td>
-<td style="text-align: left;">Exit code to return if regression threshold is met.</td>
+<td><code>local-path</code></td>
+<td>Path to the reports directory.</td>
+<td><code>'reports'</code></td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="quick-start">⚡ Quick Start</h2>
-<p>Drop this snippet into your pipeline:</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">steps</span><span class="p">:</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">📉 Performance Baseline Check</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">carlos-camara/qa-hub-actions/performance-baseline-check@main</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">with</span><span class="p">:</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">current-metrics</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;results/perf_metrics.json&quot;</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">baseline-metrics</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;perf_baseline.json&quot;</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="nt">threshold</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10&quot;</span>
+<h2 id="usage-example">🚀 Usage Example</h2>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">carlos-camara/qa-hub-actions/deploy-reports-s3@main</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">bucket-name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;my-qa-reports&quot;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">local-path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;results&quot;</span>
 </span></code></pre></div>
 <hr />
-<div align="center">
-  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/performance-baseline-check/)
-</div>
+<p><em>Your data, safely stored.</em></p>
 
 
 
@@ -1312,10 +1286,10 @@ The <strong>Performance Baseline</strong> action provides structural performance
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

@@ -12,31 +12,31 @@
         <meta name="author" content="Carlos Camara">
       
       
-        <link rel="canonical" href="https://carlos-camara.github.io/qa-hub-actions/actions/visual-regression-manager/">
+        <link rel="canonical" href="https://carlos-camara.github.io/qa-hub-actions/actions/sync-from-s3.html">
       
       
-        <link rel="prev" href="../upload-results/">
+        <link rel="prev" href="slack-notify.html">
       
       
-        <link rel="next" href="../../contributing/">
+        <link rel="next" href="upload-results.html">
       
       
         
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
     
     
       
-        <title>📸 Action: Visual Regression Mgr - QA Hub Actions</title>
+        <title>🔄 Action: Sync from S3 - QA Hub Actions</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -55,7 +55,7 @@
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#action-visual-regression-mgr" class="md-skip">
+        <a href="#action-sync-from-s3" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +94,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="QA Hub Actions" class="md-header__button md-logo" aria-label="QA Hub Actions" data-md-component="logo">
+    <a href="../index.html" title="QA Hub Actions" class="md-header__button md-logo" aria-label="QA Hub Actions" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.41 4 16 6.41v.18L18.41 9H22v2h-4.41L16 9.41V12h-1a2 2 0 0 1-2-2V7.5H9.86c-.09.37-.24.72-.44 1.05L15.18 19H20a2 2 0 0 1 2 2v1H2v-1a2 2 0 0 1 2-2h6.61l-4.69-8.5a4.006 4.006 0 0 1-3.81-3A4 4 0 0 1 5 2.63c2.13-.55 4.31.73 4.86 2.87H13V3a2 2 0 0 1 2-2h1v2.59L17.59 2H22v2zM6 4.5a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              📸 Action: Visual Regression Mgr
+              🔄 Action: Sync from S3
             
           </span>
         </div>
@@ -220,7 +220,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
+      <a href="../index.html" class="md-tabs__link">
         
   
   
@@ -239,7 +239,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../installation/" class="md-tabs__link">
+      <a href="../installation.html" class="md-tabs__link">
         
   
   
@@ -262,7 +262,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../collect-and-publish/" class="md-tabs__link">
+        <a href="collect-and-publish.html" class="md-tabs__link">
           
   
   
@@ -280,7 +280,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../contributing/" class="md-tabs__link">
+      <a href="../contributing.html" class="md-tabs__link">
         
   
   
@@ -315,7 +315,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="QA Hub Actions" class="md-nav__button md-logo" aria-label="QA Hub Actions" data-md-component="logo">
+    <a href="../index.html" title="QA Hub Actions" class="md-nav__button md-logo" aria-label="QA Hub Actions" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.41 4 16 6.41v.18L18.41 9H22v2h-4.41L16 9.41V12h-1a2 2 0 0 1-2-2V7.5H9.86c-.09.37-.24.72-.44 1.05L15.18 19H20a2 2 0 0 1 2 2v1H2v-1a2 2 0 0 1 2-2h6.61l-4.69-8.5a4.006 4.006 0 0 1-3.81-3A4 4 0 0 1 5 2.63c2.13-.55 4.31.73 4.86 2.87H13V3a2 2 0 0 1 2-2h1v2.59L17.59 2H22v2zM6 4.5a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
@@ -333,7 +333,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../index.html" class="md-nav__link">
         
   
   
@@ -360,7 +360,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installation/" class="md-nav__link">
+      <a href="../installation.html" class="md-nav__link">
         
   
   
@@ -444,7 +444,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../collect-and-publish/" class="md-nav__link">
+      <a href="collect-and-publish.html" class="md-nav__link">
         
   
   
@@ -472,7 +472,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../deploy-gh-pages/" class="md-nav__link">
+      <a href="deploy-gh-pages.html" class="md-nav__link">
         
   
   
@@ -500,7 +500,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../deploy-reports-s3/" class="md-nav__link">
+      <a href="deploy-reports-s3.html" class="md-nav__link">
         
   
   
@@ -528,7 +528,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../environment-health-check/" class="md-nav__link">
+      <a href="environment-health-check.html" class="md-nav__link">
         
   
   
@@ -556,7 +556,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../link-checker/" class="md-nav__link">
+      <a href="link-checker.html" class="md-nav__link">
         
   
   
@@ -584,7 +584,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lint-codebase/" class="md-nav__link">
+      <a href="lint-codebase.html" class="md-nav__link">
         
   
   
@@ -612,7 +612,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../performance-baseline-check/" class="md-nav__link">
+      <a href="performance-baseline-check.html" class="md-nav__link">
         
   
   
@@ -640,7 +640,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../pr-labeler/" class="md-nav__link">
+      <a href="pr-labeler.html" class="md-nav__link">
         
   
   
@@ -668,7 +668,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../pr-milestoner/" class="md-nav__link">
+      <a href="pr-milestoner.html" class="md-nav__link">
         
   
   
@@ -696,7 +696,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../pr-summarizer/" class="md-nav__link">
+      <a href="pr-summarizer.html" class="md-nav__link">
         
   
   
@@ -724,7 +724,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../python-auto-release/" class="md-nav__link">
+      <a href="python-auto-release.html" class="md-nav__link">
         
   
   
@@ -752,7 +752,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../qa-release-notes/" class="md-nav__link">
+      <a href="qa-release-notes.html" class="md-nav__link">
         
   
   
@@ -780,7 +780,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../run-tests/" class="md-nav__link">
+      <a href="run-tests.html" class="md-nav__link">
         
   
   
@@ -808,7 +808,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../security-audit/" class="md-nav__link">
+      <a href="security-audit.html" class="md-nav__link">
         
   
   
@@ -836,7 +836,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../setup-environment/" class="md-nav__link">
+      <a href="setup-environment.html" class="md-nav__link">
         
   
   
@@ -864,7 +864,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../setup-services/" class="md-nav__link">
+      <a href="setup-services.html" class="md-nav__link">
         
   
   
@@ -892,7 +892,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../slack-notify/" class="md-nav__link">
+      <a href="slack-notify.html" class="md-nav__link">
         
   
   
@@ -900,62 +900,6 @@
     
   
     📢 Action: Slack Notification
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../sync-from-s3/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🔄 Action: Sync from S3
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../upload-results/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📥 Action: Upload Results
   
 
     
@@ -992,7 +936,7 @@
   <span class="md-ellipsis">
     
   
-    📸 Action: Visual Regression Mgr
+    🔄 Action: Sync from S3
   
 
     
@@ -1003,14 +947,14 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <a href="./" class="md-nav__link md-nav__link--active">
+      <a href="sync-from-s3.html" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
     
   
-    📸 Action: Visual Regression Mgr
+    🔄 Action: Sync from S3
   
 
     
@@ -1040,17 +984,6 @@
     <span class="md-ellipsis">
       
         🚀 Key Impact
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#technical-workflow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🏗️ Technical Workflow
       
     </span>
   </a>
@@ -1088,6 +1021,62 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="upload-results.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📥 Action: Upload Results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="visual-regression-manager.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📸 Action: Visual Regression Mgr
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1102,7 +1091,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../contributing/" class="md-nav__link">
+      <a href="../contributing.html" class="md-nav__link">
         
   
   
@@ -1160,17 +1149,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#technical-workflow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🏗️ Technical Workflow
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1209,27 +1187,24 @@
 
 
 
-<h1 id="action-visual-regression-mgr"><div align="center">📸 Action: Visual Regression Mgr</div></h1>
+<h1 id="action-sync-from-s3">🔄 Action: Sync from S3</h1>
 <div align="center">
-  <p><i>Automate the lifecycle of your visual baselines by promoting latest screenshots to gold-standards upon manual approval or specific triggers.</i></p>
+  <p><i>Generic cloud-to-local synchronization for downloading files from AWS S3 and automatically committing them to your repository.</i></p>
 </div>
 
 <hr />
+<blockquote>
+<p>[!NOTE]
+Ensure resilient test infrastructure by syncing external dependencies, large binary test data, or historical baseline reports from AWS S3 directly into your running GitHub Actions environment.</p>
+</blockquote>
 <h2 id="key-impact">🚀 Key Impact</h2>
 <ul>
-<li><strong>🎯 Precision Promotion</strong>: Automatically maps <code>*_latest.png</code> artifacts to their corresponding gold-standard baseline paths.</li>
-<li><strong>🤖 Driver Awareness</strong>: Handles driver-specific prefixes (e.g., <code>chrome_</code>, <code>playwright_</code>) to ensure multi-browser consistency.</li>
-<li><strong>🚀 Automated Deployment</strong>: Commits and pushes the promoted baselines directly to your branch with surgical precision.</li>
-<li><strong>⚙️ Artifact Intelligence</strong>: Intelligent handling of multi-browser visual regressions in a single, unified interface.</li>
+<li><strong>☁️ Cloud-to-Repo Sync</strong>: Efficiently downloads artifacts from S3 using optimized synchronization logic.</li>
+<li><strong>💾 Automated Commits</strong>: Automatically stages, commits, and pushes downloaded files back to your repository branch.</li>
+<li><strong>⚡ Surgical Incrementality</strong>: Automatically skips already existing local directories, reducing sync time and network overhead.</li>
+<li><strong>🛡️ History Preservation</strong>: Explicitly avoids the <code>--delete</code> flag to ensure historical data in the repo is never wiped by S3 rotation.</li>
+<li><strong>🏗️ Project Sharding</strong>: Supports project-based S3 prefixes to maintain isolation across multi-project environments.</li>
 </ul>
-<hr />
-<h2 id="technical-workflow">🏗️ Technical Workflow</h2>
-<ol>
-<li><strong>Input</strong>: Receive the Run ID of a failed test run containing approved visual changes.</li>
-<li><strong>Download</strong>: Automatically fetch the <code>gui-screenshots</code> artifact from the specified run.</li>
-<li><strong>Map &amp; Promote</strong>: Safely overwrite existing baselines with the new approved images.</li>
-<li><strong>Deploy</strong>: Push changes back to the repository using professional bot identities.</li>
-</ol>
 <hr />
 <h2 id="configuration">🛠️ Configuration</h2>
 <table>
@@ -1243,49 +1218,65 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><code>run-id</code></td>
+<td style="text-align: left;"><code>project-name</code></td>
 <td style="text-align: center;"><strong>Yes</strong></td>
 <td style="text-align: center;">-</td>
-<td style="text-align: left;">ID of the workflow run to fetch screenshots from.</td>
+<td style="text-align: left;">Unique identifier for the project sharding.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>github-token</code></td>
+<td style="text-align: left;"><code>s3-bucket</code></td>
 <td style="text-align: center;"><strong>Yes</strong></td>
 <td style="text-align: center;">-</td>
-<td style="text-align: left;">GitHub token with write permissions.</td>
+<td style="text-align: left;">Target AWS S3 bucket name.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>driver-type</code></td>
-<td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>chrome</code></td>
-<td style="text-align: left;">Driver prefix used in baseline naming.</td>
+<td style="text-align: left;"><code>target-path</code></td>
+<td style="text-align: center;"><strong>Yes</strong></td>
+<td style="text-align: center;">-</td>
+<td style="text-align: left;">Local directory to sync files into.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>baseline-path</code></td>
-<td style="text-align: center;">No</td>
-<td style="text-align: center;">(Table)</td>
-<td style="text-align: left;">Local path where baselines are stored.</td>
+<td style="text-align: left;"><code>aws-access-key-id</code></td>
+<td style="text-align: center;"><strong>Yes</strong></td>
+<td style="text-align: center;">-</td>
+<td style="text-align: left;">AWS Authentication Key.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>screenshots-artifact</code></td>
+<td style="text-align: left;"><code>aws-secret-access-key</code></td>
+<td style="text-align: center;"><strong>Yes</strong></td>
+<td style="text-align: center;">-</td>
+<td style="text-align: left;">AWS Authentication Secret.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>s3-path</code></td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>gui-screenshots</code></td>
-<td style="text-align: left;">Name of the artifact containing new visuals.</td>
+<td style="text-align: center;"><code>reports/</code></td>
+<td style="text-align: left;">S3 path suffix after the project name.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>commit-message</code></td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>chore: sync</code></td>
+<td style="text-align: left;">Custom Git commit message.</td>
 </tr>
 </tbody>
 </table>
 <hr />
 <h2 id="quick-start">⚡ Quick Start</h2>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">📸 Promote approved baselines</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">carlos-camara/qa-hub-actions/visual-regression-manager@main</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">with</span><span class="p">:</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">run-id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ github.event.inputs.run_id }}</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nt">github-token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_TOKEN }}</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">driver-type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;playwright&quot;</span>
+<p>Drop this snippet into your workflow:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">steps</span><span class="p">:</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">🔄 Sync Reports from Cloud</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">carlos-camara/qa-hub-actions/sync-from-s3@main</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">with</span><span class="p">:</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">project-name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;dashboard&quot;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">s3-bucket</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;qa-hub-storage&quot;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="nt">aws-access-key-id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AWS_KEY }}</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">      </span><span class="nt">aws-secret-access-key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AWS_SECRET }}</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">      </span><span class="nt">target-path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;docs/reports/&quot;</span>
 </span></code></pre></div>
 <hr />
 <div align="center">
-  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/visual-regression-manager/)
+  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/sync-from-s3/)
 </div>
 
 
@@ -1342,10 +1333,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

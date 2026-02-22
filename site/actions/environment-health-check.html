@@ -12,31 +12,31 @@
         <meta name="author" content="Carlos Camara">
       
       
-        <link rel="canonical" href="https://carlos-camara.github.io/qa-hub-actions/actions/upload-results/">
+        <link rel="canonical" href="https://carlos-camara.github.io/qa-hub-actions/actions/environment-health-check.html">
       
       
-        <link rel="prev" href="../sync-from-s3/">
+        <link rel="prev" href="deploy-reports-s3.html">
       
       
-        <link rel="next" href="../visual-regression-manager/">
+        <link rel="next" href="link-checker.html">
       
       
         
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
     
     
       
-        <title>📥 Action: Upload Results - QA Hub Actions</title>
+        <title>🏥 Action: Env Health & Teardown - QA Hub Actions</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -55,7 +55,7 @@
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#action-upload-results" class="md-skip">
+        <a href="#action-env-health-teardown" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +94,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="QA Hub Actions" class="md-header__button md-logo" aria-label="QA Hub Actions" data-md-component="logo">
+    <a href="../index.html" title="QA Hub Actions" class="md-header__button md-logo" aria-label="QA Hub Actions" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.41 4 16 6.41v.18L18.41 9H22v2h-4.41L16 9.41V12h-1a2 2 0 0 1-2-2V7.5H9.86c-.09.37-.24.72-.44 1.05L15.18 19H20a2 2 0 0 1 2 2v1H2v-1a2 2 0 0 1 2-2h6.61l-4.69-8.5a4.006 4.006 0 0 1-3.81-3A4 4 0 0 1 5 2.63c2.13-.55 4.31.73 4.86 2.87H13V3a2 2 0 0 1 2-2h1v2.59L17.59 2H22v2zM6 4.5a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              📥 Action: Upload Results
+              🏥 Action: Env Health & Teardown
             
           </span>
         </div>
@@ -220,7 +220,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
+      <a href="../index.html" class="md-tabs__link">
         
   
   
@@ -239,7 +239,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../installation/" class="md-tabs__link">
+      <a href="../installation.html" class="md-tabs__link">
         
   
   
@@ -262,7 +262,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../collect-and-publish/" class="md-tabs__link">
+        <a href="collect-and-publish.html" class="md-tabs__link">
           
   
   
@@ -280,7 +280,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../contributing/" class="md-tabs__link">
+      <a href="../contributing.html" class="md-tabs__link">
         
   
   
@@ -315,7 +315,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="QA Hub Actions" class="md-nav__button md-logo" aria-label="QA Hub Actions" data-md-component="logo">
+    <a href="../index.html" title="QA Hub Actions" class="md-nav__button md-logo" aria-label="QA Hub Actions" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.41 4 16 6.41v.18L18.41 9H22v2h-4.41L16 9.41V12h-1a2 2 0 0 1-2-2V7.5H9.86c-.09.37-.24.72-.44 1.05L15.18 19H20a2 2 0 0 1 2 2v1H2v-1a2 2 0 0 1 2-2h6.61l-4.69-8.5a4.006 4.006 0 0 1-3.81-3A4 4 0 0 1 5 2.63c2.13-.55 4.31.73 4.86 2.87H13V3a2 2 0 0 1 2-2h1v2.59L17.59 2H22v2zM6 4.5a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
@@ -333,7 +333,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../index.html" class="md-nav__link">
         
   
   
@@ -360,7 +360,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installation/" class="md-nav__link">
+      <a href="../installation.html" class="md-nav__link">
         
   
   
@@ -444,7 +444,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../collect-and-publish/" class="md-nav__link">
+      <a href="collect-and-publish.html" class="md-nav__link">
         
   
   
@@ -472,7 +472,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../deploy-gh-pages/" class="md-nav__link">
+      <a href="deploy-gh-pages.html" class="md-nav__link">
         
   
   
@@ -500,7 +500,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../deploy-reports-s3/" class="md-nav__link">
+      <a href="deploy-reports-s3.html" class="md-nav__link">
         
   
   
@@ -508,426 +508,6 @@
     
   
     ☁️ Deploy Reports to S3
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../environment-health-check/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🏥 Action: Env Health & Teardown
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../link-checker/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🔗 Link Checker
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../lint-codebase/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🧶 Action: Lint Codebase
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../performance-baseline-check/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📉 Action: Performance Baseline
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pr-labeler/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🏷️ Action: PR Labeler
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pr-milestoner/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🎯 Action: PR Milestoner
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pr-summarizer/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🤖 Action: PR Summarizer
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../python-auto-release/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🚀 Python Auto-Release
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../qa-release-notes/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📝 Action: QA Release Notes
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../run-tests/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🧪 Action: Run QA Test Suite
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../security-audit/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🛡️ Action: Security Audit
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../setup-environment/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🐍 Action: Setup Environment
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../setup-services/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🚀 Action: Setup Services
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../slack-notify/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📢 Action: Slack Notification
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../sync-from-s3/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🔄 Action: Sync from S3
   
 
     
@@ -964,7 +544,7 @@
   <span class="md-ellipsis">
     
   
-    📥 Action: Upload Results
+    🏥 Action: Env Health & Teardown
   
 
     
@@ -975,14 +555,14 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <a href="./" class="md-nav__link md-nav__link--active">
+      <a href="environment-health-check.html" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
     
   
-    📥 Action: Upload Results
+    🏥 Action: Env Health & Teardown
   
 
     
@@ -1012,6 +592,17 @@
     <span class="md-ellipsis">
       
         🚀 Key Impact
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#technical-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🏗️ Technical Lifecycle
       
     </span>
   </a>
@@ -1056,7 +647,427 @@
   
   
     <li class="md-nav__item">
-      <a href="../visual-regression-manager/" class="md-nav__link">
+      <a href="link-checker.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔗 Link Checker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="lint-codebase.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🧶 Action: Lint Codebase
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="performance-baseline-check.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📉 Action: Performance Baseline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pr-labeler.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🏷️ Action: PR Labeler
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pr-milestoner.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🎯 Action: PR Milestoner
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pr-summarizer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🤖 Action: PR Summarizer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="python-auto-release.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🚀 Python Auto-Release
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="qa-release-notes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📝 Action: QA Release Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="run-tests.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🧪 Action: Run QA Test Suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="security-audit.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🛡️ Action: Security Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="setup-environment.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🐍 Action: Setup Environment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="setup-services.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🚀 Action: Setup Services
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="slack-notify.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📢 Action: Slack Notification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="sync-from-s3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔄 Action: Sync from S3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="upload-results.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📥 Action: Upload Results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="visual-regression-manager.html" class="md-nav__link">
         
   
   
@@ -1091,7 +1102,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../contributing/" class="md-nav__link">
+      <a href="../contributing.html" class="md-nav__link">
         
   
   
@@ -1149,6 +1160,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#technical-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🏗️ Technical Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1187,19 +1209,33 @@
 
 
 
-<h1 id="action-upload-results"><div align="center">📥 Action: Upload Results</div></h1>
+<h1 id="action-env-health-teardown">🏥 Action: Env Health &amp; Teardown</h1>
 <div align="center">
-  <p><i>Consolidate and archive surgical test reports, visual evidence, and performance metadata directly into your repository branch for persistent history.</i></p>
+  <p><i>Ensure infrastructure stability before execution and perform surgical environment cleanup after testing to prevent flakiness and state leakage.</i></p>
 </div>
 
 <hr />
+<blockquote>
+<p>[!IMPORTANT]
+The <strong>Environment Health &amp; Teardown</strong> action is your CI/CD's immune system. It runs deep pre-flight integrity checks (like SQLite corruption scanning) and ensures aggressive post-execution resource cleanup, guaranteeing 100% deterministic test runs without ghost processes.</p>
+</blockquote>
 <h2 id="key-impact">🚀 Key Impact</h2>
 <ul>
-<li><strong>📥 Artifact Consolidation</strong>: Automatically downloads and merges unified test reports and GUI screenshots from workflow runs.</li>
-<li><strong>💾 Repository Persistence</strong>: Commits and pushes the consolidated results back to a specified branch (e.g., <code>gh-pages</code> or <code>results</code>).</li>
-<li><strong>📸 Screenshot Capture</strong>: Handles visual evidence by organizing artifacts into a dedicated <code>screenshots</code> resource directory.</li>
-<li><strong>🤝 Standardized Layout</strong>: Enforces the official QA Hub directory structure for reports and assets.</li>
+<li><strong>🧹 Pre-flight Purification</strong>: Automatically identifies and terminates orphaned processes on specified ports before starting tests.</li>
+<li><strong>🔍 Database Integrity</strong>: Validates the health of SQLite databases (Integrity Check) and auto-recovers from corruption.</li>
+<li><strong>🚿 Surgical Teardown</strong>: Ensures all background services (Node, Python) are terminated and temporary logs are purged.</li>
+<li><strong>🔄 Lifecycle Orchestration</strong>: Seamlessly handles setup/startup and teardown/cleanup tasks in a single interface.</li>
 </ul>
+<hr />
+<h2 id="technical-lifecycle">🏗️ Technical Lifecycle</h2>
+<pre class="mermaid"><code>graph TD
+    A[Setup Task] --&gt; B[Cleanup Ports]
+    B --&gt; C[Check DB Integrity]
+    C --&gt; D[Start Services]
+    D --&gt; E[Wait for Health Check]
+
+    F[Teardown Task] --&gt; G[Kill Residual Processes]
+    G --&gt; H[Purge Temporary Logs]</code></pre>
 <hr />
 <h2 id="configuration">🛠️ Configuration</h2>
 <table>
@@ -1213,49 +1249,60 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><code>run-id</code></td>
+<td style="text-align: left;"><code>task</code></td>
 <td style="text-align: center;"><strong>Yes</strong></td>
+<td style="text-align: center;"><code>setup</code></td>
+<td style="text-align: left;">Task to perform: <code>setup</code> or <code>teardown</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ports-to-clean</code></td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>3000 3001</code></td>
+<td style="text-align: left;">Ports to purge of orphaned processes.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>start-services-command</code></td>
+<td style="text-align: center;">No</td>
 <td style="text-align: center;">-</td>
-<td style="text-align: left;">GitHub Run ID to pull consolidated artifacts from.</td>
+<td style="text-align: left;">Optional command to launch background services.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>branch</code></td>
-<td style="text-align: center;"><strong>Yes</strong></td>
+<td style="text-align: left;"><code>health-check-urls</code></td>
+<td style="text-align: center;">No</td>
 <td style="text-align: center;">-</td>
-<td style="text-align: left;">Target branch for committing the results.</td>
+<td style="text-align: left;">URLs to wait for before proceeding.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>upload-reports</code></td>
+<td style="text-align: left;"><code>db-path</code></td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>true</code></td>
-<td style="text-align: left;">Toggle for processing test results and screenshots.</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>upload-perf</code></td>
-<td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>true</code></td>
-<td style="text-align: left;">Toggle for processing performance metadata.</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>commit-message</code></td>
-<td style="text-align: center;">No</td>
-<td style="text-align: center;">(Table)</td>
-<td style="text-align: left;">Custom Git commit message for the updates.</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: left;">Path to SQLite DB for hardware integrity check.</td>
 </tr>
 </tbody>
 </table>
 <hr />
 <h2 id="quick-start">⚡ Quick Start</h2>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">📥 Upload persistent results</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">carlos-camara/qa-hub-actions/upload-results@main</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">with</span><span class="p">:</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">run-id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ github.run_id }}</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nt">branch</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;gh-pages&quot;</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">commit-message</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;chore:</span><span class="nv"> </span><span class="s">update</span><span class="nv"> </span><span class="s">test</span><span class="nv"> </span><span class="s">dashboard</span><span class="nv"> </span><span class="s">artifacts&quot;</span>
+<p>Drop this snippet into your workflow:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">steps</span><span class="p">:</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">🏥 Prepare Infrastructure</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">carlos-camara/qa-hub-actions/environment-health-check@main</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">with</span><span class="p">:</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;setup&#39;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">start-services-command</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;npm</span><span class="nv"> </span><span class="s">start</span><span class="nv"> </span><span class="s">&amp;&#39;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="nt">health-check-urls</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;http://localhost:3000&#39;</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">      </span><span class="nt">db-path</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;data/qa.db&#39;</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">  </span><span class="c1"># ... Run Tests ...</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">🧼 Surgical Teardown</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always()</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">carlos-camara/qa-hub-actions/environment-health-check@main</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="nt">with</span><span class="p">:</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">      </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;teardown&#39;</span>
 </span></code></pre></div>
 <hr />
 <div align="center">
-  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/upload-results/)
+  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/environment-health-check/)
 </div>
 
 
@@ -1312,10 +1359,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

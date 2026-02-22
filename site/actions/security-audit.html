@@ -12,31 +12,31 @@
         <meta name="author" content="Carlos Camara">
       
       
-        <link rel="canonical" href="https://carlos-camara.github.io/qa-hub-actions/actions/link-checker/">
+        <link rel="canonical" href="https://carlos-camara.github.io/qa-hub-actions/actions/security-audit.html">
       
       
-        <link rel="prev" href="../environment-health-check/">
+        <link rel="prev" href="run-tests.html">
       
       
-        <link rel="next" href="../lint-codebase/">
+        <link rel="next" href="setup-environment.html">
       
       
         
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
     
     
       
-        <title>🔗 Link Checker - QA Hub Actions</title>
+        <title>🛡️ Action: Security Audit - QA Hub Actions</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -55,7 +55,7 @@
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#link-checker" class="md-skip">
+        <a href="#action-security-audit" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +94,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="QA Hub Actions" class="md-header__button md-logo" aria-label="QA Hub Actions" data-md-component="logo">
+    <a href="../index.html" title="QA Hub Actions" class="md-header__button md-logo" aria-label="QA Hub Actions" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.41 4 16 6.41v.18L18.41 9H22v2h-4.41L16 9.41V12h-1a2 2 0 0 1-2-2V7.5H9.86c-.09.37-.24.72-.44 1.05L15.18 19H20a2 2 0 0 1 2 2v1H2v-1a2 2 0 0 1 2-2h6.61l-4.69-8.5a4.006 4.006 0 0 1-3.81-3A4 4 0 0 1 5 2.63c2.13-.55 4.31.73 4.86 2.87H13V3a2 2 0 0 1 2-2h1v2.59L17.59 2H22v2zM6 4.5a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              🔗 Link Checker
+              🛡️ Action: Security Audit
             
           </span>
         </div>
@@ -220,7 +220,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
+      <a href="../index.html" class="md-tabs__link">
         
   
   
@@ -239,7 +239,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../installation/" class="md-tabs__link">
+      <a href="../installation.html" class="md-tabs__link">
         
   
   
@@ -262,7 +262,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../collect-and-publish/" class="md-tabs__link">
+        <a href="collect-and-publish.html" class="md-tabs__link">
           
   
   
@@ -280,7 +280,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../contributing/" class="md-tabs__link">
+      <a href="../contributing.html" class="md-tabs__link">
         
   
   
@@ -315,7 +315,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="QA Hub Actions" class="md-nav__button md-logo" aria-label="QA Hub Actions" data-md-component="logo">
+    <a href="../index.html" title="QA Hub Actions" class="md-nav__button md-logo" aria-label="QA Hub Actions" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.41 4 16 6.41v.18L18.41 9H22v2h-4.41L16 9.41V12h-1a2 2 0 0 1-2-2V7.5H9.86c-.09.37-.24.72-.44 1.05L15.18 19H20a2 2 0 0 1 2 2v1H2v-1a2 2 0 0 1 2-2h6.61l-4.69-8.5a4.006 4.006 0 0 1-3.81-3A4 4 0 0 1 5 2.63c2.13-.55 4.31.73 4.86 2.87H13V3a2 2 0 0 1 2-2h1v2.59L17.59 2H22v2zM6 4.5a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
@@ -333,7 +333,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../index.html" class="md-nav__link">
         
   
   
@@ -360,7 +360,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installation/" class="md-nav__link">
+      <a href="../installation.html" class="md-nav__link">
         
   
   
@@ -444,7 +444,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../collect-and-publish/" class="md-nav__link">
+      <a href="collect-and-publish.html" class="md-nav__link">
         
   
   
@@ -472,7 +472,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../deploy-gh-pages/" class="md-nav__link">
+      <a href="deploy-gh-pages.html" class="md-nav__link">
         
   
   
@@ -500,7 +500,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../deploy-reports-s3/" class="md-nav__link">
+      <a href="deploy-reports-s3.html" class="md-nav__link">
         
   
   
@@ -528,7 +528,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../environment-health-check/" class="md-nav__link">
+      <a href="environment-health-check.html" class="md-nav__link">
         
   
   
@@ -536,6 +536,258 @@
     
   
     🏥 Action: Env Health & Teardown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="link-checker.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔗 Link Checker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="lint-codebase.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🧶 Action: Lint Codebase
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="performance-baseline-check.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📉 Action: Performance Baseline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pr-labeler.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🏷️ Action: PR Labeler
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pr-milestoner.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🎯 Action: PR Milestoner
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pr-summarizer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🤖 Action: PR Summarizer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="python-auto-release.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🚀 Python Auto-Release
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="qa-release-notes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📝 Action: QA Release Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="run-tests.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🧪 Action: Run QA Test Suite
   
 
     
@@ -572,7 +824,7 @@
   <span class="md-ellipsis">
     
   
-    🔗 Link Checker
+    🛡️ Action: Security Audit
   
 
     
@@ -583,14 +835,14 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <a href="./" class="md-nav__link md-nav__link--active">
+      <a href="security-audit.html" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
     
   
-    🔗 Link Checker
+    🛡️ Action: Security Audit
   
 
     
@@ -616,10 +868,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#key-impact" class="md-nav__link">
     <span class="md-ellipsis">
       
-        📖 Overview
+        🚀 Key Impact
       
     </span>
   </a>
@@ -627,10 +879,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#inputs" class="md-nav__link">
+  <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🛠️ Inputs
+        🛠️ Configuration
       
     </span>
   </a>
@@ -638,10 +890,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#usage-example" class="md-nav__link">
+  <a href="#quick-start" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🚀 Usage Example
+        ⚡ Quick Start
       
     </span>
   </a>
@@ -664,259 +916,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lint-codebase/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🧶 Action: Lint Codebase
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../performance-baseline-check/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📉 Action: Performance Baseline
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pr-labeler/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🏷️ Action: PR Labeler
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pr-milestoner/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🎯 Action: PR Milestoner
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pr-summarizer/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🤖 Action: PR Summarizer
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../python-auto-release/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🚀 Python Auto-Release
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../qa-release-notes/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📝 Action: QA Release Notes
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../run-tests/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🧪 Action: Run QA Test Suite
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../security-audit/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🛡️ Action: Security Audit
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../setup-environment/" class="md-nav__link">
+      <a href="setup-environment.html" class="md-nav__link">
         
   
   
@@ -944,7 +944,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../setup-services/" class="md-nav__link">
+      <a href="setup-services.html" class="md-nav__link">
         
   
   
@@ -972,7 +972,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../slack-notify/" class="md-nav__link">
+      <a href="slack-notify.html" class="md-nav__link">
         
   
   
@@ -1000,7 +1000,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sync-from-s3/" class="md-nav__link">
+      <a href="sync-from-s3.html" class="md-nav__link">
         
   
   
@@ -1028,7 +1028,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../upload-results/" class="md-nav__link">
+      <a href="upload-results.html" class="md-nav__link">
         
   
   
@@ -1056,7 +1056,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../visual-regression-manager/" class="md-nav__link">
+      <a href="visual-regression-manager.html" class="md-nav__link">
         
   
   
@@ -1091,7 +1091,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../contributing/" class="md-nav__link">
+      <a href="../contributing.html" class="md-nav__link">
         
   
   
@@ -1138,10 +1138,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#key-impact" class="md-nav__link">
     <span class="md-ellipsis">
       
-        📖 Overview
+        🚀 Key Impact
       
     </span>
   </a>
@@ -1149,10 +1149,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#inputs" class="md-nav__link">
+  <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🛠️ Inputs
+        🛠️ Configuration
       
     </span>
   </a>
@@ -1160,10 +1160,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#usage-example" class="md-nav__link">
+  <a href="#quick-start" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🚀 Usage Example
+        ⚡ Quick Start
       
     </span>
   </a>
@@ -1187,39 +1187,81 @@
 
 
 
-<h1 id="link-checker">🔗 Link Checker</h1>
-<p>Maintain a high-quality documentation site by automatically checking for broken links.</p>
-<h2 id="overview">📖 Overview</h2>
-<p>Uses <code>Lychee</code> to scan your Markdown files and documentation for broken URLs. Perfect for preventing "404 Not Found" errors in your Wikis and READMEs.</p>
-<h2 id="inputs">🛠️ Inputs</h2>
+<h1 id="action-security-audit">🛡️ Action: Security Audit</h1>
+<div align="center">
+  <p><i>Surgical protection for your codebase by scanning dependencies for vulnerabilities and performing static security analysis on Python code.</i></p>
+</div>
+
+<hr />
+<blockquote>
+<p>[!CAUTION]
+The <strong>Security Audit</strong> action enforces rigorous security compliance. By combining static Application Security Testing (SAST) with deep dependency vulnerability scanning, it gates Pull Requests that introduce code-level risks or vulnerable third-party modules.</p>
+</blockquote>
+<h2 id="key-impact">🚀 Key Impact</h2>
+<ul>
+<li><strong>🔒 Dependency Shield</strong>: Scans your <code>requirements.txt</code> via <code>Safety</code> to detect known vulnerabilities in third-party packages.</li>
+<li><strong>🔍 Static Analysis</strong>: Performs deep security audits of your Python source code using <code>Bandit</code> to identify common security smells.</li>
+<li><strong>⚖️ Configurable Audits</strong>: Skip specific audit rules or toggle between dependency and code scans independently.</li>
+<li><strong>🛡️ Shift Left Security</strong>: Catches critical security flaws during the CI process before they reach production environments.</li>
+</ul>
+<hr />
+<h2 id="configuration">🛠️ Configuration</h2>
 <table>
 <thead>
 <tr>
-<th>Input</th>
-<th>Description</th>
-<th>Default</th>
+<th style="text-align: left;">Input</th>
+<th style="text-align: center;">Required</th>
+<th style="text-align: center;">Default</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>search-path</code></td>
-<td>Glob pattern to find files to scan.</td>
-<td><code>'**/*.md'</code></td>
+<td style="text-align: left;"><code>python-version</code></td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>3.11</code></td>
+<td style="text-align: left;">Python runtime version to use for auditing.</td>
 </tr>
 <tr>
-<td><code>fail-on-error</code></td>
-<td>Whether to fail the build on broken links.</td>
-<td><code>'true'</code></td>
+<td style="text-align: left;"><code>target-path</code></td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>.</code></td>
+<td style="text-align: left;">Directory or file path to scan for code security.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>scan-dependencies</code></td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>true</code></td>
+<td style="text-align: left;">Whether to perform <code>Safety</code> dependency checks.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>scan-code</code></td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>true</code></td>
+<td style="text-align: left;">Whether to perform <code>Bandit</code> static analysis.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>bandit-skip</code></td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: left;">Comma-separated list of Bandit IDs to ignore.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="usage-example">🚀 Usage Example</h2>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">carlos-camara/qa-hub-actions/link-checker@main</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">with</span><span class="p">:</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">search-path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;docs/**/*.md&quot;</span>
+<hr />
+<h2 id="quick-start">⚡ Quick Start</h2>
+<p>Drop this snippet into your workflow:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">steps</span><span class="p">:</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">🛡️ Security Audit</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">carlos-camara/qa-hub-actions/security-audit@main</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">with</span><span class="p">:</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">target-path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;app/&quot;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">scan-dependencies</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;true&quot;</span>
 </span></code></pre></div>
 <hr />
-<p><em>Clean links, happy users.</em></p>
+<div align="center">
+  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/security-audit/)
+</div>
 
 
 
@@ -1275,10 +1317,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>
