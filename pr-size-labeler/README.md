@@ -1,6 +1,6 @@
 # 📏 PR Size Labeler Action
 
-Automatically categorizes Pull Requests by calculating their size (added + deleted lines of code) and applies a descriptive visual label. 
+Automatically categorizes Pull Requests by calculating their size (added + deleted lines of code) and applies a descriptive visual label.
 
 Labels applied:
 * `size/S`: < 50 lines changed
