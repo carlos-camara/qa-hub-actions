@@ -18,7 +18,7 @@
         <link rel="prev" href="../deploy-gh-pages/">
       
       
-        <link rel="next" href="../upload-results/">
+        <link rel="next" href="../environment-health-check/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>Deploy to S3 - QA Hub Actions</title>
+        <title>☁️ Deploy Reports to S3 - QA Hub Actions</title>
       
     
     
@@ -54,8 +54,6 @@
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
-    
-      <link rel="stylesheet" href="../../stylesheets/extra.css">
     
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -82,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#deploy-to-aws-s3" class="md-skip">
+        <a href="#deploy-reports-to-s3" class="md-skip">
           Skip to content
         </a>
       
@@ -115,7 +113,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Deploy to S3
+              ☁️ Deploy Reports to S3
             
           </span>
         </div>
@@ -240,25 +238,6 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../wiki/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Action Wiki
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
       <a href="../../installation/" class="md-tabs__link">
         
   
@@ -281,27 +260,15 @@
   
     
     
-      
-  
-  
-  
-    
-  
-  
-    
-    
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../run-tests/" class="md-tabs__link">
+        <a href="../collect-and-publish/" class="md-tabs__link">
           
   
   
-  Action Library
+  Action Directory
 
         </a>
       </li>
-    
-  
-
     
   
 
@@ -391,33 +358,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../wiki/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Action Wiki
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../installation/" class="md-nav__link">
         
   
@@ -463,17 +403,17 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
     
   
-    Action Library
+    Action Directory
   
 
     
@@ -484,127 +424,16 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
   
-    Action Library
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-          
-          
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
-        
-          
-          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Core Engine
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_1">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Core Engine
+    Action Directory
   
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../run-tests/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Run QA Test Suite
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../setup-environment/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Setup Environment
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
             
               
                 
@@ -620,100 +449,7 @@
   <span class="md-ellipsis">
     
   
-    Collect & Publish
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-          
-          
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Reporting & Pages
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4_2">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Reporting & Pages
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../slack-notify/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Slack Notification
+    📊 Action: Collect & Publish
   
 
     
@@ -741,7 +477,7 @@
   <span class="md-ellipsis">
     
   
-    Deploy to GH Pages
+    📂 Action: Deploy GitHub Pages
   
 
     
@@ -778,7 +514,7 @@
   <span class="md-ellipsis">
     
   
-    Deploy to S3
+    ☁️ Deploy Reports to S3
   
 
     
@@ -796,7 +532,7 @@
   <span class="md-ellipsis">
     
   
-    Deploy to S3
+    ☁️ Deploy Reports to S3
   
 
     
@@ -822,10 +558,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#storage-flow" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🏗️ Storage Flow
+        📖 Overview
       
     </span>
   </a>
@@ -844,69 +580,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#integration-patterns" class="md-nav__link">
+  <a href="#usage-example" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🚀 Integration Patterns
+        🚀 Usage Example
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="🚀 Integration Patterns">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#hierarchical-storage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        📂 Hierarchical Storage
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#security-first" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🔐 Security First
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🆘 Troubleshooting
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="🆘 Troubleshooting">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#bucket-not-found" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ❌ Bucket Not Found
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -926,133 +606,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../upload-results/" class="md-nav__link">
+      <a href="../environment-health-check/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Upload Results
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-          
-          
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Quality & Security
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_3">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Quality & Security
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../security-audit/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Security Audit
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../lint-codebase/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Lint Codebase
+    🏥 Action: Env Health & Teardown
   
 
     
@@ -1080,7 +641,35 @@
   <span class="md-ellipsis">
     
   
-    Link Checker
+    🔗 Link Checker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lint-codebase/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🧶 Action: Lint Codebase
   
 
     
@@ -1108,7 +697,7 @@
   <span class="md-ellipsis">
     
   
-    Performance Baseline
+    📉 Action: Performance Baseline
   
 
     
@@ -1121,69 +710,6 @@
   
 
               
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-          
-          
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Maintenance & CI
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_4">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Maintenance & CI
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
             
               
                 
@@ -1199,7 +725,63 @@
   <span class="md-ellipsis">
     
   
-    PR Labeler
+    🏷️ Action: PR Labeler
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pr-milestoner/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🎯 Action: PR Milestoner
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pr-summarizer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🤖 Action: PR Summarizer
   
 
     
@@ -1227,7 +809,7 @@
   <span class="md-ellipsis">
     
   
-    Auto-Release
+    🚀 Python Auto-Release
   
 
     
@@ -1241,9 +823,253 @@
 
               
             
-          </ul>
-        </nav>
-      
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qa-release-notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📝 Action: QA Release Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../run-tests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🧪 Action: Run QA Test Suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security-audit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🛡️ Action: Security Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setup-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🐍 Action: Setup Environment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setup-services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🚀 Action: Setup Services
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../slack-notify/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📢 Action: Slack Notification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sync-from-s3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔄 Action: Sync from S3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../upload-results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📥 Action: Upload Results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../visual-regression-manager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📸 Action: Visual Regression Mgr
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1310,10 +1136,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#storage-flow" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🏗️ Storage Flow
+        📖 Overview
       
     </span>
   </a>
@@ -1332,69 +1158,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#integration-patterns" class="md-nav__link">
+  <a href="#usage-example" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🚀 Integration Patterns
+        🚀 Usage Example
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="🚀 Integration Patterns">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#hierarchical-storage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        📂 Hierarchical Storage
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#security-first" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🔐 Security First
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🆘 Troubleshooting
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="🆘 Troubleshooting">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#bucket-not-found" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ❌ Bucket Not Found
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1415,64 +1185,50 @@
 
 
 
-<h1 id="deploy-to-aws-s3">☁️ Deploy to AWS S3</h1>
-<div class="admonition info">
-<p class="admonition-title">At a Glance</p>
-<ul>
-<li><strong>Category</strong>: Reporting</li>
-<li><strong>Complexity</strong>: Medium</li>
-<li><strong>Recent Version</strong>: v1.0.1 (Stable)</li>
-<li><strong>Primary Tool</strong>: aws-actions/configure-aws-credentials</li>
-</ul>
-</div>
-<p>Securely archive your industrial-grade QA reports in AWS S3 for long-term retention and historical analysis.</p>
-<hr />
-<h2 id="storage-flow">🏗️ Storage Flow</h2>
-<pre class="mermaid"><code>graph TD
-    A[Local reports/] --&gt; B[S3 Bucket]
-    B --&gt; C[Project Folder]
-    C --&gt; D[Timestamped Index]</code></pre>
-<hr />
+<h1 id="deploy-reports-to-s3">☁️ Deploy Reports to S3</h1>
+<p>Securely store and share your test artifacts using AWS S3.</p>
+<h2 id="overview">📖 Overview</h2>
+<p>Automates the upload of test reports to an S3 bucket. It handles path structures that include timestamps and branch names for easy historical access.</p>
 <h2 id="inputs">🛠️ Inputs</h2>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">Input</th>
-<th style="text-align: left;">Default</th>
-<th style="text-align: left;">Description</th>
+<th>Input</th>
+<th>Description</th>
+<th>Default</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><code>project-name</code></td>
-<td style="text-align: left;"><code>REQUIRED</code></td>
-<td style="text-align: left;">e.g., <code>dashboard</code>.</td>
+<td><code>aws-access-key-id</code></td>
+<td>AWS Access Key.</td>
+<td><code>REQUIRED</code></td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>s3-bucket</code></td>
-<td style="text-align: left;"><code>REQUIRED</code></td>
-<td style="text-align: left;">Destination bucket name.</td>
+<td><code>aws-secret-access-key</code></td>
+<td>AWS Secret Key.</td>
+<td><code>REQUIRED</code></td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>aws-region</code></td>
-<td style="text-align: left;"><code>us-east-1</code></td>
-<td style="text-align: left;">Target region.</td>
+<td><code>bucket-name</code></td>
+<td>Target S3 bucket.</td>
+<td><code>REQUIRED</code></td>
+</tr>
+<tr>
+<td><code>local-path</code></td>
+<td>Path to the reports directory.</td>
+<td><code>'reports'</code></td>
 </tr>
 </tbody>
 </table>
+<h2 id="usage-example">🚀 Usage Example</h2>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">carlos-camara/qa-hub-actions/deploy-reports-s3@main</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">bucket-name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;my-qa-reports&quot;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">local-path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;results&quot;</span>
+</span></code></pre></div>
 <hr />
-<h2 id="integration-patterns">🚀 Integration Patterns</h2>
-<h3 id="hierarchical-storage">📂 Hierarchical Storage</h3>
-<p>This action automatically organizes reports by project name, creating a clean structure: <code>s3://bucket-name/project-name/runs/</code>.</p>
-<h3 id="security-first">🔐 Security First</h3>
-<p>The action sets up short-lived credentials, ensuring your AWS secrets are never exposed in plaintext during the deployment process.</p>
-<hr />
-<h2 id="troubleshooting">🆘 Troubleshooting</h2>
-<h3 id="bucket-not-found">❌ Bucket Not Found</h3>
-<p><strong>Issue</strong>: Action fails to locate the destination.
-<strong>Solution</strong>: Verify the <code>s3-bucket</code> input exactly matches the bucket name in your AWS Console.</p>
-<hr />
-<p><a href="https://github.com/carlos-camara/qa-hub-actions/tree/main/deploy-reports-s3">View Source Code</a></p>
+<p><em>Your data, safely stored.</em></p>
 
 
 

@@ -12,13 +12,13 @@
         <meta name="author" content="Carlos Camara">
       
       
-        <link rel="canonical" href="https://carlos-camara.github.io/qa-hub-actions/actions/setup-environment/">
+        <link rel="canonical" href="https://carlos-camara.github.io/qa-hub-actions/actions/environment-health-check/">
       
       
-        <link rel="prev" href="../security-audit/">
+        <link rel="prev" href="../deploy-reports-s3/">
       
       
-        <link rel="next" href="../setup-services/">
+        <link rel="next" href="../link-checker/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>🐍 Action: Setup Environment - QA Hub Actions</title>
+        <title>🏥 Action: Env Health & Teardown - QA Hub Actions</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#action-setup-environment" class="md-skip">
+        <a href="#action-env-health-teardown" class="md-skip">
           Skip to content
         </a>
       
@@ -113,7 +113,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              🐍 Action: Setup Environment
+              🏥 Action: Env Health & Teardown
             
           </span>
         </div>
@@ -523,10 +523,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../environment-health-check/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🏥 Action: Env Health & Teardown
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -542,6 +569,70 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#key-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Key Impact
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#technical-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🏗️ Technical Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛠️ Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚡ Quick Start
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -831,37 +922,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🐍 Action: Setup Environment
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../setup-environment/" class="md-nav__link">
         
   
   
@@ -877,59 +941,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#key-impact" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🚀 Key Impact
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🛠️ Configuration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quick-start" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ⚡ Quick Start
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1147,6 +1158,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#technical-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🏗️ Technical Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1185,23 +1207,33 @@
 
 
 
-<h1 id="action-setup-environment">🐍 Action: Setup Environment</h1>
+<h1 id="action-env-health-teardown">🏥 Action: Env Health &amp; Teardown</h1>
 <div align="center">
-  <p><i>High-speed, multi-runtime preparation for Python and Node.js environments featuring intelligent dependency caching and custom installation logic.</i></p>
+  <p><i>Ensure infrastructure stability before execution and perform surgical environment cleanup after testing to prevent flakiness and state leakage.</i></p>
 </div>
 
 <hr />
 <blockquote>
 <p>[!IMPORTANT]
-The <strong>Setup Environment</strong> action reduces pipeline initialization overhead by up to 60%. It seamlessly prepares multiple runtimes in parallel while managing deep cache trees for <code>pip</code>, <code>npm</code>, <code>poetry</code>, and <code>pnpm</code>.</p>
+The <strong>Environment Health &amp; Teardown</strong> action is your CI/CD's immune system. It runs deep pre-flight integrity checks (like SQLite corruption scanning) and ensures aggressive post-execution resource cleanup, guaranteeing 100% deterministic test runs without ghost processes.</p>
 </blockquote>
 <h2 id="key-impact">🚀 Key Impact</h2>
 <ul>
-<li><strong>📦 Multi-Runtime Preparation</strong>: Configures Python and Node.js runtimes in a single, surgical step.</li>
-<li><strong>⚡ Intelligent Caching</strong>: Automatically manages <code>pip</code> and <code>npm</code> caches to reduce build times by up to 60%.</li>
-<li><strong>🛠️ Custom Installation</strong>: Override default install commands to support complex dependency trees (Poetry, Yarn, pnpm).</li>
-<li><strong>🛡️ Environment Stability</strong>: Ensures a consistent, clean environment for reliable test execution across all runners.</li>
+<li><strong>🧹 Pre-flight Purification</strong>: Automatically identifies and terminates orphaned processes on specified ports before starting tests.</li>
+<li><strong>🔍 Database Integrity</strong>: Validates the health of SQLite databases (Integrity Check) and auto-recovers from corruption.</li>
+<li><strong>🚿 Surgical Teardown</strong>: Ensures all background services (Node, Python) are terminated and temporary logs are purged.</li>
+<li><strong>🔄 Lifecycle Orchestration</strong>: Seamlessly handles setup/startup and teardown/cleanup tasks in a single interface.</li>
 </ul>
+<hr />
+<h2 id="technical-lifecycle">🏗️ Technical Lifecycle</h2>
+<pre class="mermaid"><code>graph TD
+    A[Setup Task] --&gt; B[Cleanup Ports]
+    B --&gt; C[Check DB Integrity]
+    C --&gt; D[Start Services]
+    D --&gt; E[Wait for Health Check]
+
+    F[Teardown Task] --&gt; G[Kill Residual Processes]
+    G --&gt; H[Purge Temporary Logs]</code></pre>
 <hr />
 <h2 id="configuration">🛠️ Configuration</h2>
 <table>
@@ -1215,40 +1247,34 @@ The <strong>Setup Environment</strong> action reduces pipeline initialization ov
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><code>python-version</code></td>
+<td style="text-align: left;"><code>task</code></td>
+<td style="text-align: center;"><strong>Yes</strong></td>
+<td style="text-align: center;"><code>setup</code></td>
+<td style="text-align: left;">Task to perform: <code>setup</code> or <code>teardown</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ports-to-clean</code></td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>3000 3001</code></td>
+<td style="text-align: left;">Ports to purge of orphaned processes.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>start-services-command</code></td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;">-</td>
-<td style="text-align: left;">Python version to install (e.g., <code>3.11</code>).</td>
+<td style="text-align: left;">Optional command to launch background services.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>node-version</code></td>
+<td style="text-align: left;"><code>health-check-urls</code></td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;">-</td>
-<td style="text-align: left;">Node.js version to install (e.g., <code>20</code>).</td>
+<td style="text-align: left;">URLs to wait for before proceeding.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>python-install-command</code></td>
+<td style="text-align: left;"><code>db-path</code></td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;">(Table)</td>
-<td style="text-align: left;">Command to install Python dependencies.</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>node-install-command</code></td>
-<td style="text-align: center;">No</td>
-<td style="text-align: center;">(Table)</td>
-<td style="text-align: left;">Command to install Node.js dependencies.</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>python-cache</code></td>
-<td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>pip</code></td>
-<td style="text-align: left;">Cache strategy for Python: <code>pip</code>, <code>poetry</code>, etc.</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>node-cache</code></td>
-<td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>npm</code></td>
-<td style="text-align: left;">Cache strategy for Node: <code>npm</code>, <code>yarn</code>, <code>pnpm</code>.</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: left;">Path to SQLite DB for hardware integrity check.</td>
 </tr>
 </tbody>
 </table>
@@ -1256,16 +1282,25 @@ The <strong>Setup Environment</strong> action reduces pipeline initialization ov
 <h2 id="quick-start">⚡ Quick Start</h2>
 <p>Drop this snippet into your workflow:</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">steps</span><span class="p">:</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">🐍 Prepare Environment</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">carlos-camara/qa-hub-actions/setup-environment@main</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">🏥 Prepare Infrastructure</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">carlos-camara/qa-hub-actions/environment-health-check@main</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">with</span><span class="p">:</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.11&quot;</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">node-version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;20&quot;</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="nt">python-cache</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pip&quot;</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;setup&#39;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">start-services-command</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;npm</span><span class="nv"> </span><span class="s">start</span><span class="nv"> </span><span class="s">&amp;&#39;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="nt">health-check-urls</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;http://localhost:3000&#39;</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">      </span><span class="nt">db-path</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;data/qa.db&#39;</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">  </span><span class="c1"># ... Run Tests ...</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">🧼 Surgical Teardown</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always()</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">carlos-camara/qa-hub-actions/environment-health-check@main</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="nt">with</span><span class="p">:</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">      </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;teardown&#39;</span>
 </span></code></pre></div>
 <hr />
 <div align="center">
-  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/setup-environment/)
+  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/environment-health-check/)
 </div>
 
 

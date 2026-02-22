@@ -12,13 +12,13 @@
         <meta name="author" content="Carlos Camara">
       
       
-        <link rel="canonical" href="https://carlos-camara.github.io/qa-hub-actions/actions/setup-environment/">
+        <link rel="canonical" href="https://carlos-camara.github.io/qa-hub-actions/actions/pr-summarizer/">
       
       
-        <link rel="prev" href="../security-audit/">
+        <link rel="prev" href="../pr-milestoner/">
       
       
-        <link rel="next" href="../setup-services/">
+        <link rel="next" href="../python-auto-release/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>🐍 Action: Setup Environment - QA Hub Actions</title>
+        <title>🤖 Action: PR Summarizer - QA Hub Actions</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#action-setup-environment" class="md-skip">
+        <a href="#action-pr-summarizer" class="md-skip">
           Skip to content
         </a>
       
@@ -113,7 +113,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              🐍 Action: Setup Environment
+              🤖 Action: PR Summarizer
             
           </span>
         </div>
@@ -691,10 +691,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../pr-summarizer/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🤖 Action: PR Summarizer
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -710,6 +737,70 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#key-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Key Impact
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Quick Start
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#impact-analysis-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Impact Analysis Example
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -831,37 +922,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    🐍 Action: Setup Environment
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../setup-environment/" class="md-nav__link">
         
   
   
@@ -877,59 +941,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#key-impact" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🚀 Key Impact
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🛠️ Configuration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quick-start" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ⚡ Quick Start
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1147,10 +1158,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
+  <a href="#quick-start" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🛠️ Configuration
+        🚀 Quick Start
       
     </span>
   </a>
@@ -1158,10 +1169,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#quick-start" class="md-nav__link">
+  <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ⚡ Quick Start
+        ⚙️ Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#impact-analysis-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Impact Analysis Example
       
     </span>
   </a>
@@ -1185,87 +1207,95 @@
 
 
 
-<h1 id="action-setup-environment">🐍 Action: Setup Environment</h1>
+<h1 id="action-pr-summarizer">🤖 Action: PR Summarizer</h1>
 <div align="center">
-  <p><i>High-speed, multi-runtime preparation for Python and Node.js environments featuring intelligent dependency caching and custom installation logic.</i></p>
+  <p><i>AI-powered deep technical analysis and high-fidelity visual summaries for Pull Requests, providing surgical visibility into code impact.</i></p>
 </div>
 
 <hr />
 <blockquote>
 <p>[!IMPORTANT]
-The <strong>Setup Environment</strong> action reduces pipeline initialization overhead by up to 60%. It seamlessly prepares multiple runtimes in parallel while managing deep cache trees for <code>pip</code>, <code>npm</code>, <code>poetry</code>, and <code>pnpm</code>.</p>
+The <strong>PR Summarizer</strong> leverages LLM intelligence to automatically read code diffs and inject a beautiful, executive-level summary directly into the Pull Request description.</p>
 </blockquote>
 <h2 id="key-impact">🚀 Key Impact</h2>
 <ul>
-<li><strong>📦 Multi-Runtime Preparation</strong>: Configures Python and Node.js runtimes in a single, surgical step.</li>
-<li><strong>⚡ Intelligent Caching</strong>: Automatically manages <code>pip</code> and <code>npm</code> caches to reduce build times by up to 60%.</li>
-<li><strong>🛠️ Custom Installation</strong>: Override default install commands to support complex dependency trees (Poetry, Yarn, pnpm).</li>
-<li><strong>🛡️ Environment Stability</strong>: Ensures a consistent, clean environment for reliable test execution across all runners.</li>
+<li><strong>🏗️ Structural Intelligence</strong>: Automatically identifies new classes, functions, and deleted methods with professional badges (<code>[NEW]</code>, <code>[MOD]</code>, <code>[FIX]</code>).</li>
+<li><strong>🌐 API Footprint</strong>: Scans for new or modified API routes (Express/Flask) and documents the effective impact.</li>
+<li><strong>🎯 Locator Awareness</strong>: Highlights exactly which UI locators were updated in <code>.yaml</code> files for GUI test suites.</li>
+<li><strong>📊 Impact Analysis</strong>: Generates a dynamic metrics table with visual intensity bars (█) to represent the volume of changes.</li>
+<li><strong>✨ Gherkin Insights</strong>: Extracts new BDD scenarios and quality tags (<code>@smoke</code>, <code>@critical</code>) from changed feature files.</li>
 </ul>
-<hr />
-<h2 id="configuration">🛠️ Configuration</h2>
+<h2 id="quick-start">🚀 Quick Start</h2>
+<p>Drop this snippet into your PR intelligence workflow:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">steps</span><span class="p">:</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">🤖 Generate AI Summary</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">carlos-camara/qa-hub-actions/pr-summarizer@main</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">with</span><span class="p">:</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">github-token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_TOKEN }}</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;description&quot;</span>
+</span></code></pre></div>
+<h2 id="configuration">⚙️ Configuration</h2>
 <table>
 <thead>
 <tr>
 <th style="text-align: left;">Input</th>
-<th style="text-align: center;">Required</th>
-<th style="text-align: center;">Default</th>
 <th style="text-align: left;">Description</th>
+<th style="text-align: center;">Required</th>
+<th style="text-align: left;">Default</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><code>python-version</code></td>
-<td style="text-align: center;">No</td>
-<td style="text-align: center;">-</td>
-<td style="text-align: left;">Python version to install (e.g., <code>3.11</code>).</td>
+<td style="text-align: left;"><code>github-token</code></td>
+<td style="text-align: left;">GitHub token for PR description/comment updates.</td>
+<td style="text-align: center;"><strong>Yes</strong></td>
+<td style="text-align: left;">N/A</td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>node-version</code></td>
+<td style="text-align: left;"><code>target</code></td>
+<td style="text-align: left;">Where to post the summary: <code>description</code> or <code>comment</code>.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;">-</td>
-<td style="text-align: left;">Node.js version to install (e.g., <code>20</code>).</td>
+<td style="text-align: left;"><code>description</code></td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>python-install-command</code></td>
+<td style="text-align: left;"><code>domain-mapping</code></td>
+<td style="text-align: left;">Optional JSON mapping of file patterns to domains.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;">(Table)</td>
-<td style="text-align: left;">Command to install Python dependencies.</td>
+<td style="text-align: left;"><code>{}</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="impact-analysis-example">📊 Impact Analysis Example</h2>
+<p>The action injects a premium overview into your PR:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Category</th>
+<th style="text-align: center;">Scope</th>
+<th style="text-align: left;">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Backend</strong></td>
+<td style="text-align: center;">5</td>
+<td style="text-align: left;">█████</td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>node-install-command</code></td>
-<td style="text-align: center;">No</td>
-<td style="text-align: center;">(Table)</td>
-<td style="text-align: left;">Command to install Node.js dependencies.</td>
+<td style="text-align: left;"><strong>Testing</strong></td>
+<td style="text-align: center;">12</td>
+<td style="text-align: left;">████████████</td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>python-cache</code></td>
-<td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>pip</code></td>
-<td style="text-align: left;">Cache strategy for Python: <code>pip</code>, <code>poetry</code>, etc.</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>node-cache</code></td>
-<td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>npm</code></td>
-<td style="text-align: left;">Cache strategy for Node: <code>npm</code>, <code>yarn</code>, <code>pnpm</code>.</td>
+<td style="text-align: left;"><strong>Docs</strong></td>
+<td style="text-align: center;">3</td>
+<td style="text-align: left;">███</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="quick-start">⚡ Quick Start</h2>
-<p>Drop this snippet into your workflow:</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">steps</span><span class="p">:</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">🐍 Prepare Environment</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">carlos-camara/qa-hub-actions/setup-environment@main</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">with</span><span class="p">:</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.11&quot;</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">node-version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;20&quot;</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="nt">python-cache</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pip&quot;</span>
-</span></code></pre></div>
-<hr />
 <div align="center">
-  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/setup-environment/)
+  [View Full Wiki](https://carlos-camara.github.io/qa-hub-actions/actions/pr-summarizer/)
 </div>
 
 
