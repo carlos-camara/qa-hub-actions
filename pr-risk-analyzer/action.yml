@@ -1,0 +1,74 @@
+---
+name: 'PR Risk Analyzer'
+description: '🤖 Analyzes modified files to detect changes in critical system files and tags the PR as high-risk.'
+branding:
+  icon: 'alert-triangle'
+  color: 'red'
+
+inputs:
+  github-token:
+    description: 'GitHub token'
+    required: true
+  critical-patterns:
+    description: 'Space-separated list of critical file path patterns'
+    required: false
+    default: 'server.js services/db.js .github/workflows/ package.json package-lock.json'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 🤖 Perform Risk Analysis
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        REPO: ${{ github.repository }}
+        BASE_REF: ${{ github.base_ref }}
+        CRITICAL_PATTERNS_INPUT: ${{ inputs.critical-patterns }}
+      run: |
+        echo "🤖 Analyzing risk..."
+        # Convert space-separated input to bash array
+        read -ra CRITICAL_PATTERNS <<< "$CRITICAL_PATTERNS_INPUT"
+        
+        RISK_FILES=$(git diff --name-only origin/${BASE_REF}...HEAD)
+        
+        IS_HIGH_RISK=false
+        MATCHED_FILES=""
+        
+        for file in $RISK_FILES; do
+          for pattern in "${CRITICAL_PATTERNS[@]}"; do
+            if [[ $file == *"$pattern"* ]]; then
+              echo "⚠️ Critical file modified: $file"
+              IS_HIGH_RISK=true
+              MATCHED_FILES="${MATCHED_FILES}- \`$file\`\n"
+            fi
+          done
+        done
+        
+        CURRENT_LABELS=$(gh pr view "$PR_NUMBER" --json labels --template '{{range .labels}}{{.name}} {{end}}')
+        
+        if [ "$IS_HIGH_RISK" = true ]; then
+          echo "Classification: HIGH RISK"
+          gh label create "high-risk" --color "B60205" --description "Critical system files modified" --repo "$REPO" --force || true
+          
+          if [[ $CURRENT_LABELS != *"high-risk"* ]]; then
+            gh pr edit "$PR_NUMBER" --add-label "high-risk" --repo "$REPO"
+          fi
+          
+          # Prepare warning for PR summary
+          WARNING="> [!CAUTION]\n> ### ⚠️ HIGH RISK CHANGE DETECTED\n"
+          WARNING="> This PR modifies critical system files:\n${MATCHED_FILES}\n---\n"
+          
+          CURRENT_BODY=$(gh pr view "$PR_NUMBER" --json body --template '{{.body}}')
+          
+          # Inject at top if not already present
+          if [[ "$CURRENT_BODY" != *"!CAUTION"* ]]; then
+            echo -e "$WARNING\n$CURRENT_BODY" > new_body.md
+            gh pr edit "$PR_NUMBER" --body-file new_body.md --repo "$REPO"
+          fi
+        else
+          echo "Classification: Standard Risk"
+          if [[ $CURRENT_LABELS == *"high-risk"* ]]; then
+            gh pr edit "$PR_NUMBER" --remove-label "high-risk" --repo "$REPO"
+          fi
+        fi

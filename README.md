@@ -86,6 +86,9 @@ Explore our curated collection of professional CI/CD utilities.
 | :--- | :--- | :--- |
 | [**🎯 PR Milestoner**](./pr-milestoner) | Automatic assignment of the latest open milestones to incoming PRs. | `New` |
 | [**🏷️ PR Labeler**](./pr-labeler) | Surgical path-based labeling for complex, multi-layer repositories. | `Stable` |
+| [**📏 PR Size**](./pr-size-labeler) | Automatically estimates PR size (added + deleted lines) and applies standard S/M/L labels. | `Stable` |
+| [**📝 PR Hygiene**](./pr-hygiene-validator) | Validates Conventional Commits and PR description completeness. | `Stable` |
+| [**🤖 PR Risk**](./pr-risk-analyzer) | Scans for modifications in critical system files and marks high-risk PRs with visual alerts. | `Stable` |
 | [**📝 Release Notes**](./qa-release-notes) | Automated generation of quality-focused release dossiers and changelogs. | `Stable` |
 | [**📸 Visual Mgr**](./visual-regression-manager) | Advanced visual regression baseline and delta management utilities. | `Stable` |
 | [**🔗 Jira Auto-Tagger**](./jira-auto-tagger) | End-to-end BDD traceability (Test Plan > Feature > Scenario) with automated status rollups. | `Hot` |

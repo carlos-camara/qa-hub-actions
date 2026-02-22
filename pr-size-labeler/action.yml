@@ -1,0 +1,74 @@
+---
+name: 'PR Size Labeler'
+description: '📏 Automatically estimates PR size (S, M, L, XL) by calculating lines changed and labels the PR.'
+branding:
+  icon: 'tag'
+  color: 'green'
+
+inputs:
+  github-token:
+    description: 'GitHub token'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 📏 Label PR by Size
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        REPO: ${{ github.repository }}
+        BASE_REF: ${{ github.base_ref }}
+      run: |
+        echo "📏 Calculating PR size..."
+        # Count additions and deletions from the shortstat
+        DIFF_LINES=$(git diff --shortstat origin/${BASE_REF}...HEAD | awk '{print $4 + $6}')
+        
+        if [ -z "$DIFF_LINES" ]; then DIFF_LINES=0; fi
+        echo "Lines changed: $DIFF_LINES"
+        
+        if [ "$DIFF_LINES" -lt 50 ]; then
+          SIZE="size/S"
+        elif [ "$DIFF_LINES" -lt 200 ]; then
+          SIZE="size/M"
+        elif [ "$DIFF_LINES" -lt 500 ]; then
+          SIZE="size/L"
+        else
+          SIZE="size/XL"
+        fi
+        
+        echo "Target Label: $SIZE"
+        
+        # Create labels if they don't exist (fail silently if they do)
+        gh label create "size/S" --color "0E8A16" \
+          --description "Quick review (< 50 lines)" --repo "$REPO" --force || true
+        gh label create "size/M" --color "FBCA04" \
+          --description "Standard review (50-200 lines)" --repo "$REPO" --force || true
+        gh label create "size/L" --color "EB6420" \
+          --description "Deep review (200-500 lines)" --repo "$REPO" --force || true
+        gh label create "size/XL" --color "D93F0B" \
+          --description "Significant change (> 500 lines)" --repo "$REPO" --force || true
+        
+        # Check current labels
+        CURRENT_LABELS=$(gh pr view "$PR_NUMBER" --json labels --template '{{range .labels}}{{.name}} {{end}}')
+        
+        HAS_CORRECT_LABEL=false
+        if [[ $CURRENT_LABELS == *"$SIZE"* ]]; then
+          HAS_CORRECT_LABEL=true
+        fi
+        
+        # Remove OTHER size labels if present
+        for L in $CURRENT_LABELS; do
+          if [[ $L == size/* ]] && [[ $L != "$SIZE" ]]; then
+            gh pr edit "$PR_NUMBER" --remove-label "$L" --repo "$REPO"
+          fi
+        done
+        
+        # Add the new size label only if not already present
+        if [ "$HAS_CORRECT_LABEL" = false ]; then
+          gh pr edit "$PR_NUMBER" --add-label "$SIZE" --repo "$REPO"
+          echo "✅ Applied $SIZE label to PR #$PR_NUMBER"
+        else
+          echo "⏭️ $SIZE already present, skipping redundant add."
+        fi
