@@ -82,7 +82,7 @@ def link_to_parent_plan(issue_key, parent_plan_key):
     except Exception as e:
         print(f"  ⚠️ Error linking to parent plan: {e}")
 
-def _build_jira_description(tags, steps=None, feature_desc=None):
+def _build_jira_description(tags, steps=None, feature_desc=None, scenarios_list=None, background_steps=None):
     """Helper to build Atlassian Document Format description."""
     description_content = [
         {
@@ -108,6 +108,34 @@ def _build_jira_description(tags, steps=None, feature_desc=None):
         description_content.append({
             "type": "paragraph",
             "content": [{"type": "text", "text": "\n".join(feature_desc)}]
+        })
+    if background_steps:
+        description_content.append({
+            "type": "paragraph",
+            "content": [{"type": "text", "text": "⚙️ Background Steps:", "marks": [{"type": "strong"}]}]
+        })
+        description_content.append({
+            "type": "codeBlock",
+            "attrs": {"language": "gherkin"},
+            "content": [{"type": "text", "text": "\n".join(background_steps)}]
+        })
+    if scenarios_list:
+        description_content.append({
+            "type": "paragraph",
+            "content": [{"type": "text", "text": "🧪 Included Scenarios:", "marks": [{"type": "strong"}]}]
+        })
+        bullet_items = []
+        for sc in scenarios_list:
+            bullet_items.append({
+                "type": "listItem",
+                "content": [{
+                    "type": "paragraph",
+                    "content": [{"type": "text", "text": sc}]
+                }]
+            })
+        description_content.append({
+            "type": "bulletList",
+            "content": bullet_items
         })
     if steps:
         description_content.append({
@@ -170,7 +198,13 @@ def update_jira_task(issue_key, summary, tags, steps=None, parent_key=None, **kw
                 history_blocks.append(content[history_list_idx])
 
     # Build new description
-    new_doc_content = _build_jira_description(tags, steps=steps, feature_desc=kwargs.get("feature_desc"))
+    new_doc_content = _build_jira_description(
+        tags, 
+        steps=steps, 
+        feature_desc=kwargs.get("feature_desc"),
+        scenarios_list=kwargs.get("scenarios_list"),
+        background_steps=kwargs.get("background_steps")
+    )
     
     # Append preserved history blocks if any
     if history_blocks:
@@ -231,7 +265,13 @@ def create_jira_task(summary, tags, steps=None, issuetype="Tarea", issuetype_id=
             "description": {
                 "type": "doc",
                 "version": 1,
-                "content": _build_jira_description(tags, steps=steps, feature_desc=kwargs.get("feature_desc"))
+                "content": _build_jira_description(
+                    tags, 
+                    steps=steps, 
+                    feature_desc=kwargs.get("feature_desc"),
+                    scenarios_list=kwargs.get("scenarios_list"),
+                    background_steps=kwargs.get("background_steps")
+                )
             },
             "issuetype": issue_type_payload
         }
@@ -274,6 +314,20 @@ def process_feature_file(file_path, task_id=None, subtask_id=None):
     with open(file_path, 'r', encoding='utf-8') as f:
         lines = f.readlines()
         
+    # Pre-scan for background and scenarios to enrich the Feature description
+    file_scenarios = []
+    file_background = []
+    in_bg = False
+    for l in lines:
+        s = l.strip()
+        if s.startswith('Scenario:') or s.startswith('Scenario Outline:'):
+            in_bg = False
+            file_scenarios.append(s.split(':', 1)[1].strip())
+        elif s.startswith('Background:'):
+            in_bg = True
+        elif in_bg and s and not s.startswith('#') and not s.startswith('@'):
+            file_background.append(l.rstrip('\n\r').lstrip())
+            
     updated_lines = []
     file_modified = False
     
@@ -326,18 +380,18 @@ def process_feature_file(file_path, task_id=None, subtask_id=None):
             if existing_jira_key:
                 exists_in_jira = check_jira_task_exists(existing_jira_key)
                 if exists_in_jira:
-                    update_jira_task(existing_jira_key, current_feature_name, tags_for_jira, feature_desc=collected_desc, parent_key=JIRA_PARENT_PLAN)
+                    update_jira_task(existing_jira_key, current_feature_name, tags_for_jira, feature_desc=collected_desc, parent_key=JIRA_PARENT_PLAN, scenarios_list=file_scenarios, background_steps=file_background)
                     current_feature_jira_key = existing_jira_key
                 else:
                     print(f"  ⚠️ Tag @{existing_jira_key} found in code but deleted in Jira. Recreating Feature Task...")
-                    new_key = create_jira_task(current_feature_name, tags_for_jira, issuetype="Tarea", issuetype_id=task_id, feature_desc=collected_desc, parent_key=JIRA_PARENT_PLAN)
+                    new_key = create_jira_task(current_feature_name, tags_for_jira, issuetype="Tarea", issuetype_id=task_id, feature_desc=collected_desc, parent_key=JIRA_PARENT_PLAN, scenarios_list=file_scenarios, background_steps=file_background)
                     if new_key:
                         existing_tag_line = updated_lines[existing_jira_key_index]
                         updated_lines[existing_jira_key_index] = re.sub(fr'@{existing_jira_key}', f'@{new_key}', existing_tag_line)
                         file_modified = True
                         current_feature_jira_key = new_key
             else:
-                new_key = create_jira_task(current_feature_name, tags_for_jira, issuetype="Tarea", issuetype_id=task_id, feature_desc=collected_desc, parent_key=JIRA_PARENT_PLAN)
+                new_key = create_jira_task(current_feature_name, tags_for_jira, issuetype="Tarea", issuetype_id=task_id, feature_desc=collected_desc, parent_key=JIRA_PARENT_PLAN, scenarios_list=file_scenarios, background_steps=file_background)
                 if new_key:
                     if first_tag_index != -1:
                         existing_tag_line = updated_lines[first_tag_index]

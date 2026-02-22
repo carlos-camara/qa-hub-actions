@@ -1,18 +1,18 @@
-# 📝 Pull Request
+﻿# 🌟 Executive Summary
+> *(Automated intelligence will materialize here)*
 
-## Description
-Please include a summary of the changes and the related issue (if applicable).
+## 🛠️ Change Classification
+| Status | Class | Context | Magnitude |
+| :---: | :--- | :--- | :---: |
+| [ ] | 🚀 **PROD-FEATURE** | Next-generation structural value | HIGH |
+| [ ] | 🐛 **HOTFIX** | Surgical defect remediation | MED |
+| [ ] | ♻️ **REFACTOR** | Architectural debt reduction | LOW |
+| [ ] | 💄 **STYLING** | UI/UX & Design System alignment | LOW |
+| [ ] | 💥 **BREAKING** | Critical compatibility propagation | HIGH |
+| [ ] | 🔧 **INFRA** | Maintenance & CI/CD governance | LOW |
 
-## Type of Change
-- [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] New action (non-breaking change which adds functionality)
-- [ ] Documentation update
-- [ ] Breaking change (refactor or update that changes existing behavior)
+## ✅ Verification Evidence
+<!-- Document the verification tiers executed (API/GUI/Manual). -->
+-
 
-## How Has This Been Tested?
-Please describe the tests that you ran to verify your changes.
-
-## Checklist
-- [ ] My code follows the [contributing guidelines](CONTRIBUTING.md).
-- [ ] I have updated the documentation (README.md) for affected actions.
-- [ ] My changes generate no new warnings in `actionlint`.
+---
