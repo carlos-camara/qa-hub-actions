@@ -1,11 +1,13 @@
-# <div align="center">📢 Action: Publish Test Results</div>
+# 📢 Action: Publish Test Results
 
 <div align="center">
   <p><i>Parse JUnit XML results and post professional, high-fidelity summaries directly into your Pull Request description or comments for immediate team visibility.</i></p>
 </div>
 
-
 ---
+
+> [!IMPORTANT]
+> The **Publish Test Results** action transforms raw execution data into aesthetic, human-readable intelligence. By injecting success rates, durations, and failure traces directly into GitHub, it eliminates the need for developers to dig through raw console logs.
 
 ## 🚀 Key Impact
 
@@ -29,14 +31,17 @@
 
 ## ⚡ Quick Start
 
+Drop this snippet into your workflow:
+
 ```yaml
-- name: 📢 Publish Test Results
-  uses: carlos-camara/qa-hub-actions/publish-test-results@v1
-  if: always()
-  with:
-    reports-path: "junit-results/"
-    github-token: ${{ secrets.GITHUB_TOKEN }}
-    target: "comment"
+steps:
+  - name: 📢 Publish Test Results
+    uses: carlos-camara/qa-hub-actions/publish-test-results@main
+    if: always()
+    with:
+      reports-path: "junit-results/"
+      github-token: ${{ secrets.GITHUB_TOKEN }}
+      target: "comment"
 ```
 
 ---
