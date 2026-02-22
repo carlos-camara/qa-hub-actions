@@ -5,8 +5,8 @@ site_author: Carlos Camara
 
 theme:
   name: material
-  logo: material/robot-industrial
-  favicon: material/robot-industrial
+  icon:
+    logo: material/robot-industrial
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
