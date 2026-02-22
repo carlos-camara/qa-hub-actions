@@ -1,11 +1,13 @@
-# <div align="center">🏥 Action: Env Health & Teardown</div>
+# 🏥 Action: Env Health & Teardown
 
 <div align="center">
   <p><i>Ensure infrastructure stability before execution and perform surgical environment cleanup after testing to prevent flakiness and state leakage.</i></p>
 </div>
 
-
 ---
+
+> [!IMPORTANT]
+> The **Environment Health & Teardown** action is your CI/CD's immune system. It runs deep pre-flight integrity checks (like SQLite corruption scanning) and ensures aggressive post-execution resource cleanup, guaranteeing 100% deterministic test runs without ghost processes.
 
 ## 🚀 Key Impact
 
@@ -45,22 +47,25 @@ graph TD
 
 ## ⚡ Quick Start
 
+Drop this snippet into your workflow:
+
 ```yaml
-- name: 🏥 Prepare Infrastructure
-  uses: carlos-camara/qa-hub-actions/environment-health-check@main
-  with:
-    task: 'setup'
-    start-services-command: 'npm start &'
-    health-check-urls: 'http://localhost:3000'
-    db-path: 'data/qa.db'
+steps:
+  - name: 🏥 Prepare Infrastructure
+    uses: carlos-camara/qa-hub-actions/environment-health-check@main
+    with:
+      task: 'setup'
+      start-services-command: 'npm start &'
+      health-check-urls: 'http://localhost:3000'
+      db-path: 'data/qa.db'
 
-# ... Run Tests ...
+  # ... Run Tests ...
 
-- name: 🧼 surgical Teardown
-  if: always()
-  uses: carlos-camara/qa-hub-actions/environment-health-check@main
-  with:
-    task: 'teardown'
+  - name: 🧼 Surgical Teardown
+    if: always()
+    uses: carlos-camara/qa-hub-actions/environment-health-check@main
+    with:
+      task: 'teardown'
 ```
 
 ---

@@ -1,40 +1,38 @@
-# <div align="center">🏷️ Action: PR Labeler</div>
+# 🏷️ Action: PR Labeler
 
 <div align="center">
   <p><i>Automatically categorize Pull Requests based on modified file paths to maintain repository hygiene and streamline code reviews.</i></p>
 </div>
 
-
 ---
 
-## 🚀 Key Impact
+> [!IMPORTANT]
+> The **PR Labeler** surgically applies labels (e.g., `Frontend`, `Backend`, `DevOps`) to Pull Requests by evaluating path-matching rules defined in your repository. This ensures zero-overhead triage and absolute organizational consistency.
 
-- **🏷️ Automated Triage**: Tags PRs with relevant labels (e.g., `Frontend`, `Backend`, `DevOps`) based on path matching rules.
-- **🔄 State Synchronization**: Option to automatically remove labels if the relevant files are removed from the PR.
-- **🏗️ Centralized Config**: Define all labeling rules in a single, professional `.github/labeler.yml` file.
-- **✨ Zero Overhead**: High-performance execution that keeps your repository organized without manual effort.
+## 🚀 Quick Start
 
----
-
-## 🛠️ Configuration
-
-| Input | Required | Default | Description |
-| :--- | :---: | :---: | :--- |
-| `repo-token` | No | `${{ github.token }}` | GitHub Token for applying labels. |
-| `configuration-path` | No | `.github/labeler.yml` | Path to the YAML file defining labeling rules. |
-| `sync-labels` | No | `true` | Remove labels when files no longer match rules. |
-
----
-
-## ⚡ Quick Start
+Drop this snippet into your PR intelligence workflow:
 
 ```yaml
-- name: 🏷️ Triage PR
-  uses: carlos-camara/qa-hub-actions/pr-labeler@main
-  with:
-    repo-token: ${{ secrets.GITHUB_TOKEN }}
-    configuration-path: ".github/labeler.yml"
+steps:
+  - name: 🏷️ Triage PR
+    uses: carlos-camara/qa-hub-actions/pr-labeler@main
+    with:
+      repo-token: ${{ secrets.GITHUB_TOKEN }}
+      configuration-path: ".github/labeler.yml"
 ```
+
+## ⚙️ Configuration
+
+| Input | Description | Required | Default |
+| :--- | :--- | :---: | :--- |
+| `repo-token` | GitHub Token for applying labels. | No | `${{ github.token }}` |
+| `configuration-path` | Path to the YAML file defining labeling rules. | No | `.github/labeler.yml` |
+| `sync-labels` | Remove labels when files no longer match rules. | No | `true` |
+
+---
+
+
 
 ---
 

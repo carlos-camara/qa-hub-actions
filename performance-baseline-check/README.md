@@ -1,11 +1,13 @@
-# <div align="center">📉 Action: Performance Baseline</div>
+# 📉 Action: Performance Baseline
 
 <div align="center">
   <p><i>Protect your user experience by automatically detecting latency regressions and generating high-fidelity visual trend charts.</i></p>
 </div>
 
-
 ---
+
+> [!IMPORTANT]
+> The **Performance Baseline** action provides structural performance guarantees. It actively compares incoming latency footprints against a gold-standard benchmark file, automatically failing PRs that exceed the calculated drift tolerance limits.
 
 ## 🚀 Key Impact
 
@@ -29,13 +31,16 @@
 
 ## ⚡ Quick Start
 
+Drop this snippet into your pipeline:
+
 ```yaml
-- name: 📉 Performance Baseline Check
-  uses: carlos-camara/qa-hub-actions/performance-baseline-check@main
-  with:
-    current-metrics: "results/perf_metrics.json"
-    baseline-metrics: "perf_baseline.json"
-    threshold: "10"
+steps:
+  - name: 📉 Performance Baseline Check
+    uses: carlos-camara/qa-hub-actions/performance-baseline-check@main
+    with:
+      current-metrics: "results/perf_metrics.json"
+      baseline-metrics: "perf_baseline.json"
+      threshold: "10"
 ```
 
 ---

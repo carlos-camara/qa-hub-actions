@@ -1,11 +1,13 @@
-# <div align="center">📝 Action: QA Release Notes</div>
+# 📝 Action: QA Release Notes
 
 <div align="center">
   <p><i>Bridge the gap between technical automation and stakeholder visibility by generating high-fidelity, human-readable testing dossiers from your BDD feature files.</i></p>
 </div>
 
-
 ---
+
+> [!NOTE]
+> The **QA Release Notes** action automatically compiles an executive-level list of newly implemented testing scenarios and behaviors. Perfect for sprint retrospectives and non-technical stakeholders who need visibility into automation expansion.
 
 ## 🚀 Key Impact
 
@@ -42,13 +44,16 @@ graph TD
 
 ## ⚡ Quick Start
 
+Drop this snippet into your PR workflows:
+
 ```yaml
-- name: 📝 Generate QA Release Notes
-  uses: carlos-camara/qa-hub-actions/qa-release-notes@main
-  with:
-    features-path: "features"
-    publish-pr-comment: "true"
-    github-token: ${{ secrets.GITHUB_TOKEN }}
+steps:
+  - name: 📝 Generate QA Release Notes
+    uses: carlos-camara/qa-hub-actions/qa-release-notes@main
+    with:
+      features-path: "features"
+      publish-pr-comment: "true"
+      github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 ---

@@ -1,11 +1,13 @@
-# <div align="center">🚀 Action: Setup Services</div>
+# 🚀 Action: Setup Services
 
 <div align="center">
   <p><i>Orchestrate background services and perform automated health checks to ensure infrastructure readiness before any test execution.</i></p>
 </div>
 
-
 ---
+
+> [!IMPORTANT]
+> The **Setup Services** action eliminates race conditions in your CI/CD by intelligently standing up backend and frontend architectures, guaranteeing that the target endpoints are fully healthy (`HTTP 200`) before yielding control back to the runner.
 
 ## 🚀 Key Impact
 
@@ -28,13 +30,16 @@
 
 ## ⚡ Quick Start
 
+Drop this snippet into your workflow:
+
 ```yaml
-- name: 🚀 Setup Application Services
-  uses: carlos-camara/qa-hub-actions/setup-services@main
-  with:
-    start-services-command: "npm start &"
-    health-check-urls: "http://localhost:3000/health"
-    health-check-timeout: "45000"
+steps:
+  - name: 🚀 Setup Application Services
+    uses: carlos-camara/qa-hub-actions/setup-services@main
+    with:
+      start-services-command: "npm start &"
+      health-check-urls: "http://localhost:3000/health"
+      health-check-timeout: "45000"
 ```
 
 ---

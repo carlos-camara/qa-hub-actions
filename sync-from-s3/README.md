@@ -1,11 +1,13 @@
-# <div align="center">🔄 Action: Sync from S3</div>
+# 🔄 Action: Sync from S3
 
 <div align="center">
   <p><i>Generic cloud-to-local synchronization for downloading files from AWS S3 and automatically committing them to your repository.</i></p>
 </div>
 
-
 ---
+
+> [!NOTE]
+> Ensure resilient test infrastructure by syncing external dependencies, large binary test data, or historical baseline reports from AWS S3 directly into your running GitHub Actions environment.
 
 ## 🚀 Key Impact
 
@@ -33,15 +35,18 @@
 
 ## ⚡ Quick Start
 
+Drop this snippet into your workflow:
+
 ```yaml
-- name: 🔄 Sync Reports from Cloud
-  uses: carlos-camara/qa-hub-actions/sync-from-s3@main
-  with:
-    project-name: "dashboard"
-    s3-bucket: "qa-hub-storage"
-    aws-access-key-id: ${{ secrets.AWS_KEY }}
-    aws-secret-access-key: ${{ secrets.AWS_SECRET }}
-    target-path: "docs/reports/"
+steps:
+  - name: 🔄 Sync Reports from Cloud
+    uses: carlos-camara/qa-hub-actions/sync-from-s3@main
+    with:
+      project-name: "dashboard"
+      s3-bucket: "qa-hub-storage"
+      aws-access-key-id: ${{ secrets.AWS_KEY }}
+      aws-secret-access-key: ${{ secrets.AWS_SECRET }}
+      target-path: "docs/reports/"
 ```
 
 ---

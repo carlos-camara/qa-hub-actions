@@ -1,11 +1,13 @@
-# <div align="center">📊 Action: Collect & Publish</div>
+# 📊 Action: Collect & Publish
 
 <div align="center">
   <p><i>Aggregate multi-engine test results, screenshots, and performance data into a high-fidelity visual summary directly in your Pull Requests.</i></p>
 </div>
 
-
 ---
+
+> [!IMPORTANT]
+> The **Collect & Publish** action is the visualization layer of the ecosystem. It seamlessly consolidates fragmented artifact outputs across parallel matrix jobs into a single, comprehensive Markdown report that is posted directly to your GitHub UI.
 
 ## 🚀 Key Impact
 
@@ -31,14 +33,17 @@
 
 ## ⚡ Quick Start
 
+Drop this snippet into your workflow:
+
 ```yaml
-- name: 📊 Collect & Publish Results
-  uses: carlos-camara/qa-hub-actions/collect-and-publish@v1
-  if: always()
-  with:
-    reports-path: "reports/"
-    screenshots-path: "screenshots/**/*.png"
-    publish-results: "true"
+steps:
+  - name: 📊 Collect & Publish Results
+    uses: carlos-camara/qa-hub-actions/collect-and-publish@main
+    if: always()
+    with:
+      reports-path: "reports/"
+      screenshots-path: "screenshots/**/*.png"
+      publish-results: "true"
 ```
 
 ---

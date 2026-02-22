@@ -14,9 +14,10 @@
   
   <p>
     <b>The Industry Standard for Quality Orchestration.</b>
-    <br>
-    A suite of 19+ surgical, modular, and enterprise-grade GitHub Actions architected to provide maximum technical visibility, aesthetic summaries, and absolute consistency across the engineering lifecycle.
   </p>
+  
+> [!IMPORTANT]
+> A suite of 19+ surgical, modular, and enterprise-grade GitHub Actions architected to provide maximum technical visibility, aesthetic summaries, and absolute consistency across the engineering lifecycle.
 
 </div>
 
@@ -119,7 +120,8 @@ steps:
 
 ## 📖 Deep Documentation
 
-For detailed technical specifications, input/output schemas, and advanced configuration patterns, visit our **Official Wiki**:
+> [!NOTE]
+> For detailed technical specifications, input/output schemas, and advanced configuration patterns, visit our **Official Wiki**:
 
 🔗 **[https://carlos-camara.github.io/qa-hub-actions/](https://carlos-camara.github.io/qa-hub-actions/)**
 

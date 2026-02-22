@@ -1,11 +1,13 @@
-# <div align="center">📂 Action: Deploy to GitHub Pages</div>
+# 📂 Action: Deploy GitHub Pages
 
 <div align="center">
   <p><i>Effortlessly host your QA dashboards, documentation wikis, and static reports on GitHub Pages with automated builds and SPAs support.</i></p>
 </div>
 
-
 ---
+
+> [!NOTE]
+> The **Deploy GitHub Pages** action automates the translation of raw markdown or frontend source code into a beautiful, statically hosted website. Ideal for hosting your test automation ecosystem docs or Playwright/Behave HTML reports natively within GitHub.
 
 ## 🚀 Key Impact
 
@@ -30,12 +32,15 @@
 
 ## ⚡ Quick Start
 
+Drop this snippet into your workflow:
+
 ```yaml
-- name: 📂 Deploy Documentation Wiki
-  uses: carlos-camara/qa-hub-actions/deploy-gh-pages@main
-  with:
-    dist-dir: "site/"
-    build-command: "mkdocs build"
+steps:
+  - name: 📂 Deploy Documentation Wiki
+    uses: carlos-camara/qa-hub-actions/deploy-gh-pages@main
+    with:
+      dist-dir: "site/"
+      build-command: "mkdocs build"
 ```
 
 ---

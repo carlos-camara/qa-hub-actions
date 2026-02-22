@@ -1,11 +1,13 @@
-# <div align="center">☁️ Action: Deploy Reports to S3</div>
+# ☁️ Action: Deploy Reports to S3
 
 <div align="center">
   <p><i>Securely archive and organize industrial-grade QA reports in AWS S3 with project-based isolation and long-term retention.</i></p>
 </div>
 
-
 ---
+
+> [!IMPORTANT]
+> The **Deploy Reports to S3** action bridges the gap between ephemeral CI/CD runners and persistent cloud storage. It ensures that historical test intelligence, visual evidence, and performance trends are archived securely.
 
 ## 🚀 Key Impact
 
@@ -48,15 +50,18 @@ s3://bucket-name/
 
 ## ⚡ Quick Start
 
+Drop this snippet into your workflow:
+
 ```yaml
-- name: ☁️ Deploy Reports to S3
-  uses: carlos-camara/qa-hub-actions/deploy-reports-s3@v1
-  with:
-    project-name: "dashboard"
-    s3-bucket: "qa-hub-storage"
-    aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    run-id: ${{ github.run_id }}
+steps:
+  - name: ☁️ Deploy Reports to S3
+    uses: carlos-camara/qa-hub-actions/deploy-reports-s3@main
+    with:
+      project-name: "dashboard"
+      s3-bucket: "qa-hub-storage"
+      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      run-id: ${{ github.run_id }}
 ```
 
 ---
