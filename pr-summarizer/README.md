@@ -1,11 +1,13 @@
-# <div align="center">🤖 Action: PR Summarizer</div>
+# 🤖 Action: PR Summarizer
 
 <div align="center">
   <p><i>AI-powered deep technical analysis and high-fidelity visual summaries for Pull Requests, providing surgical visibility into code impact.</i></p>
 </div>
 
-
 ---
+
+> [!IMPORTANT]
+> The **PR Summarizer** leverages LLM intelligence to automatically read code diffs and inject a beautiful, executive-level summary directly into the Pull Request description.
 
 ## 🚀 Key Impact
 
@@ -15,29 +17,27 @@
 - **📊 Impact Analysis**: Generates a dynamic metrics table with visual intensity bars (█) to represent the volume of changes.
 - **✨ Gherkin Insights**: Extracts new BDD scenarios and quality tags (`@smoke`, `@critical`) from changed feature files.
 
----
 
-## 🛠️ Configuration
+## 🚀 Quick Start
 
-| Input | Required | Default | Description |
-| :--- | :---: | :---: | :--- |
-| `github-token` | **Yes** | - | GitHub token for PR description/comment updates. |
-| `target` | No | `description` | Where to post the summary: `description` or `comment`. |
-| `domain-mapping` | No | `{}` | Optional JSON mapping of file patterns to domains. |
-
----
-
-## ⚡ Quick Start
+Drop this snippet into your PR intelligence workflow:
 
 ```yaml
-- name: 🤖 Generate AI Summary
-  uses: carlos-camara/qa-hub-actions/pr-summarizer@main
-  with:
-    github-token: ${{ secrets.GITHUB_TOKEN }}
-    target: "description"
+steps:
+  - name: 🤖 Generate AI Summary
+    uses: carlos-camara/qa-hub-actions/pr-summarizer@main
+    with:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
+      target: "description"
 ```
 
----
+## ⚙️ Configuration
+
+| Input | Description | Required | Default |
+| :--- | :--- | :---: | :--- |
+| `github-token` | GitHub token for PR description/comment updates. | **Yes** | N/A |
+| `target` | Where to post the summary: `description` or `comment`. | No | `description` |
+| `domain-mapping` | Optional JSON mapping of file patterns to domains. | No | `{}` |
 
 ## 📊 Impact Analysis Example
 
