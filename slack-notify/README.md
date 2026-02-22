@@ -1,11 +1,13 @@
-# <div align="center">📢 Action: Slack Notification</div>
+# 📢 Action: Slack Notification
 
 <div align="center">
   <p><i>Send beautifully formatted test summaries, environment status, and high-fidelity alerts to your team's Slack channels.</i></p>
 </div>
 
-
 ---
+
+> [!NOTE]
+> The **Slack Notification** action bridges the gap between CI execution and team awareness. It crafts aesthetic, color-coded payloads (Green/Red) injected with deep-links to failing runs, accelerating the time-to-resolution for pipeline blockages.
 
 ## 🚀 Key Impact
 
@@ -29,14 +31,17 @@
 
 ## ⚡ Quick Start
 
+Drop this snippet into your workflow:
+
 ```yaml
-- name: 📢 Notify Slack
-  uses: carlos-camara/qa-hub-actions/slack-notify@main
-  if: always()
-  with:
-    slack-webhook-url: ${{ secrets.SLACK_WEBHOOK }}
-    status: ${{ job.status }}
-    test-summary: "Test Suite Results: 45 Passed, 2 Failed."
+steps:
+  - name: 📢 Notify Slack
+    uses: carlos-camara/qa-hub-actions/slack-notify@main
+    if: always()
+    with:
+      slack-webhook-url: ${{ secrets.SLACK_WEBHOOK }}
+      status: ${{ job.status }}
+      test-summary: "Test Suite Results: 45 Passed, 2 Failed."
 ```
 
 ---

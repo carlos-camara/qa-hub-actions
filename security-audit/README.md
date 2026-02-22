@@ -1,11 +1,13 @@
-# <div align="center">🛡️ Action: Security Audit</div>
+# 🛡️ Action: Security Audit
 
 <div align="center">
   <p><i>Surgical protection for your codebase by scanning dependencies for vulnerabilities and performing static security analysis on Python code.</i></p>
 </div>
 
-
 ---
+
+> [!CAUTION]
+> The **Security Audit** action enforces rigorous security compliance. By combining static Application Security Testing (SAST) with deep dependency vulnerability scanning, it gates Pull Requests that introduce code-level risks or vulnerable third-party modules.
 
 ## 🚀 Key Impact
 
@@ -30,12 +32,15 @@
 
 ## ⚡ Quick Start
 
+Drop this snippet into your workflow:
+
 ```yaml
-- name: 🛡️ Security Audit
-  uses: carlos-camara/qa-hub-actions/security-audit@v1
-  with:
-    target-path: "app/"
-    scan-dependencies: "true"
+steps:
+  - name: 🛡️ Security Audit
+    uses: carlos-camara/qa-hub-actions/security-audit@main
+    with:
+      target-path: "app/"
+      scan-dependencies: "true"
 ```
 
 ---

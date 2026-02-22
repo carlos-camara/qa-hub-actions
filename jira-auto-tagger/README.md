@@ -1,4 +1,4 @@
-# 🏷️ Jira Auto-Tagger Action
+# 🏷️ Action: Jira Auto-Tagger
 
 <div align="center">
 
@@ -9,6 +9,11 @@
 *Seamlessly synchronize your QA test scenarios with Jira project management.*
 
 </div>
+
+---
+
+> [!IMPORTANT]
+> The **Jira Auto-Tagger** is the cornerstone of Test Traceability. It automatically scans your repository for Gherkin `.feature` files, builds a BDD Agile Board in Jira, and surgically injects the tracking tags back into your codebase—all without manual intervention.
 
 ---
 
@@ -48,7 +53,7 @@ Designed for **maximum reliability**, it works safely even in detached HEAD envi
 
 ---
 
-## 🚀 Usage
+## ⚡ Quick Start
 
 Integrate the Auto-Tagger into your pipeline **before** your test execution step. This guarantees that your test runner processes the newly tagged feature files and can report their execution status back to Jira.
 

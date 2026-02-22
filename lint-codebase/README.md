@@ -1,11 +1,13 @@
-# <div align="center">🧶 Action: Lint Codebase</div>
+# 🧶 Action: Lint Codebase
 
 <div align="center">
   <p><i>Enforce consistent code quality standards across Python, YAML, Markdown, and TypeScript with surgical precision.</i></p>
 </div>
 
-
 ---
+
+> [!CAUTION]
+> The **Lint Codebase** action serves as the absolute gatekeeper for code consistency. It leverages GitHub's `super-linter` to evaluate syntax deviations and block PRs that do not meet professional enterprise standards, ensuring the master branch is always pristine.
 
 ## 🚀 Key Impact
 
@@ -30,12 +32,15 @@
 
 ## ⚡ Quick Start
 
+Drop this snippet into your workflow:
+
 ```yaml
-- name: 🧶 Lint Codebase
-  uses: carlos-camara/qa-hub-actions/lint-codebase@main
-  with:
-    github-token: ${{ secrets.GITHUB_TOKEN }}
-    validate-all: "false"
+steps:
+  - name: 🧶 Lint Codebase
+    uses: carlos-camara/qa-hub-actions/lint-codebase@main
+    with:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
+      validate-all: "false"
 ```
 
 ---
