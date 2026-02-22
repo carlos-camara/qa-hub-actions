@@ -7,8 +7,11 @@ os.makedirs('docs/actions', exist_ok=True)
 with open('README.md', 'r', encoding='utf-8') as f:
     readme_content = f.read()
     
-# Rewrite relative links from ./action-name to actions/action-name.md
-readme_content = re.sub(r'\]\(\./([^/)]+)/?\)', r'](actions/\1.md)', readme_content)
+# Rewrite internal relative links from ./action-name to actions/action-name.md
+readme_content = re.sub(r'\]\(\./([\w-]+)/?\)', r'](actions/\1.md)', readme_content)
+
+# Fix License Link
+readme_content = readme_content.replace('href="LICENSE"', 'href="https://github.com/carlos-camara/qa-hub-actions/blob/main/LICENSE"')
 
 with open('docs/index.md', 'w', encoding='utf-8') as f:
     f.write(readme_content)

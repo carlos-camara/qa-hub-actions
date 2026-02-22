@@ -2,6 +2,7 @@
 site_url: https://carlos-camara.github.io/qa-hub-actions/
 site_description: Enterprise-grade reusable GitHub Actions for modern QA pipelines.
 site_author: Carlos Camara
+use_directory_urls: false
 
 theme:
   name: material
