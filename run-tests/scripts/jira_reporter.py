@@ -390,7 +390,7 @@ def evaluate_feature_rollup(feature_key):
     print(f"\n🔄 Evaluating status rollup for Feature Task {feature_key}...")
     jql = f'parent = "{feature_key}"'
     url = f"{JIRA_URL}/rest/api/3/search"
-    payload = json.dumps({"jql": jql, "fields": ["status"]})
+    payload = json.dumps({"jql": jql, "fields": ["status", JIRA_TEST_STATUS_FIELD_NAME] if JIRA_TEST_STATUS_FIELD_NAME else ["status"]})
     
     try:
         response = requests.post(url, data=payload, headers=headers, auth=auth)
@@ -403,12 +403,26 @@ def evaluate_feature_rollup(feature_key):
             all_passed = True
             any_failed = False
             
+            custom_field_id = get_custom_field_id(JIRA_TEST_STATUS_FIELD_NAME)
+
             for issue in issues:
                 status_name = issue.get("fields", {}).get("status", {}).get("name", "").upper()
-                if "FAIL" in status_name:
+                status_category = issue.get("fields", {}).get("status", {}).get("statusCategory", {}).get("key", "")
+                
+                # Check custom field if available, fallback to task status name/category
+                test_status = None
+                if custom_field_id and issue.get("fields", {}).get(custom_field_id):
+                    field_val = issue.get("fields", {}).get(custom_field_id)
+                    test_status = field_val.get("value", "").upper() if isinstance(field_val, dict) else str(field_val).upper()
+                else:
+                    test_status = status_name
+                
+                # A subtask is a failure if explicitly failed
+                if "FAIL" in test_status:
                     any_failed = True
                     all_passed = False
-                elif "PASS" not in status_name:
+                # If it's not FAILED but also not explicitly PASSED (or its category isn't "done"), it's pending
+                elif "PASS" not in test_status and status_category != "done":
                     all_passed = False 
                     
             target_status = None
@@ -425,18 +439,31 @@ def evaluate_feature_rollup(feature_key):
                     transitions = resp.json().get("transitions", [])
                     target_transition = None
                     for t in transitions:
-                        if t.get("name", "").upper() == target_status or t.get("to", {}).get("name", "").upper() == target_status:
+                        t_name = t.get("name", "").upper()
+                        to_name = t.get("to", {}).get("name", "").upper()
+                        if target_status in t_name or target_status in to_name:
                             target_transition = t
                             break
+                            
+                    # Fallback: if 'PASSED' transition doesn't exist but 'DONE' does
+                    if not target_transition and target_status == "PASSED":
+                        for t in transitions:
+                            to_cat = t.get("to", {}).get("statusCategory", {}).get("key", "")
+                            if to_cat == "done":
+                                target_transition = t
+                                break
+
                     if target_transition:
                         payload_trans = json.dumps({"transition": {"id": target_transition["id"]}})
                         post_resp = requests.post(url_transitions, data=payload_trans, headers=headers, auth=auth)
                         if post_resp.status_code == 204:
-                            print(f"  ✅ Feature {feature_key} successfully transitioned to '{target_status}'")
+                            print(f"  ✅ Feature {feature_key} successfully transitioned to '{target_transition.get('to', {}).get('name')}'")
                         else:
                             print(f"  ❌ Failed to transition Feature. Response: {post_resp.text}")
                     else:
-                         print(f"  ⚠️ No transition to '{target_status}' available for Feature {feature_key}.")
+                         print(f"  ⚠️ No transition mapped to '{target_status}' available for Feature {feature_key}.")
+                else:
+                    print(f"  ❌ Failed to get transitions for Feature {feature_key}. Status: {resp.status_code}")
         else:
             print(f"  ❌ Failed to search subtasks for {feature_key}. Status: {response.status_code}")
     except Exception as e:
