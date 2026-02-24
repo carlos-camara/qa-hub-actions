@@ -1,0 +1,41 @@
+---
+name: 'Deploy Docsify to Pages'
+description: 'Prepares and deploys a Docsify-based wiki to GitHub Pages.'
+inputs:
+  docs-folder:
+    description: 'Path to the directory containing .md files'
+    required: false
+    default: 'docs'
+  media-folder:
+    description: 'Path to the directory containing media assets'
+    required: false
+    default: 'media'
+  readme-path:
+    description: 'Path to the main README.md file'
+    required: false
+    default: 'README.md'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 🏗️ Prep Wiki
+      shell: bash
+      run: |
+        mkdir -p public
+        if [ -d "${{ inputs.docs-folder }}" ]; then
+          cp -r ${{ inputs.docs-folder }}/* public/
+        fi
+        if [ -d "${{ inputs.media-folder }}" ]; then
+          cp -r ${{ inputs.media-folder }} public/
+        fi
+        if [ -f "${{ inputs.readme-path }}" ]; then
+          cp ${{ inputs.readme-path }} public/README.md
+        fi
+
+    - name: 🚀 Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: 'public'
+
+    - name: 🚢 Deploy to GitHub Pages
+      uses: actions/deploy-pages@v4

@@ -1,0 +1,38 @@
+---
+name: 'Create Asset Release'
+description: 'Zips project assets and creates a GitHub release.'
+inputs:
+  asset-name:
+    description: 'Name of the zip file to create (without .zip)'
+    required: true
+  exclusions:
+    description: 'Space-separated list of patterns to exclude from the zip'
+    required: false
+    default: '".git*" ".github*" ".gitignore" "node_modules*"'
+  github-token:
+    description: 'The GITHUB_TOKEN for the repository'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 📦 Bundle Assets
+      shell: bash
+      run: |
+        # Construct exclude flags for zip
+        EXCLUDE_FLAGS=""
+        for pattern in ${{ inputs.exclusions }}; do
+          EXCLUDE_FLAGS="$EXCLUDE_FLAGS -x $pattern"
+        done
+        
+        zip -r ${{ inputs.asset-name }}.zip . $EXCLUDE_FLAGS
+
+    - name: 🚀 Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: ${{ inputs.asset-name }}.zip
+        generate_release_notes: true
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
