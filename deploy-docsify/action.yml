@@ -15,6 +15,11 @@ inputs:
     required: false
     default: 'README.md'
 
+outputs:
+  page_url:
+    description: 'The URL of the deployed page'
+    value: ${{ steps.deployment.outputs.page_url }}
+
 runs:
   using: 'composite'
   steps:
