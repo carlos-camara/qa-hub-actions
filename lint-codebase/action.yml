@@ -60,6 +60,8 @@ runs:
         FILTER_REGEX_EXCLUDE: ${{ inputs.filter-regex-exclude }}
         # Force ESLint Flat Config
         ESLINT_USE_FLAT_CONFIG: "true"
+        JAVASCRIPT_ESLINT_CONFIG_FILE: "eslint.config.js"
+        TYPESCRIPT_ESLINT_CONFIG_FILE: "eslint.config.js"
 
     - name: ✅ Mark Linting as Passed
       if: success() && github.event_name == 'pull_request'
