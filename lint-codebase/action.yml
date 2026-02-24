@@ -58,6 +58,8 @@ runs:
         VALIDATE_JAVASCRIPT_ES: ${{ inputs.validate-ts }}
         VALIDATE_TSX: ${{ inputs.validate-ts }}
         FILTER_REGEX_EXCLUDE: ${{ inputs.filter-regex-exclude }}
+        # Force ESLint Flat Config
+        ESLINT_USE_FLAT_CONFIG: "true"
 
     - name: ✅ Mark Linting as Passed
       if: success() && github.event_name == 'pull_request'
