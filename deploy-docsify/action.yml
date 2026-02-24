@@ -14,6 +14,10 @@ inputs:
     description: 'Path to the main README.md file'
     required: false
     default: 'README.md'
+  additional-files:
+    description: 'Space-separated list of additional files to copy from root to doc root'
+    required: false
+    default: ''
 
 outputs:
   page_url:
@@ -36,6 +40,13 @@ runs:
         if [ -f "${{ inputs.readme-path }}" ]; then
           cp ${{ inputs.readme-path }} public/README.md
         fi
+        
+        # Copy additional files
+        for file in ${{ inputs.additional-files }}; do
+          if [ -f "$file" ]; then
+            cp "$file" public/
+          fi
+        done
 
     - name: 🚀 Upload artifact
       uses: actions/upload-pages-artifact@v3
