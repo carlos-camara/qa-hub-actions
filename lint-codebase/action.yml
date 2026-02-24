@@ -32,10 +32,6 @@ inputs:
     description: 'Lint GitHub Actions?'
     required: false
     default: 'true'
-  validate-ts:
-    description: 'Lint TypeScript/JS?'
-    required: false
-    default: 'true'
   filter-regex-exclude:
     description: 'Regex for ignored paths.'
     required: false
@@ -54,13 +50,7 @@ runs:
         VALIDATE_YAML: ${{ inputs.validate-yaml }}
         VALIDATE_MARKDOWN: ${{ inputs.validate-markdown }}
         VALIDATE_GITHUB_ACTIONS: ${{ inputs.validate-actions }}
-        VALIDATE_TYPESCRIPT_ES: ${{ inputs.validate-ts }}
-        VALIDATE_JAVASCRIPT_ES: ${{ inputs.validate-ts }}
-        VALIDATE_TSX: ${{ inputs.validate-ts }}
         FILTER_REGEX_EXCLUDE: ${{ inputs.filter-regex-exclude }}
-        # Force ESLint Flat Config (v9+ Compatibility)
-        # Super-Linter v7 auto-discovers eslint.config.mjs at workspace root
-        ESLINT_USE_FLAT_CONFIG: "true"
 
     - name: ✅ Mark Linting as Passed
       if: success() && github.event_name == 'pull_request'
